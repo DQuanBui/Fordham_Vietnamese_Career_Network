@@ -112,7 +112,10 @@ function setupAuth() {
       $("#signInStatus").textContent = `Check ${email} for your sign-in link. You can close this tab.`;
       $("#signInStatus").className = "dash-status is-success";
     } catch (error) {
-      $("#signInStatus").textContent = error.message || "Couldn't send the link. Please try again.";
+      const rateLimited = error.status === 429 || /rate limit/i.test(error.message || "");
+      $("#signInStatus").textContent = rateLimited
+        ? "Too many sign-in emails were sent recently. Use the latest link already in your inbox, or try again in a few minutes."
+        : error.message || "Couldn't send the link. Please try again.";
       $("#signInStatus").className = "dash-status is-error";
     } finally {
       button.classList.remove("is-loading");
