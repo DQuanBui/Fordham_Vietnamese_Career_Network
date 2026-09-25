@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FVCN seed generator</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 32px; color: #1c1917; }
+    textarea { width: 100%; height: 70vh; font: 12px/1.5 ui-monospace, Consolas, monospace; }
+    button { padding: 8px 14px; margin: 12px 0; }
+  </style>
+</head>
+<body>
+  <h1>FVCN seed generator</h1>
+  <p>
+    Generates <code>supabase/seed.sql</code> from <code>js/data.js</code>, so the database and the
+    offline fallback content never drift apart. The output is idempotent (upserts by id).
+  </p>
+  <button type="button" id="copy">Copy SQL</button>
+  <textarea id="sql" spellcheck="false" readonly></textarea>
+
+  <script src="../js/data.js"></script>
+  <script>
+    const q = (value) => (value === null || value === undefined ? "null" : `'${String(value).replace(/'/g, "''")}'`);
+    const arr = (values = []) => (values.length ? `array[${values.map(q).join(", ")}]::text[]` : "'{}'::text[]");
+    const json = (value) => `${q(JSON.stringify(value))}::jsonb`;
+    const bool = (value) => (value ? "true" : "false");
+
+    function upsert(table, columns, rows, key = "id") {
+      if (!rows.length) return "";
+      const updates = columns.filter((c) => c !== key).map((c) => `${c} = excluded.${c}`).join(",\n  ");
+      return `insert into public.${table} (${columns.join(", ")}) values\n` +
+        rows.map((row) => `  (${row.join(", ")})`).join(",\n") +
+        `\non conflict (${key}) do update set\n  ${updates};\n`;
+    }
+
+    const d = FVCN_DATA;
+    const out = [
+      "-- FVCN seed data, generated from js/data.js by tools/seed-generator.html.",
+      "-- Safe to re-run: rows are inserted or updated by id.",
+      "begin;",
+      ""
+    ];
+
+    out.push(upsert("majors",
+      ["id", "name", "short_name", "icon", "summary", "roles", "skills", "timeline", "sort_order"],
+      d.majors.map((m, i) => [q(m.id), q(m.name), q(m.shortName), q(m.icon), q(m.summary), arr(m.roles), arr(m.skills), json(m.timeline), i])));
+
+    out.push(upsert("companies",
+      ["id", "name", "logo_url", "icon_url", "logo_fit", "sort_order"],
+      d.companies.map((c, i) => [q(c.id), q(c.name), q(c.logo), q(c.icon), q(c.fit || "contain"), i])));
+
+    out.push(upsert("mentors",
+      ["id", "name", "major_id", "status", "role", "company_label", "linkedin_url", "bio", "helps_with", "interests", "photo_url", "featured", "sort_order"],
+      d.mentors.map((m, i) => [q(m.id), q(m.name), q(m.majorId), q(m.status || "current"), q(m.role), q(m.companyLabel),
+        q(m.linkedin), q(m.bio), arr(m.helpsWith), arr(m.interests), q(m.photo), bool(m.featured), i])));
+
+    out.push("delete from public.mentor_companies where mentor_id in (" + d.mentors.map((m) => q(m.id)).join(", ") + ");");
+    const links = d.mentors.flatMap((m) => (m.companyIds || []).map((c, i) => [q(m.id), q(c), i]));
+    out.push(`insert into public.mentor_companies (mentor_id, company_id, sort_order) values\n${links.map((r) => `  (${r.join(", ")})`).join(",\n")};\n`);
+
+    out.push(upsert("resources",
+      ["id", "title", "major_id", "type", "level", "source", "url", "guide_id", "description", "sort_order"],
+      d.resources.map((r, i) => [q(r.id), q(r.title), r.majorId === "general" ? "null" : q(r.majorId), q(r.type), q(r.level),
+        q(r.source), q(r.url), q(r.guideId), q(r.description), i])));
+
+    // Event times in data.js are New York local time.
+    const ts = (date, time) => `timestamptz '${date} ${time}:00 America/New_York'`;
+    out.push(upsert("events",
+      ["id", "title", "category", "starts_at", "ends_at", "location", "description"],
+      d.events.map((e) => [q(e.id), q(e.title), q(e.category), ts(e.date, e.start), ts(e.date, e.end), q(e.location), q(e.description)])));
+
+    // Staff emails (public.admins, public.mentor_private) are managed in the database, never in git.
+    out.push("commit;");
+
+    document.getElementById("sql").textContent = out.join("\n");
+    document.getElementById("copy").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(document.getElementById("sql").value);
+      document.getElementById("copy").textContent = "Copied!";
+    });
+  </script>
+</body>
+</html>

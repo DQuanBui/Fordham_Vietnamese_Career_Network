@@ -8,7 +8,7 @@
     name="description"
     content="Book free coffee chats with Vietnamese upperclassmen and alumni at Fordham, explore career paths by major, and find the resources that help students land internships."
   />
-  <meta name="theme-color" content="#7a0c1d" />
+  <meta name="theme-color" content="#861f41" />
   <meta property="og:title" content="FVCN · Fordham Vietnamese Career Network" />
   <meta
     property="og:description"
@@ -17,13 +17,13 @@
   <meta property="og:type" content="website" />
   <link
     rel="icon"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%237a0c1d'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='26' fill='white'%3EFV%3C/text%3E%3C/svg%3E"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23861f41'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='26' fill='white'%3EFV%3C/text%3E%3C/svg%3E"
   />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="css/style.css" />
@@ -66,6 +66,9 @@
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" /></symbol>
     <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" /></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" /></symbol>
+    <!-- Filled brand mark: use with class="icon icon-fill" -->
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" /></symbol>
   </svg>
 
   <header class="site-header" id="siteHeader">
@@ -100,9 +103,12 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="top">
+      <div class="hero-media" aria-hidden="true">
+        <img src="assets/photos/keating-hall.jpg" alt="" fetchpriority="high" decoding="async" />
+      </div>
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Built by Vietnamese students at Fordham</p>
+          <p class="eyebrow eyebrow-light">Built by Vietnamese students at Fordham</p>
           <h1>Career advice from students who've <span class="accent">been there.</span></h1>
           <p class="lead">
             Book a free coffee chat with upperclassmen and alumni, see what each major can lead to,
@@ -110,11 +116,11 @@
           </p>
 
           <div class="hero-actions">
-            <a href="#booking" class="btn btn-primary btn-lg">
+            <a href="#booking" class="btn btn-light btn-lg">
               Book a coffee chat
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
             </a>
-            <a href="#paths" class="btn btn-secondary btn-lg">Explore career paths</a>
+            <a href="#paths" class="btn btn-outline-light btn-lg">Explore career paths</a>
           </div>
 
           <div class="hero-quick">
@@ -145,6 +151,10 @@
           </div>
         </aside>
       </div>
+      <p class="hero-credit container">
+        <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+        Keating Hall, Rose Hill campus
+      </p>
     </section>
 
     <!-- STATS + LOGOS -->
@@ -247,8 +257,8 @@
           <p class="eyebrow">Mentors</p>
           <h2>Upperclassmen and alumni who want to help.</h2>
           <p>
-            Every mentor has been through recruiting in their field. Ask about classes, clubs,
-            internships, interviews, or anything else you're unsure about.
+            Every mentor has been through recruiting in their field. Open a profile to see what they
+            can help with, connect on LinkedIn, or request a chat.
           </p>
         </div>
 
@@ -321,43 +331,74 @@
           </p>
         </div>
 
-        <div class="community-grid">
-          <article class="community-card reveal">
-            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg></span>
-            <h3>Soccer Sundays</h3>
-            <p>Casual weekend games to reset and meet people outside class.</p>
+        <div class="bento">
+          <article class="bento-card bento-photo bento-soccer reveal">
+            <img src="assets/photos/edwards-parade.jpg" alt="The Edwards Parade lawn at Fordham's Rose Hill campus" loading="lazy" decoding="async" />
+            <div class="bento-overlay">
+              <span class="tag tag-glass"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg>Sports</span>
+              <h3>Soccer Fridays</h3>
+              <p>Casual games at Rose Hill to kick off the weekend. All skill levels welcome.</p>
+            </div>
           </article>
-          <article class="community-card reveal">
+          <article class="bento-card bento-photo bento-food reveal">
+            <img src="assets/photos/pho.jpg" alt="A bowl of phở bò with lime and chili on the side" loading="lazy" decoding="async" />
+            <div class="bento-overlay">
+              <span class="tag tag-glass"><svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>Food &amp; culture</span>
+              <h3>Vietnamese food nights</h3>
+              <p>Phở, bánh mì runs, and home-cooked meals around NYC.</p>
+            </div>
+          </article>
+          <article class="bento-card community-card reveal">
             <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-hoop"></use></svg></span>
             <h3>Basketball runs</h3>
             <p>Pickup games and NBA watch parties after a long week.</p>
           </article>
-          <article class="community-card reveal">
-            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg></span>
-            <h3>Vietnamese food nights</h3>
-            <p>Phở, bánh mì runs, and home-cooked meals around NYC.</p>
-          </article>
-          <article class="community-card reveal">
+          <article class="bento-card community-card reveal">
             <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-coffee"></use></svg></span>
             <h3>Casual coffee chats</h3>
-            <p>Not every conversation has to be formal. Just meet upperclassmen for coffee.</p>
+            <p>Not every conversation has to be formal. Grab coffee with an upperclassman.</p>
           </article>
-          <article class="community-card reveal">
+          <article class="bento-card community-card reveal">
             <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg></span>
             <h3>Study groups</h3>
             <p>Finals prep, coding sessions, and finance technicals practice.</p>
           </article>
-          <article class="community-card reveal">
+          <article class="bento-card community-card reveal">
             <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-city"></use></svg></span>
             <h3>NYC exploration</h3>
             <p>Museums, company visits, career fairs, and new neighborhoods together.</p>
           </article>
+        </div>
+
+        <div class="campuses">
+          <h3 class="campuses-title reveal">Two campuses, one network</h3>
+          <div class="campus-grid">
+            <article class="campus-card reveal">
+              <img src="assets/photos/queens-court.jpg" alt="Queen's Court and the University Church at Rose Hill" loading="lazy" decoding="async" />
+              <div class="campus-body">
+                <span class="campus-kicker"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>The Bronx</span>
+                <h4>Rose Hill</h4>
+                <p>Fordham's original campus. Where we play soccer, study together, and host community nights.</p>
+              </div>
+            </article>
+            <article class="campus-card reveal">
+              <img src="assets/photos/lincoln-center.jpg" alt="Fordham's Lincoln Center campus on a Manhattan street" loading="lazy" decoding="async" />
+              <div class="campus-body">
+                <span class="campus-kicker"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>Manhattan</span>
+                <h4>Lincoln Center</h4>
+                <p>Minutes from the firms our mentors work at. Where we host career panels and resume nights.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- BOOKING -->
     <section class="section booking-section" id="booking">
+      <div class="section-bg" aria-hidden="true">
+        <img src="assets/photos/rose-hill-autumn.jpg" alt="" loading="lazy" decoding="async" />
+      </div>
       <div class="container booking-layout">
         <div class="booking-copy reveal">
           <p class="eyebrow eyebrow-light">Book a coffee chat</p>
@@ -431,6 +472,7 @@
                 <select id="f-mentor" name="mentorId" required>
                   <option value="any">No preference, match me</option>
                 </select>
+                <p class="field-error" data-error-for="mentorId"></p>
               </div>
               <div class="field">
                 <label for="f-type">What do you need?</label>
@@ -584,16 +626,55 @@
         <a href="#booking">Book a coffee chat</a>
         <a href="#faq">FAQ</a>
         <button type="button" data-open-involve="Become a mentor">Become a mentor</button>
+        <a href="dashboard.html">Mentor &amp; staff sign-in</a>
       </nav>
     </div>
     <div class="container footer-bottom">
       <p>© <span id="year">2026</span> Fordham Vietnamese Career Network. A student-built community project.</p>
+      <details class="credits">
+        <summary>Photo credits</summary>
+        <ul id="photoCredits"></ul>
+        <p>Company names and logos belong to their owners and show where our members have worked.</p>
+      </details>
     </div>
   </footer>
 
   <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
     <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"></use></svg>
   </button>
+
+  <!-- Mentor profile dialog -->
+  <dialog class="dialog dialog-sm mentor-dialog" id="mentorDialog" aria-labelledby="mentorDialogName">
+    <button type="button" class="icon-btn dialog-close-float" data-close-dialog aria-label="Close">
+      <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+    </button>
+    <div id="mentorDialogBody"></div>
+  </dialog>
+
+  <!-- RSVP dialog (asked once; details are remembered in this browser) -->
+  <dialog class="dialog dialog-sm" id="rsvpDialog" aria-labelledby="rsvpTitle">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow">RSVP</p>
+        <h2 id="rsvpTitle">Event</h2>
+      </div>
+      <button type="button" class="icon-btn" data-close-dialog aria-label="Close">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+      </button>
+    </div>
+    <form class="dialog-body involve-form" id="rsvpForm">
+      <div class="field">
+        <label for="r-name">Full name</label>
+        <input id="r-name" name="name" type="text" autocomplete="name" minlength="2" required />
+      </div>
+      <div class="field">
+        <label for="r-email">Email</label>
+        <input id="r-email" name="email" type="email" autocomplete="email" placeholder="you@fordham.edu" required />
+      </div>
+      <p class="form-footnote">We only use this to send event details. Friends outside Fordham are welcome.</p>
+      <button type="submit" class="btn btn-primary btn-block">Confirm RSVP</button>
+    </form>
+  </dialog>
 
   <!-- Guide dialog -->
   <dialog class="dialog" id="guideDialog" aria-labelledby="guideTitle">
@@ -655,6 +736,8 @@
     <p class="noscript">Please enable JavaScript to browse mentors, resources, and events.</p>
   </noscript>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/data.js"></script>
   <script src="js/api.js"></script>
   <script src="js/main.js"></script>

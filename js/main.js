@@ -17,7 +17,7 @@ function escapeHtml(value) {
 }
 
 const initials = (name) => {
-  const parts = name.trim().split(/\s+/);
+  const parts = name.replace(/\(.*?\)/g, "").trim().split(/\s+/);
   return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
 };
 
@@ -30,16 +30,34 @@ const formatTime = (hhmm) => {
   return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(new Date(2000, 0, 1, h, m));
 };
 
-function toast(message) {
+function toast(message, type = "success") {
   const region = $("#toastRegion");
   const el = document.createElement("div");
-  el.className = "toast";
-  el.innerHTML = `${icon("check")}<span>${escapeHtml(message)}</span>`;
+  el.className = `toast toast-${type}`;
+  el.innerHTML = `${icon(type === "error" ? "x" : "check")}<span>${escapeHtml(message)}</span>`;
   region.appendChild(el);
   setTimeout(() => {
     el.classList.add("is-leaving");
     setTimeout(() => el.remove(), 250);
   }, 3200);
+}
+
+const PROFILE_KEY = "fvcn.profile";
+
+function getProfile() {
+  try {
+    return JSON.parse(localStorage.getItem(PROFILE_KEY)) || null;
+  } catch {
+    return null;
+  }
+}
+
+function saveProfile(profile) {
+  try {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  } catch {
+    // Not critical: the student just types their details again next time.
+  }
 }
 
 function scrollToSection(id) {
@@ -56,12 +74,15 @@ const state = {
   events: [],
   companies: [],
   roadmap: [],
+  photos: {},
   majorById: {},
   mentorById: {},
+  companyById: {},
   activePath: null,
   activeYear: "freshman",
   roadmapProgress: {},
   rsvps: [],
+  eventCounts: {},
   mentorMajor: "all",
   mentorQuery: "",
   resourceMajor: "all",
@@ -77,6 +98,50 @@ const majorLabel = (id) => {
 };
 
 /* ==========================================================================
+   Mentor building blocks (shared by the hero, career paths, cards, and profile)
+   ========================================================================== */
+const STATUS_LABELS = { incoming: "Incoming", former: "Former" };
+
+// A mentor can list several companies (e.g. incoming at Deloitte and EY).
+function companiesOf(mentor) {
+  const companies = (mentor.companyIds || []).map((id) => state.companyById[id]).filter(Boolean);
+  return companies.length ? companies : [{ name: mentor.companyLabel || "", icon: null }];
+}
+
+const companyNames = (mentor) => companiesOf(mentor).map((company) => company.name).join(" & ");
+
+// e.g. "Incoming Global Markets Analyst" or just "Research Intern" for a current role.
+const roleText = (mentor) => [STATUS_LABELS[mentor.status], mentor.role].filter(Boolean).join(" ");
+
+function avatarHtml(mentor, size = "") {
+  return mentor.photo
+    ? `<img class="avatar ${size}" src="${mentor.photo}" alt="" loading="lazy" />`
+    : `<span class="avatar ${size}" aria-hidden="true">${initials(mentor.name)}</span>`;
+}
+
+function companyHtml(mentor) {
+  const marks = companiesOf(mentor)
+    .map((company) => company.icon
+      ? `<img class="company-icon" src="${company.icon}" alt="" loading="lazy" />`
+      : `<span class="company-icon company-icon-fallback">${icon("briefcase")}</span>`)
+    .join("");
+  return `<span class="company"><span class="company-marks">${marks}</span><span>${escapeHtml(companyNames(mentor))}</span></span>`;
+}
+
+function statusBadge(mentor) {
+  const label = STATUS_LABELS[mentor.status];
+  return label ? `<span class="status-badge status-${mentor.status}">${label}</span>` : "";
+}
+
+function linkedinLink(mentor, withLabel = false) {
+  if (!mentor.linkedin) return "";
+  return `<a class="${withLabel ? "btn btn-secondary linkedin-btn" : "linkedin-link"}" href="${escapeHtml(mentor.linkedin)}"
+      target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(mentor.name)} on LinkedIn (opens in a new tab)">
+      <svg class="icon icon-fill" aria-hidden="true"><use href="#i-linkedin"></use></svg>${withLabel ? "View LinkedIn" : ""}
+    </a>`;
+}
+
+/* ==========================================================================
    Hero
    ========================================================================== */
 function renderHero() {
@@ -89,25 +154,17 @@ function renderHero() {
       .join("") +
     `<a href="#paths" class="chip">${icon("compass")}I'm not sure yet</a>`;
 
-  // Show one mentor from each of the first three majors that have mentors.
-  const featured = [];
-  const seen = new Set();
-  for (const mentor of state.mentors) {
-    if (!seen.has(mentor.majorId)) {
-      featured.push(mentor);
-      seen.add(mentor.majorId);
-    }
-    if (featured.length === 3) break;
-  }
+  const flagged = state.mentors.filter((mentor) => mentor.featured);
+  const featured = (flagged.length ? flagged : state.mentors).slice(0, 3);
 
   $("#heroMentors").innerHTML = featured
     .map((mentor) => `
       <li class="hero-mentor" data-major="${mentor.majorId}">
-        <span class="avatar">${initials(mentor.name)}</span>
-        <span class="hero-mentor-info">
+        ${avatarHtml(mentor)}
+        <button type="button" class="hero-mentor-info" data-open-mentor="${mentor.id}">
           <strong>${escapeHtml(mentor.name)}</strong>
-          <span>${escapeHtml(mentor.role)} · ${escapeHtml(mentor.company)}</span>
-        </span>
+          <span>${companyHtml(mentor)}<span class="dot">·</span>${escapeHtml(roleText(mentor))}</span>
+        </button>
         <button type="button" class="btn btn-secondary btn-sm" data-book-mentor="${mentor.id}">Request</button>
       </li>`)
     .join("");
@@ -121,7 +178,7 @@ function renderStats() {
     { value: state.mentors.length, label: "Student and alumni mentors" },
     { value: state.majors.length, label: "Career paths mapped" },
     { value: state.resources.length, label: "Curated resources" },
-    { value: state.companies.length, label: "Companies where members interned" }
+    { value: state.companies.length, label: "Companies where members work and intern" }
   ];
 
   $("#stats").innerHTML = stats
@@ -135,6 +192,7 @@ function renderStats() {
 
 function renderLogos() {
   const set = state.companies
+    .filter((company) => company.logo)
     .map((company) => `
       <div class="logo-card ${company.fit === "cover" ? "logo-card-cover" : ""}" title="${escapeHtml(company.name)}">
         <img src="${company.logo}" alt="${escapeHtml(company.name)}" loading="lazy" decoding="async" />
@@ -263,11 +321,11 @@ function renderPathPanel() {
         ${mentors.length
           ? `<div class="mini-list">${mentors.map((mentor) => `
               <div class="mini-item" data-major="${mentor.majorId}">
-                <span class="avatar">${initials(mentor.name)}</span>
-                <span class="mini-item-info">
+                ${avatarHtml(mentor)}
+                <button type="button" class="mini-item-info" data-open-mentor="${mentor.id}">
                   <strong>${escapeHtml(mentor.name)}</strong>
-                  <span>${escapeHtml(mentor.role)} · ${escapeHtml(mentor.company)}</span>
-                </span>
+                  <span>${escapeHtml(roleText(mentor))} · ${escapeHtml(companyNames(mentor))}</span>
+                </button>
                 <button type="button" class="btn btn-secondary btn-sm" data-book-mentor="${mentor.id}">Request</button>
               </div>`).join("")}</div>`
           : `<p class="empty-inline">No mentors in this path yet. <a class="text-link" href="#booking" data-book-major="${major.id}">Request a match</a> and we'll find someone.</p>`}
@@ -404,7 +462,7 @@ function renderMentors() {
   const list = state.mentors.filter((mentor) => {
     if (state.mentorMajor !== "all" && mentor.majorId !== state.mentorMajor) return false;
     if (!query) return true;
-    const haystack = [mentor.name, mentor.role, mentor.company, mentor.bio, majorLabel(mentor.majorId), ...mentor.helpsWith, ...mentor.interests]
+    const haystack = [mentor.name, roleText(mentor), companyNames(mentor), mentor.bio, majorLabel(mentor.majorId), ...mentor.helpsWith, ...(mentor.interests || [])]
       .join(" ")
       .toLowerCase();
     return haystack.includes(query);
@@ -424,26 +482,56 @@ function renderMentors() {
 
   $("#mentorGrid").innerHTML = list
     .map((mentor, index) => `
-      <article class="card mentor-card" data-major="${mentor.majorId}" style="animation-delay: ${index * 40}ms">
+      <article class="card mentor-card" data-major="${mentor.majorId}" style="animation-delay: ${index * 30}ms">
         <div class="mentor-head">
-          <span class="avatar avatar-lg">${initials(mentor.name)}</span>
-          <div>
-            <h3>${escapeHtml(mentor.name)}</h3>
-            <p class="mentor-role">${escapeHtml(mentor.role)} · <strong>${escapeHtml(mentor.company)}</strong></p>
+          ${avatarHtml(mentor, "avatar-lg")}
+          <div class="mentor-id">
+            <h3><button type="button" class="mentor-name" data-open-mentor="${mentor.id}">${escapeHtml(mentor.name)}</button></h3>
+            <span class="tag mentor-major">${escapeHtml(majorLabel(mentor.majorId))}</span>
           </div>
+          ${linkedinLink(mentor)}
         </div>
-        <span class="tag mentor-major">${escapeHtml(majorLabel(mentor.majorId))}</span>
-        <p class="mentor-bio">${escapeHtml(mentor.bio)}</p>
+        <div class="mentor-job">
+          ${companyHtml(mentor)}
+          <p class="mentor-role">${statusBadge(mentor)}${escapeHtml(mentor.role)}</p>
+        </div>
         <div class="mentor-helps">
           <h4>Can help with</h4>
           <ul>${mentor.helpsWith.map((item) => `<li class="tag tag-maroon">${escapeHtml(item)}</li>`).join("")}</ul>
         </div>
         <div class="mentor-foot">
-          <span class="mentor-interests">Outside work: ${escapeHtml(mentor.interests.join(", "))}</span>
+          <button type="button" class="btn btn-ghost btn-sm" data-open-mentor="${mentor.id}">View profile</button>
           <button type="button" class="btn btn-primary btn-sm" data-book-mentor="${mentor.id}">Request a chat</button>
         </div>
       </article>`)
     .join("");
+}
+
+function openMentor(id) {
+  const mentor = state.mentorById[id];
+  if (!mentor) return;
+
+  $("#mentorDialogBody").innerHTML = `
+    <div class="profile-cover" data-major="${mentor.majorId}"></div>
+    <div class="profile" data-major="${mentor.majorId}">
+      ${avatarHtml(mentor, "avatar-xl")}
+      <h2 id="mentorDialogName">${escapeHtml(mentor.name)}</h2>
+      <p class="profile-role">${statusBadge(mentor)}${escapeHtml(mentor.role)}</p>
+      <div class="profile-meta">
+        ${companyHtml(mentor)}
+        <span class="tag mentor-major">${escapeHtml(majorLabel(mentor.majorId))}</span>
+      </div>
+      <p class="profile-bio">${escapeHtml(mentor.bio)}</p>
+      <h4>Can help with</h4>
+      <ul class="profile-tags">${mentor.helpsWith.map((item) => `<li class="tag tag-maroon">${escapeHtml(item)}</li>`).join("")}</ul>
+      ${mentor.interests?.length ? `<h4>Outside of work</h4><p class="profile-interests">${escapeHtml(mentor.interests.join(", "))}</p>` : ""}
+      <div class="profile-actions">
+        <button type="button" class="btn btn-primary" data-book-mentor="${mentor.id}">Request a chat ${icon("arrow-right")}</button>
+        ${linkedinLink(mentor, true)}
+      </div>
+    </div>`;
+
+  $("#mentorDialog").showModal();
 }
 
 function filterMentors(majorId) {
@@ -564,6 +652,7 @@ function renderEvents() {
               <span>${icon("calendar")}${start.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</span>
               <span>${icon("clock")}${formatTime(event.start)} – ${formatTime(event.end)}</span>
               <span>${icon("pin")}${escapeHtml(event.location)}</span>
+              ${state.eventCounts[event.id] ? `<span class="event-going">${icon("users")}${state.eventCounts[event.id]} going</span>` : ""}
             </div>
           </div>
           <div class="event-actions">
@@ -575,6 +664,44 @@ function renderEvents() {
         </article>`;
     })
     .join("");
+}
+
+let pendingRsvpEventId = null;
+
+async function submitRsvp(eventId, person) {
+  const title = state.events.find((item) => item.id === eventId)?.title || "the event";
+  try {
+    const going = await api.toggleRsvp(eventId, person);
+    [state.rsvps, state.eventCounts] = await Promise.all([api.getMyRsvps(), api.getEventCounts()]);
+    renderEvents();
+    toast(going ? `You're going to ${title}. See you there!` : `RSVP cancelled for ${title}.`);
+  } catch (error) {
+    toast(error.message || "Couldn't update your RSVP. Please try again.", "error");
+  }
+}
+
+function handleRsvp(eventId) {
+  const profile = getProfile();
+  if (state.rsvps.includes(eventId) || profile) {
+    submitRsvp(eventId, profile);
+    return;
+  }
+  pendingRsvpEventId = eventId;
+  $("#rsvpTitle").textContent = state.events.find((item) => item.id === eventId)?.title || "RSVP";
+  $("#rsvpForm").reset();
+  $("#rsvpDialog").showModal();
+}
+
+function setupRsvpDialog() {
+  $("#rsvpForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.target;
+    if (!form.reportValidity()) return;
+    const person = { name: form.elements.name.value.trim(), email: form.elements.email.value.trim().toLowerCase() };
+    saveProfile(person);
+    $("#rsvpDialog").close();
+    submitRsvp(pendingRsvpEventId, person);
+  });
 }
 
 function downloadIcs(event) {
@@ -605,6 +732,16 @@ function downloadIcs(event) {
 }
 
 /* ==========================================================================
+   Photo credits (required by the photos' Creative Commons licenses)
+   ========================================================================== */
+function renderCredits() {
+  const link = (href, text) => `<a href="${href}" target="_blank" rel="noopener noreferrer">${escapeHtml(text)}</a>`;
+  $("#photoCredits").innerHTML = Object.values(state.photos)
+    .map((photo) => `<li>${escapeHtml(photo.caption)}: ${link(photo.source, "photo")} by ${escapeHtml(photo.author)}, ${link(photo.licenseUrl, photo.license)}</li>`)
+    .join("");
+}
+
+/* ==========================================================================
    FAQ
    ========================================================================== */
 function renderFaqs(faqs) {
@@ -632,7 +769,7 @@ function populateBookingForm() {
       const mentors = state.mentors.filter((mentor) => mentor.majorId === major.id);
       if (!mentors.length) return "";
       return `<optgroup label="${escapeHtml(major.name)}">${mentors
-        .map((mentor) => `<option value="${mentor.id}">${escapeHtml(mentor.name)} · ${escapeHtml(mentor.company)}</option>`)
+        .map((mentor) => `<option value="${mentor.id}">${escapeHtml(mentor.name)} · ${escapeHtml(companyNames(mentor))}</option>`)
         .join("")}</optgroup>`;
     })
     .join("");
@@ -717,24 +854,55 @@ function showBookingForm() {
 }
 
 async function renderMyBookings() {
-  const bookings = await api.listMyBookings();
+  let bookings = [];
+  try {
+    bookings = await api.listMyBookings();
+  } catch (error) {
+    console.warn("[FVCN] Couldn't load your requests:", error.message);
+  }
+
   $("#myRequests").hidden = bookings.length === 0;
   $("#myRequestsList").innerHTML = bookings
     .slice(0, 5)
-    .map((booking) => `
-      <li class="request-item">
-        <div class="request-info">
-          <strong>${escapeHtml(booking.meetingType)} with ${escapeHtml(booking.mentorName)}</strong>
-          <span>${escapeHtml(formatDateTime(booking.time1))}</span>
-        </div>
-        <span class="status status-${booking.status}">${escapeHtml(booking.status)}</span>
-        ${booking.status === "pending" ? `<button type="button" class="request-cancel" data-cancel-booking="${booking.id}">Cancel</button>` : ""}
-      </li>`)
+    .map((booking) => {
+      const when = booking.status === "confirmed" && booking.confirmedTime
+        ? `Confirmed for ${formatDateTime(booking.confirmedTime)}`
+        : `Requested for ${formatDateTime(booking.time1)}`;
+      const canCancel = booking.status === "pending" || booking.status === "confirmed";
+      return `
+        <li class="request-item">
+          <div class="request-info">
+            <strong>${escapeHtml(booking.meetingType)} with ${escapeHtml(booking.mentorName)}</strong>
+            <span>${escapeHtml(when)}</span>
+          </div>
+          <span class="status status-${booking.status}">${escapeHtml(booking.status)}</span>
+          ${canCancel ? `<button type="button" class="request-cancel" data-cancel-booking="${booking.id}">Cancel</button>` : ""}
+        </li>`;
+    })
     .join("");
+}
+
+function showFieldError(name, message) {
+  const field = bookingForm.elements[name];
+  const errorEl = $(`[data-error-for="${name}"]`, bookingForm);
+  if (!field || !errorEl) return false;
+  field.closest(".field").classList.add("has-error");
+  field.setAttribute("aria-invalid", "true");
+  errorEl.textContent = message;
+  field.focus();
+  return true;
+}
+
+function prefillIdentity() {
+  const profile = getProfile();
+  if (!profile) return;
+  if (!$("#f-name").value) $("#f-name").value = profile.name || "";
+  if (!$("#f-email").value && /@fordham\.edu$/i.test(profile.email || "")) $("#f-email").value = profile.email;
 }
 
 function setupBooking() {
   populateBookingForm();
+  prefillIdentity();
 
   // Validate a field when the user leaves it, then live once it has shown an error.
   bookingForm.addEventListener("focusout", (event) => {
@@ -780,12 +948,16 @@ function setupBooking() {
         email: data.email.trim().toLowerCase(),
         mentorName: mentor ? mentor.name : "a matched mentor"
       });
+      saveProfile({ name: booking.name, email: booking.email });
       showBookingSuccess(booking, mentor);
       bookingForm.reset();
+      prefillIdentity();
       $("#charCount").textContent = "0 / 600";
       renderMyBookings();
-    } catch {
-      toast("Something went wrong. Please try again.");
+    } catch (error) {
+      if (!(error.field && showFieldError(error.field, error.message))) {
+        toast(error.message || "Something went wrong. Please try again.", "error");
+      }
     } finally {
       submit.classList.remove("is-loading");
       $(".btn-label", submit).textContent = "Send request";
@@ -806,7 +978,7 @@ function showBookingSuccess(booking, mentor) {
 
   const rows = [
     ["Request ID", booking.id],
-    ["Mentor", mentor ? `${mentor.name} · ${mentor.company}` : "We'll match you"],
+    ["Mentor", mentor ? `${mentor.name} · ${companyNames(mentor)}` : "We'll match you"],
     ["Topic", booking.meetingType],
     ["Format", booking.format],
     ["Preferred time", formatDateTime(booking.time1)]
@@ -891,10 +1063,15 @@ function setupDialogs() {
 
     const button = $('button[type="submit"]', form);
     button.classList.add("is-loading");
-    await api.submitInterest(Object.fromEntries(new FormData(form).entries()));
-    button.classList.remove("is-loading");
-    $("#involveDialog").close();
-    toast("Thanks! We'll be in touch soon.");
+    try {
+      await api.submitInterest(Object.fromEntries(new FormData(form).entries()));
+      $("#involveDialog").close();
+      toast("Thanks! We'll be in touch soon.");
+    } catch (error) {
+      toast(error.message || "Couldn't send that. Please try again.", "error");
+    } finally {
+      button.classList.remove("is-loading");
+    }
   });
 }
 
@@ -904,7 +1081,7 @@ function setupDialogs() {
 function setupActions() {
   document.addEventListener("click", async (event) => {
     const target = event.target.closest(
-      "[data-book-mentor], [data-book-major], [data-filter-mentors], [data-mentor-filter], [data-reset-mentors], " +
+      "[data-book-mentor], [data-open-mentor], [data-book-major], [data-filter-mentors], [data-mentor-filter], [data-reset-mentors], " +
       "[data-resource-filter], [data-show-resources], [data-open-guide], [data-open-involve], [data-close-dialog], " +
       "[data-copy-template], [data-book-from-guide], [data-rsvp], [data-ics], [data-cancel-booking], .path-tab, .year-tab"
     );
@@ -912,8 +1089,11 @@ function setupActions() {
     const data = target.dataset;
 
     if (data.bookMentor) {
+      target.closest("dialog")?.close();
       prefillBooking({ mentorId: data.bookMentor });
       toast(`${state.mentorById[data.bookMentor].name} selected. Just add your details.`);
+    } else if (data.openMentor) {
+      openMentor(data.openMentor);
     } else if (data.bookMajor) {
       event.preventDefault();
       prefillBooking({ majorId: data.bookMajor });
@@ -958,17 +1138,17 @@ function setupActions() {
       $("#guideDialog").close();
       prefillBooking({ meetingType: data.bookFromGuide });
     } else if (data.rsvp) {
-      const going = await api.toggleRsvp(data.rsvp);
-      state.rsvps = await api.getMyRsvps();
-      renderEvents();
-      const title = state.events.find((item) => item.id === data.rsvp).title;
-      toast(going ? `You're going to ${title}. Details will be emailed before the event.` : `RSVP cancelled for ${title}.`);
+      handleRsvp(data.rsvp);
     } else if (data.ics) {
       downloadIcs(state.events.find((item) => item.id === data.ics));
     } else if (data.cancelBooking) {
-      await api.cancelBooking(data.cancelBooking);
+      try {
+        await api.cancelBooking(data.cancelBooking);
+        toast("Request cancelled.");
+      } catch (error) {
+        toast(error.message, "error");
+      }
       renderMyBookings();
-      toast("Request cancelled.");
     } else if (target.classList.contains("path-tab")) {
       selectPath(data.id);
     } else if (target.classList.contains("year-tab")) {
@@ -1075,7 +1255,7 @@ function setupReveal() {
    Init
    ========================================================================== */
 async function init() {
-  const [majors, mentors, resources, events, companies, roadmap, faqs, roadmapProgress, rsvps] = await Promise.all([
+  const [majors, mentors, resources, events, companies, roadmap, faqs, photos, roadmapProgress, rsvps, eventCounts] = await Promise.all([
     api.getMajors(),
     api.getMentors(),
     api.getResources(),
@@ -1083,11 +1263,14 @@ async function init() {
     api.getCompanies(),
     api.getRoadmap(),
     api.getFaqs(),
+    api.getPhotos(),
     api.getRoadmapProgress(),
-    api.getMyRsvps()
+    api.getMyRsvps(),
+    api.getEventCounts()
   ]);
 
-  Object.assign(state, { majors, mentors, resources, events, companies, roadmap, roadmapProgress, rsvps });
+  Object.assign(state, { majors, mentors, resources, events, companies, roadmap, photos, roadmapProgress, rsvps, eventCounts });
+  state.companyById = Object.fromEntries(companies.map((company) => [company.id, company]));
   state.majorById = Object.fromEntries(majors.map((major) => [major.id, major]));
   state.mentorById = Object.fromEntries(mentors.map((mentor) => [mentor.id, mentor]));
   state.activePath = majors[0]?.id;
@@ -1106,12 +1289,19 @@ async function init() {
   renderResources();
   renderEvents();
   renderFaqs(faqs);
+  renderCredits();
   renderMyBookings();
 
   setupNav();
   setupActions();
   setupBooking();
   setupDialogs();
+  setupRsvpDialog();
+
+  // Pick up status changes (e.g. a mentor confirmed) when the student comes back to the tab.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") renderMyBookings();
+  });
   setupReveal();
   setupCounters();
 

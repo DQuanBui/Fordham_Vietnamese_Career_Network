@@ -145,66 +145,161 @@ const FVCN_DATA = {
     }
   ],
 
+  // status: "incoming" (accepted offer), "former" (past role), or "current".
+  // companyIds point at the companies table below (first one is the main company);
+  // companyLabel is shown when the company has no record (e.g. "Startup").
+  // featured mentors appear in the hero card. Add photo: "assets/mentors/<id>.jpg" to replace the initials.
   mentors: [
     {
       id: "tam-nguyen",
       name: "Tam Nguyen",
       majorId: "finance",
-      role: "Investment Banking Summer Analyst",
-      company: "JPMorgan",
-      bio: "Went through banking recruiting and can walk you through networking, technical questions, and building a finance resume.",
-      helpsWith: ["Resume review", "Technical interviews", "Networking emails"],
+      status: "former",
+      role: "Asset Management Summer Intern",
+      companyIds: ["jpmorgan"],
+      linkedin: "https://www.linkedin.com/in/tamnguyen005/",
+      bio: "Spent a summer in asset management at JPMorgan. Ask about asset management vs. banking, how recruiting works, and building a finance resume.",
+      helpsWith: ["Asset management", "Resume review", "Networking"],
       interests: ["Soccer"]
     },
     {
-      id: "duc-nguyen",
-      name: "Duc Nguyen",
+      id: "tri-pham",
+      name: "Tri Pham",
       majorId: "finance",
-      role: "Markets Intern",
-      company: "Société Générale",
-      bio: "Happy to talk about markets, sales and trading, how to follow macro news, and preparing for markets interviews.",
-      helpsWith: ["Sales & trading", "Market news", "Interview prep"],
-      interests: ["Running"]
+      status: "incoming",
+      role: "Global Markets Analyst",
+      companyIds: ["socgen"],
+      linkedin: "https://www.linkedin.com/in/triphamtranminh/",
+      bio: "Joining Société Générale's global markets team. Ask about markets recruiting, superday prep, and how to follow macro news.",
+      helpsWith: ["Global markets", "Superday prep", "Market news"],
+      featured: true
     },
     {
-      id: "nick-trinh",
-      name: "Nick Trinh",
-      majorId: "cs",
-      role: "Software Engineering Intern",
-      company: "Google",
-      bio: "Can help you pick projects worth building, prepare for technical interviews, and plan your software internship applications.",
-      helpsWith: ["Technical interviews", "Projects & GitHub", "Applications"],
-      interests: ["Basketball"]
+      id: "jonathan-tran",
+      name: "Jonathan Tran",
+      majorId: "finance",
+      status: "incoming",
+      role: "Sales, Trading & Structuring Analyst",
+      companyIds: ["barclays"],
+      linkedin: "https://www.linkedin.com/in/quang-nguyen-tran-19b18a247/",
+      bio: "Joining Barclays in sales, trading, and structuring. Ask about S&T interviews, how desks differ, and preparing a market pitch.",
+      helpsWith: ["Sales & trading", "Structuring", "Market pitches"]
     },
     {
       id: "thao-nguyen",
       name: "Thao Nguyen",
       majorId: "marketing",
-      role: "Brand Strategy Intern",
-      company: "Ogilvy",
-      bio: "Can help with marketing portfolios, telling your story, polishing LinkedIn, and behavioral interviews.",
-      helpsWith: ["Portfolio", "LinkedIn", "Behavioral interviews"],
+      status: "former",
+      role: "Social Strategy Intern",
+      companyIds: ["ogilvy"],
+      linkedin: "https://www.linkedin.com/in/thaonguyen47/",
+      bio: "Interned on the social strategy team at Ogilvy. Ask about agency life, building a marketing portfolio, and telling your story on LinkedIn.",
+      helpsWith: ["Social strategy", "Portfolio", "LinkedIn"],
       interests: ["Coffee"]
+    },
+    {
+      id: "quang-nguyen",
+      name: "Quang Nguyen",
+      majorId: "marketing",
+      status: "current",
+      role: "GFi & Ins Service Sales Intern",
+      companyIds: ["wwt"],
+      linkedin: "https://www.linkedin.com/in/quang-p-nguyen/",
+      bio: "Sales intern at World Wide Technology. Ask about tech sales, client-facing roles, and B2B marketing.",
+      helpsWith: ["Tech sales", "Client communication", "B2B marketing"]
+    },
+    {
+      id: "phuong-bui",
+      name: "Phuong Bui",
+      majorId: "marketing",
+      status: "former",
+      role: "Retail Sales Intern",
+      companyIds: ["cocacola"],
+      linkedin: "https://www.linkedin.com/in/phuongbuiphb/",
+      bio: "Interned in retail sales at The Coca-Cola Company. Ask about consumer goods (CPG) careers, sales internships, and behavioral interviews.",
+      helpsWith: ["CPG careers", "Sales", "Behavioral interviews"]
     },
     {
       id: "quan-bui",
       name: "Quan Bui",
       majorId: "info-systems",
-      role: "Technology Analyst Intern",
-      company: "Brookfield",
-      bio: "Can help with business technology roles, SQL, product thinking, and preparing for tech consulting interviews.",
-      helpsWith: ["SQL", "Tech consulting", "Product thinking"],
+      status: "current",
+      role: "Business Analyst Intern",
+      companyIds: ["brookfield"],
+      linkedin: "https://www.linkedin.com/in/dangquanbui/",
+      bio: "Business analyst intern at Brookfield. Ask about business analyst roles, SQL and data skills, and product thinking.",
+      helpsWith: ["Business analysis", "SQL", "Product thinking"],
       interests: ["Gym"]
+    },
+    {
+      id: "amy-pham",
+      name: "Amy Pham",
+      majorId: "info-systems",
+      status: "current",
+      role: "Research Intern",
+      companyIds: ["iheartmedia"],
+      linkedin: "https://www.linkedin.com/in/amypham05/",
+      bio: "Research intern at iHeartMedia. Ask about audience and market research, working with data in media, and landing a media internship.",
+      helpsWith: ["Market research", "Data analysis", "Media industry"]
+    },
+    {
+      id: "anh-bui",
+      name: "Anh Bui",
+      majorId: "info-systems",
+      status: "current",
+      role: "Data Engineer Intern",
+      companyLabel: "Startup",
+      linkedin: "https://www.linkedin.com/in/anh-nt-bui/",
+      bio: "Data engineering intern at a startup. Ask about data pipelines, Python and SQL, and what it's like to work at a small company.",
+      helpsWith: ["Data engineering", "Python & SQL", "Startups"]
     },
     {
       id: "thomas-vu-hong",
       name: "Thomas Vu Hong",
       majorId: "ais",
-      role: "Risk Advisory Intern",
-      company: "EY",
-      bio: "Can help with accounting recruiting, choosing between audit and advisory, risk advisory work, and professional communication.",
-      helpsWith: ["Big 4 recruiting", "Audit vs. advisory", "Professional emails"],
-      interests: ["Food"]
+      status: "incoming",
+      role: "Audit Intern",
+      companyIds: ["deloitte", "ey"],
+      linkedin: "https://www.linkedin.com/in/duc-anh-thomas-v-132120257/",
+      bio: "Incoming audit intern at Deloitte and EY. Ask about Big 4 recruiting, audit vs. advisory, and professional communication.",
+      helpsWith: ["Big 4 recruiting", "Audit", "Professional emails"],
+      interests: ["Food"],
+      featured: true
+    },
+    {
+      id: "dani-pham",
+      name: "Khue (Dani) Pham",
+      majorId: "ais",
+      status: "current",
+      role: "Tax Intern",
+      companyIds: ["shakeshack"],
+      linkedin: "https://www.linkedin.com/in/danikhuepham/",
+      bio: "Tax intern at Shake Shack. Ask about corporate (in-house) tax, accounting careers outside the Big 4, and balancing recruiting with classes.",
+      helpsWith: ["Corporate tax", "In-house accounting", "Time management"]
+    },
+    {
+      id: "nick-trinh",
+      name: "Nick Trinh",
+      majorId: "cs",
+      status: "current",
+      role: "Software Engineer Intern",
+      companyIds: ["google"],
+      linkedin: "https://www.linkedin.com/in/nicktrinh/",
+      bio: "Software engineering intern at Google. Ask about picking projects worth building, technical interviews, and big tech applications.",
+      helpsWith: ["Technical interviews", "Projects & GitHub", "Big tech applications"],
+      interests: ["Basketball"],
+      featured: true
+    },
+    {
+      id: "minh-vu",
+      name: "Minh Vu",
+      majorId: "cs",
+      status: "current",
+      role: "Software Engineer",
+      companyIds: ["profound"],
+      linkedin: "https://www.linkedin.com/in/minhvu01/",
+      bio: "Software engineer at Profound. Ask about full-time SWE recruiting, working at a startup, and growing as an engineer.",
+      helpsWith: ["SWE recruiting", "Startups", "System design"]
     }
   ],
 
@@ -261,9 +356,9 @@ const FVCN_DATA = {
     { id: "e-resume-night", title: "Resume Review Night", category: "Career", date: "2026-10-08", start: "18:00", end: "19:30",
       location: "Lincoln Center campus · room shared after RSVP",
       description: "Bring a printed or digital resume and get one-on-one feedback from upperclassmen and alumni." },
-    { id: "e-soccer", title: "Soccer Sunday", category: "Community", date: "2026-10-18", start: "11:00", end: "13:00",
-      location: "Location shared after RSVP",
-      description: "A casual game for all skill levels. Open to Vietnamese students and friends." },
+    { id: "e-soccer", title: "Soccer Friday", category: "Community", date: "2026-10-16", start: "18:00", end: "21:00",
+      location: "Rose Hill campus · field shared after RSVP",
+      description: "A casual game for all skill levels to kick off the weekend. Open to Vietnamese students and friends." },
     { id: "e-alumni-panel", title: "Vietnamese Alumni Career Panel", category: "Alumni", date: "2026-10-29", start: "18:30", end: "20:00",
       location: "Lincoln Center campus · room shared after RSVP",
       description: "Alumni in finance, tech, consulting, and accounting share how they got started. Q&A to follow." },
@@ -275,22 +370,79 @@ const FVCN_DATA = {
       description: "End the semester with a bowl of phở and good company. Everyone is welcome." }
   ],
 
+  // logo: wide logo for the "where our members work" strip (omit to leave a company out of it).
+  // icon: small square mark shown next to a mentor's company.
   // fit: "cover" is for logos whose image has its own solid background color.
   companies: [
-    { name: "JPMorgan", logo: "assets/logos/jpmorgan.png" },
-    { name: "Google", logo: "assets/logos/google.png" },
-    { name: "NVIDIA", logo: "assets/logos/nvidia.jpg" },
-    { name: "Barclays", logo: "assets/logos/barclays.webp" },
-    { name: "Deloitte", logo: "assets/logos/deloitte.webp" },
-    { name: "EY", logo: "assets/logos/ey.webp" },
-    { name: "Brookfield", logo: "assets/logos/brookfield.jpg", fit: "cover" },
-    { name: "Ogilvy", logo: "assets/logos/ogilvy.jpg", fit: "cover" },
-    { name: "Société Générale", logo: "assets/logos/societegeneral.png" },
-    { name: "UniCredit", logo: "assets/logos/unicredit.jpg" },
-    { name: "FOX Corporation", logo: "assets/logos/fox.png" },
-    { name: "iHeartMedia", logo: "assets/logos/iheartmedia.webp" },
-    { name: "World Wide Technology", logo: "assets/logos/wwt.jpg" }
+    { id: "jpmorgan", name: "JPMorgan", logo: "assets/logos/jpmorgan.png", icon: "assets/companies/jpmorgan.png" },
+    { id: "google", name: "Google", logo: "assets/logos/google.png", icon: "assets/companies/google.png" },
+    { id: "barclays", name: "Barclays", logo: "assets/logos/barclays.webp", icon: "assets/companies/barclays.png" },
+    { id: "socgen", name: "Société Générale", logo: "assets/logos/societegeneral.png", icon: "assets/companies/socgen.png" },
+    { id: "deloitte", name: "Deloitte", logo: "assets/logos/deloitte.webp", icon: "assets/companies/deloitte.png" },
+    { id: "ey", name: "EY", logo: "assets/logos/ey.webp", icon: "assets/companies/ey.png" },
+    { id: "cocacola", name: "The Coca-Cola Company", logo: "assets/logos/cocacola.png", icon: "assets/companies/cocacola.png" },
+    { id: "brookfield", name: "Brookfield", logo: "assets/logos/brookfield.jpg", icon: "assets/companies/brookfield.png", fit: "cover" },
+    { id: "ogilvy", name: "Ogilvy", logo: "assets/logos/ogilvy.jpg", icon: "assets/companies/ogilvy.png", fit: "cover" },
+    { id: "nvidia", name: "NVIDIA", logo: "assets/logos/nvidia.jpg" },
+    { id: "shakeshack", name: "Shake Shack", logo: "assets/logos/shakeshack.png", icon: "assets/companies/shakeshack.png" },
+    { id: "iheartmedia", name: "iHeartMedia", logo: "assets/logos/iheartmedia.webp", icon: "assets/companies/iheartmedia.png" },
+    { id: "wwt", name: "World Wide Technology", logo: "assets/logos/wwt.jpg", icon: "assets/companies/wwt.png" },
+    { id: "unicredit", name: "UniCredit", logo: "assets/logos/unicredit.jpg" },
+    { id: "fox", name: "FOX Corporation", logo: "assets/logos/fox.png" },
+    { id: "profound", name: "Profound", icon: "assets/companies/profound.png" }
   ],
+
+  // Campus and community photos (all from Wikimedia Commons; credits are shown in the footer).
+  photos: {
+    "keating-hall": {
+      src: "assets/photos/keating-hall.jpg",
+      caption: "Keating Hall and Edwards Parade, Rose Hill",
+      author: "Raymond Bucko, SJ",
+      license: "CC BY 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
+      source: "https://commons.wikimedia.org/wiki/File:Keating_Hall,_2014.png"
+    },
+    "queens-court": {
+      src: "assets/photos/queens-court.jpg",
+      caption: "Queen's Court and the University Church, Rose Hill",
+      author: "Indefatigable2",
+      license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      source: "https://commons.wikimedia.org/wiki/File:Queen%27s_Court_and_University_Church_at_Fordham.jpg"
+    },
+    "lincoln-center": {
+      src: "assets/photos/lincoln-center.jpg",
+      caption: "Lincoln Center campus, Manhattan",
+      author: "Tdorante10",
+      license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      source: "https://commons.wikimedia.org/wiki/File:Fordham_LC_01.jpg"
+    },
+    "rose-hill-autumn": {
+      src: "assets/photos/rose-hill-autumn.jpg",
+      caption: "Autumn at Rose Hill",
+      author: "Kristine Paulus",
+      license: "CC BY 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
+      source: "https://commons.wikimedia.org/wiki/File:Fordham_University_Campus_(5190445947).jpg"
+    },
+    "edwards-parade": {
+      src: "assets/photos/edwards-parade.jpg",
+      caption: "Edwards Parade, Rose Hill",
+      author: "Doug Olson",
+      license: "CC BY-SA 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+      source: "https://commons.wikimedia.org/wiki/File:Fordham_Manor,_Bronx,_NY,_USA_-_panoramio_(5).jpg"
+    },
+    pho: {
+      src: "assets/photos/pho.jpg",
+      caption: "Phở bò",
+      author: "Codename5281",
+      license: "CC BY-SA 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+      source: "https://commons.wikimedia.org/wiki/File:Ph%E1%BB%9F_b%C3%B2,_C%E1%BA%A7u_Gi%E1%BA%A5y,_H%C3%A0_N%E1%BB%99i.jpg"
+    }
+  },
 
   roadmap: [
     {
