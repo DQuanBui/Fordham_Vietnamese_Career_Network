@@ -3,846 +3,660 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fordham Vietnamese Career Network</title>
+  <title>FVCN · Fordham Vietnamese Career Network</title>
   <meta
     name="description"
-    content="Fordham Vietnamese Career Network connects Vietnamese students at Fordham with mentors, resources, career paths, and community."
+    content="Book free coffee chats with Vietnamese upperclassmen and alumni at Fordham, explore career paths by major, and find the resources that help students land internships."
+  />
+  <meta name="theme-color" content="#7a0c1d" />
+  <meta property="og:title" content="FVCN · Fordham Vietnamese Career Network" />
+  <meta
+    property="og:description"
+    content="Career advice from students who've been there. Book a coffee chat, explore career paths, and find resources by major."
+  />
+  <meta property="og:type" content="website" />
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%237a0c1d'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='26' fill='white'%3EFV%3C/text%3E%3C/svg%3E"
   />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="css/style.css" />
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
-  <header class="site-header" id="top">
-    <nav class="navbar">
-      <a href="#top" class="brand">
-        <span class="brand-mark">FV</span>
-        <span>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Icon sprite: reference with <svg class="icon"><use href="#i-name"></use></svg> -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></symbol>
+    <symbol id="i-calendar-plus" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18M12 13v5M9.5 15.5h5" /></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" /><circle cx="12" cy="10" r="2.5" /></symbol>
+    <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M4 9h13v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" /><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3M4 21h13" /></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.3a6.5 6.5 0 0 1 3.5 5.7" /></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" /></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z" /></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" /></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18" /><path d="m7 15 4-4 3 3 5-6" /></symbol>
+    <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h3l7 5V4L7 9H4a1 1 0 0 0-1 1z" /><path d="M18 8.5a5 5 0 0 1 0 7" /></symbol>
+    <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3" /><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" /></symbol>
+    <symbol id="i-calculator" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2" /><path d="M8.5 6.5h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h7" /></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2zM22 5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z" /></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h6" /></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></symbol>
+    <symbol id="i-ball" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="m12 7.5 4 2.9-1.5 4.6h-5L8 10.4zM12 3v4.5M16 10.4l4.3-1.3M14.5 15l2.6 3.6M9.5 15l-2.6 3.6M8 10.4 3.7 9.1" /></symbol>
+    <symbol id="i-hoop" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3v18M5.6 5.6a9 9 0 0 1 0 12.8M18.4 5.6a9 9 0 0 0 0 12.8" /></symbol>
+    <symbol id="i-bowl" viewBox="0 0 24 24"><path d="M3 11h18a9 9 0 0 1-18 0z" /><path d="M8 7.5c0-1.5 1-2 1-3.5M12 7.5c0-1.5 1-2 1-3.5M16 7.5c0-1.5 1-2 1-3.5" /></symbol>
+    <symbol id="i-city" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l5-3v14M10 21V4l6 3v14M16 21v-9l4 2v7M13 10h.01M13 13h.01M13 16h.01" /></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.5-9.2-9.3A4.8 4.8 0 0 1 12 7.2a4.8 4.8 0 0 1 9.2 3.5C19.5 15.5 12 20 12 20z" /></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="m2 9 10-5 10 5-10 5z" /><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6" /></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="13" height="13" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3" /></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" /></symbol>
+  </svg>
+
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar container" aria-label="Main">
+      <a href="#top" class="brand" aria-label="FVCN home">
+        <span class="brand-mark" aria-hidden="true">FV</span>
+        <span class="brand-text">
           <strong>FVCN</strong>
           <small>Fordham Vietnamese Career Network</small>
         </span>
       </a>
 
-      <button class="nav-toggle" id="navToggle" aria-label="Open navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
       <div class="nav-links" id="navLinks">
-        <a href="#about">About</a>
-        <a href="#majors">Majors</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#paths">Career paths</a>
+        <a href="#roadmap">Roadmap</a>
         <a href="#mentors">Mentors</a>
         <a href="#resources">Resources</a>
-        <a href="#community">Community</a>
         <a href="#events">Events</a>
-        <a href="#booking" class="nav-cta">Book a Chat</a>
+        <a href="#booking" class="btn btn-primary nav-mobile-cta">Book a coffee chat</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="#booking" class="btn btn-primary btn-sm nav-cta">Book a chat</a>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+          <svg class="icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+        </button>
       </div>
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <!-- HERO -->
-    <section class="hero section">
-      <div class="hero-bg-orb orb-one"></div>
-      <div class="hero-bg-orb orb-two"></div>
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Built by Vietnamese students at Fordham</p>
+          <h1>Career advice from students who've <span class="accent">been there.</span></h1>
+          <p class="lead">
+            Book a free coffee chat with upperclassmen and alumni, see what each major can lead to,
+            and use the resources they wish they'd had as freshmen.
+          </p>
 
-      <div class="hero-content reveal">
-        <p class="eyebrow">Vietnamese students. Fordham community. NYC careers.</p>
-        <h1>
-          Build your career.
-          <span>Find your people.</span>
-        </h1>
-        <p class="hero-subtitle">
-          Fordham Vietnamese Career Network helps Vietnamese students explore career paths,
-          connect with mentors, discover curated resources, and grow together inside and outside the classroom.
-        </p>
+          <div class="hero-actions">
+            <a href="#booking" class="btn btn-primary btn-lg">
+              Book a coffee chat
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a href="#paths" class="btn btn-secondary btn-lg">Explore career paths</a>
+          </div>
 
-        <div class="hero-actions">
-          <a href="#majors" class="btn btn-primary">Explore Majors</a>
-          <a href="#mentors" class="btn btn-secondary">Meet Mentors</a>
-          <a href="#booking" class="btn btn-ghost">Book a Coffee Chat</a>
+          <div class="hero-quick">
+            <span class="hero-quick-label">I'd like help with</span>
+            <div class="hero-chips" id="heroChips"></div>
+          </div>
         </div>
 
-        <div class="hero-badges">
-          <span>Career mentorship</span>
-          <span>Community events</span>
-          <span>Resource hub</span>
-        </div>
+        <aside class="hero-card reveal" aria-labelledby="heroCardTitle">
+          <div class="hero-card-head">
+            <div>
+              <p class="hero-card-kicker">
+                <span class="live-dot" aria-hidden="true"></span>
+                Mentors accepting requests
+              </p>
+              <h2 class="hero-card-title" id="heroCardTitle">Talk to someone in your path</h2>
+            </div>
+            <span class="tag tag-gold">Free</span>
+          </div>
+          <ul class="hero-mentors" id="heroMentors"></ul>
+          <a href="#mentors" class="hero-card-link">
+            See all mentors
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <div class="hero-card-foot">
+            <span><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>20–30 min</span>
+            <span><svg class="icon" aria-hidden="true"><use href="#i-coffee"></use></svg>Virtual or in person</span>
+          </div>
+        </aside>
       </div>
+    </section>
 
-      <div class="hero-card reveal">
-        <div class="glass-card">
-          <div class="card-topline">
-            <span class="status-dot"></span>
-            Network Snapshot
-          </div>
+    <!-- STATS + LOGOS -->
+    <section class="proof" aria-label="Network at a glance">
+      <div class="container">
+        <dl class="stats reveal" id="stats"></dl>
 
-          <div class="snapshot-grid">
-            <div>
-              <strong data-count="100">0</strong>
-              <span>Vietnamese students</span>
-            </div>
-            <div>
-              <strong data-count="20">0</strong>
-              <span>Mentors & alumni</span>
-            </div>
-            <div>
-              <strong data-count="50">0</strong>
-              <span>Curated resources</span>
-            </div>
-            <div>
-              <strong data-count="10">0</strong>
-              <span>Companies represented</span>
-            </div>
-          </div>
-
-          <div class="mini-profile">
-            <div class="avatar-stack">
-              <span>F</span>
-              <span>T</span>
-              <span>C</span>
-            </div>
-            <p>
-              Students helping students navigate finance, tech, marketing, accounting,
-              consulting, and more.
-            </p>
+        <div class="logos reveal">
+          <p class="logos-label">Where our members have interned and worked</p>
+          <div class="logo-marquee">
+            <div class="logo-track" id="logoTrack"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section class="section about-section" id="about">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Our mission</p>
-        <h2>A career network built around community.</h2>
-        <p>
-          We connect Vietnamese students at Fordham with people, resources, and opportunities
-          that make career exploration less confusing and more human.
-        </p>
-      </div>
-
-      <div class="about-grid">
-        <article class="feature-card reveal">
-          <div class="feature-icon">🎯</div>
-          <h3>Career clarity</h3>
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">How it works</p>
+          <h2>From "I have no idea" to a plan in four steps.</h2>
           <p>
-            Explore majors, career paths, recruiting timelines, and practical resources
-            for different industries.
+            FVCN is for students who don't know where to start. It's especially useful
+            for freshmen and sophomores who haven't met anyone in their field yet.
           </p>
-        </article>
+        </div>
 
-        <article class="feature-card reveal">
-          <div class="feature-icon">🤝</div>
-          <h3>Mentorship</h3>
-          <p>
-            Book coffee chats, resume reviews, interview prep, or general advice sessions
-            with students and alumni.
-          </p>
-        </article>
-
-        <article class="feature-card reveal">
-          <div class="feature-icon">🌆</div>
-          <h3>NYC opportunities</h3>
-          <p>
-            New York City location gives students access to companies,
-            alumni, internships, and events.
-          </p>
-        </article>
-
-        <article class="feature-card reveal">
-          <div class="feature-icon">❤️</div>
-          <h3>Belonging</h3>
-          <p>
-            Beyond careers, we build friendships through food, sports, study groups,
-            and Vietnamese cultural events.
-          </p>
-        </article>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step-num">01</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="#i-compass"></use></svg></span>
+            <h3>Explore a path</h3>
+            <p>See the roles, skills, and recruiting timeline for each major.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">02</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg></span>
+            <h3>Find a mentor</h3>
+            <p>Browse upperclassmen and alumni by major, company, and what they can help with.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">03</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg></span>
+            <h3>Request a chat</h3>
+            <p>Pick two times that work and tell them what you'd like to talk about.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-num">04</span>
+            <span class="step-icon"><svg class="icon" aria-hidden="true"><use href="#i-coffee"></use></svg></span>
+            <h3>Meet and follow up</h3>
+            <p>Your mentor confirms a time. Use our playbook to prepare and follow up.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <!-- LOGOS -->
-    <section class="section logo-section">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Where our community has worked</p>
-        <h2>From Fordham to leading companies.</h2>
-        <p>
-          Logos represent organizations where members, students, or alumni have interned or worked.
-        </p>
-      </div>
+    <!-- CAREER PATHS -->
+    <section class="section section-tinted" id="paths">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Career paths</p>
+          <h2>What can you do with your major?</h2>
+          <p>
+            Pick a major to see common roles, the skills to build, when recruiting happens,
+            and who you can talk to.
+          </p>
+        </div>
 
-<div class="logo-marquee reveal">
-  <div class="logo-track">
-
-    <div class="logo-set">
-      <div class="logo-card">
-        <img src="logos/barclays.webp" alt="Barclays logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/nvidia.jpg" alt="NVIDIA logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/brookfield.jpg" alt="Brookfield logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/ogilvy.jpg" alt="Ogilvy logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/iheartmedia.webp" alt="iHeartMedia logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/wwt.jpg" alt="World Wide Technology logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/ey.webp" alt="EY logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/unicredit.jpg" alt="UniCredit logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/societegeneral.png" alt="Société Générale logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/fox.png" alt="FOX Corporation logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/deloitte.webp" alt="Deloitte logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/google.png" alt="Google logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/jpmorgan.png" alt="JPMorgan logo">
-      </div>
-    </div>
-
-    <!-- duplicate for smooth infinite scroll -->
-    <div class="logo-set">
-      <div class="logo-card">
-        <img src="logos/barclays.webp" alt="Barclays logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/nvidia.jpg" alt="NVIDIA logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/brookfield.jpg" alt="Brookfield logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/ogilvy.jpg" alt="Ogilvy logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/iheartmedia.webp" alt="iHeartMedia logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/wwt.jpg" alt="World Wide Technology logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/ey.webp" alt="EY logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/unicredit.jpg" alt="UniCredit logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/societegeneral.png" alt="Société Générale logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/fox.png" alt="FOX Corporation logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/deloitte.webp" alt="Deloitte logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/google.png" alt="Google logo">
-      </div>
-
-      <div class="logo-card">
-        <img src="logos/jpmorgan.png" alt="JPMorgan logo">
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    <!-- MAJORS -->
-    <section class="section" id="majors">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Explore paths</p>
-        <h2>Choose a major. Discover a direction.</h2>
-        <p>
-          Each path includes common roles, starter resources, and people you can talk with.
-        </p>
-      </div>
-
-      <div class="major-grid">
-        <article class="major-card reveal">
-          <span class="major-tag">Finance</span>
-          <h3>Finance</h3>
-          <p>Investment banking, asset management, corporate finance, private equity, and financial analysis.</p>
-          <ul>
-            <li>Excel and valuation</li>
-            <li>Markets and banking</li>
-            <li>Technical interviews</li>
-          </ul>
-          <a href="#resources">View resources →</a>
-        </article>
-
-        <article class="major-card reveal">
-          <span class="major-tag">Marketing</span>
-          <h3>Marketing</h3>
-          <p>Brand strategy, digital marketing, consumer insights, social media, analytics, and growth.</p>
-          <ul>
-            <li>Campaign strategy</li>
-            <li>Content and branding</li>
-            <li>Marketing analytics</li>
-          </ul>
-          <a href="#resources">View resources →</a>
-        </article>
-
-        <article class="major-card reveal">
-          <span class="major-tag">Information Systems</span>
-          <h3>Information Systems</h3>
-          <p>Business technology, product, data, systems analysis, IT consulting, and operations.</p>
-          <ul>
-            <li>SQL and data</li>
-            <li>Product thinking</li>
-            <li>Business systems</li>
-          </ul>
-          <a href="#resources">View resources →</a>
-        </article>
-
-        <article class="major-card reveal">
-          <span class="major-tag">Accounting Information Systems</span>
-          <h3>Accounting Information Systems</h3>
-          <p>Accounting, auditing, analytics, risk advisory, ERP systems, and financial technology.</p>
-          <ul>
-            <li>Accounting foundations</li>
-            <li>Data controls</li>
-            <li>Audit and risk</li>
-          </ul>
-          <a href="#resources">View resources →</a>
-        </article>
-
-        <article class="major-card reveal">
-          <span class="major-tag">Computer Science</span>
-          <h3>Computer Science</h3>
-          <p>Software engineering, data science, AI, cybersecurity, web development, and technical interviews.</p>
-          <ul>
-            <li>Projects and GitHub</li>
-            <li>Data structures</li>
-            <li>Technical prep</li>
-          </ul>
-          <a href="#resources">View resources →</a>
-        </article>
+        <div class="paths reveal">
+          <div class="paths-tabs" id="pathTabs" role="tablist" aria-label="Majors" aria-orientation="vertical"></div>
+          <div class="path-panel" id="pathPanel" role="tabpanel" tabindex="0"></div>
+        </div>
       </div>
     </section>
 
     <!-- ROADMAP -->
-    <section class="section roadmap-section">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Career roadmap</p>
-        <h2>What should I do each year?</h2>
-        <p>
-          A simple roadmap for students who want to prepare early and avoid feeling lost.
-        </p>
-      </div>
-
-      <div class="timeline">
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span>Year 1</span>
-            <h3>Freshman Year</h3>
-            <p>Explore majors, join student clubs, build LinkedIn, attend events, and learn Excel or coding basics.</p>
-          </div>
+    <section class="section" id="roadmap">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">4-year roadmap</p>
+          <h2>What should I be doing this year?</h2>
+          <p>
+            A simple checklist for each year at Fordham. Check items off as you go.
+            Your progress is saved in this browser.
+          </p>
         </div>
 
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span>Year 2</span>
-            <h3>Sophomore Year</h3>
-            <p>Start networking, apply to early programs, build technical skills, and talk to upperclassmen.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span>Year 3</span>
-            <h3>Junior Year</h3>
-            <p>Apply for internships, prepare for interviews, improve your resume, and do targeted coffee chats.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <span>Year 4</span>
-            <h3>Senior Year</h3>
-            <p>Recruit for full-time roles, compare offers, stay connected with alumni, and mentor younger students.</p>
-          </div>
+        <div class="roadmap reveal">
+          <div class="year-tabs" id="yearTabs" role="tablist" aria-label="Class year"></div>
+          <div class="roadmap-panel" id="roadmapPanel" role="tabpanel" tabindex="0"></div>
         </div>
       </div>
     </section>
 
     <!-- MENTORS -->
-    <section class="section" id="mentors">
-      <div class="section-heading reveal">
-        <p class="eyebrow">People to talk with</p>
-        <h2>Meet mentors across different paths.</h2>
-        <p>
-          Browse students and alumni who can help with resume reviews, interviews,
-          coffee chats, and major decisions.
-        </p>
-      </div>
-
-      <div class="filter-bar reveal">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Finance">Finance</button>
-        <button class="filter-btn" data-filter="Marketing">Marketing</button>
-        <button class="filter-btn" data-filter="Information Systems">Information Systems</button>
-        <button class="filter-btn" data-filter="Accounting Information Systems">Accounting Information Systems</button>
-        <button class="filter-btn" data-filter="Computer Science">Computer Science</button>
-      </div>
-
-      <div class="mentor-grid" id="mentorGrid">
-        <article class="mentor-card reveal" data-major="Finance">
-          <div class="mentor-avatar">AN</div>
-          <span class="mentor-major">Finance</span>
-          <h3>Tam Nguyen</h3>
-          <p class="mentor-role">Investment Banking Summer Analyst · JPMorgan</p>
+    <section class="section section-tinted" id="mentors">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Mentors</p>
+          <h2>Upperclassmen and alumni who want to help.</h2>
           <p>
-            Can help with finance recruiting, technical interviews, resume review,
-            and networking emails.
+            Every mentor has been through recruiting in their field. Ask about classes, clubs,
+            internships, interviews, or anything else you're unsure about.
           </p>
-          <div class="mentor-tags">
-            <span>Resume</span>
-            <span>Coffee chat</span>
-            <span>Soccer</span>
-          </div>
-          <a href="#booking" class="btn-small">Book time</a>
-        </article>
+        </div>
 
-        <article class="mentor-card reveal" data-major="Computer Science">
-          <div class="mentor-avatar">ML</div>
-          <span class="mentor-major">Computer Science</span>
-          <h3>Nick Trinh</h3>
-          <p class="mentor-role">Software Engineering Intern · Google</p>
-          <p>
-            Can help with coding projects, technical interviews, GitHub,
-            and internship applications.
-          </p>
-          <div class="mentor-tags">
-            <span>Tech prep</span>
-            <span>Projects</span>
-            <span>Basketball</span>
-          </div>
-          <a href="#booking" class="btn-small">Book time</a>
-        </article>
+        <div class="toolbar reveal">
+          <label class="search">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+            <span class="sr-only">Search mentors</span>
+            <input type="search" id="mentorSearch" placeholder="Search mentors or topics" autocomplete="off" />
+          </label>
+          <div class="chips" id="mentorFilters" role="group" aria-label="Filter mentors by major"></div>
+        </div>
 
-        <article class="mentor-card reveal" data-major="Marketing">
-          <div class="mentor-avatar">TP</div>
-          <span class="mentor-major">Marketing</span>
-          <h3>Thao Nguyen</h3>
-          <p class="mentor-role">Brand Strategy Intern · Ogilvy</p>
-          <p>
-            Can help with marketing portfolios, storytelling, LinkedIn,
-            and behavioral interviews.
-          </p>
-          <div class="mentor-tags">
-            <span>Branding</span>
-            <span>LinkedIn</span>
-            <span>Coffee</span>
-          </div>
-          <a href="#booking" class="btn-small">Book time</a>
-        </article>
-
-        <article class="mentor-card reveal" data-major="Information Systems">
-          <div class="mentor-avatar">KH</div>
-          <span class="mentor-major">Information Systems</span>
-          <h3>Quan Bui</h3>
-          <p class="mentor-role">Technology Analyst Intern · Brookfield</p>
-          <p>
-            Can help with business technology roles, SQL, product thinking,
-            and tech consulting prep.
-          </p>
-          <div class="mentor-tags">
-            <span>SQL</span>
-            <span>Consulting</span>
-            <span>Gym</span>
-          </div>
-          <a href="#booking" class="btn-small">Book time</a>
-        </article>
-
-        <article class="mentor-card reveal" data-major="Accounting Information Systems">
-          <div class="mentor-avatar">LN</div>
-          <span class="mentor-major">Accounting Information Systems</span>
-          <h3>Thomas Vu Hong</h3>
-          <p class="mentor-role">Risk Advisory Intern · EY</p>
-          <p>
-            Can help with accounting recruiting, audit, risk advisory,
-            and professional communication.
-          </p>
-          <div class="mentor-tags">
-            <span>Accounting</span>
-            <span>Audit</span>
-            <span>Food</span>
-          </div>
-          <a href="#booking" class="btn-small">Book time</a>
-        </article>
-
-        <article class="mentor-card reveal" data-major="Finance">
-          <div class="mentor-avatar">DN</div>
-          <span class="mentor-major">Finance</span>
-          <h3>Duc Nguyen</h3>
-          <p class="mentor-role">Markets Intern · Société Générale</p>
-          <p>
-            Can help with markets, sales and trading, macro news,
-            and interview preparation.
-          </p>
-          <div class="mentor-tags">
-            <span>Markets</span>
-            <span>Interview</span>
-            <span>Running</span>
-          </div>
-          <a href="#booking" class="btn-small">Book time</a>
-        </article>
+        <p class="result-count" id="mentorCount" aria-live="polite"></p>
+        <div class="mentor-grid" id="mentorGrid"></div>
       </div>
     </section>
 
     <!-- RESOURCES -->
-    <section class="section resources-section" id="resources">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Resource hub</p>
-        <h2>Curated resources by major.</h2>
-        <p>
-          Find beginner-friendly and interview-focused resources recommended by students and alumni.
-        </p>
+    <section class="section" id="resources">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Resource hub</p>
+          <h2>Resources recommended by students who've used them.</h2>
+          <p>
+            Free guides, courses, and practice tools for each major, plus FVCN guides
+            written by our mentors.
+          </p>
+        </div>
+
+        <div class="toolbar reveal">
+          <div class="chips" id="resourceFilters" role="group" aria-label="Filter resources by major"></div>
+          <label class="select-inline">
+            <span class="sr-only">Resource type</span>
+            <select id="resourceType">
+              <option value="all">All types</option>
+            </select>
+          </label>
+        </div>
+
+        <p class="result-count" id="resourceCount" aria-live="polite"></p>
+        <div class="resource-grid" id="resourceGrid"></div>
+        <div class="show-more" id="resourceMore" hidden>
+          <button type="button" class="btn btn-secondary" id="resourceMoreBtn"></button>
+        </div>
       </div>
+    </section>
 
-      <div class="resource-grid">
-        <article class="resource-card reveal">
-          <span class="resource-type">Finance · Beginner</span>
-          <h3>Finance Recruiting Starter Pack</h3>
-          <p>Learn the basics of networking, valuation, accounting, and technical interview preparation.</p>
-          <a href="#">Coming soon →</a>
-        </article>
+    <!-- EVENTS -->
+    <section class="section section-tinted" id="events">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Upcoming events</p>
+          <h2>Career growth and community, in person.</h2>
+          <p>RSVP so we can plan food and space, and add events to your calendar in one click.</p>
+        </div>
 
-        <article class="resource-card reveal">
-          <span class="resource-type">Computer Science · Projects</span>
-          <h3>Build Your First Portfolio</h3>
-          <p>A simple roadmap for creating GitHub projects, personal websites, and internship-ready demos.</p>
-          <a href="#">Coming soon →</a>
-        </article>
-
-        <article class="resource-card reveal">
-          <span class="resource-type">Marketing · Portfolio</span>
-          <h3>Marketing Portfolio Guide</h3>
-          <p>How to show campaigns, social media work, analytics, and brand strategy projects clearly.</p>
-          <a href="#">Coming soon →</a>
-        </article>
-
-        <article class="resource-card reveal">
-          <span class="resource-type">Accounting Information Systems · Interview Prep</span>
-          <h3>Accounting & Risk Interview Notes</h3>
-          <p>Common interview questions for audit, risk advisory, accounting, and business systems roles.</p>
-          <a href="#">Coming soon →</a>
-        </article>
-
-        <article class="resource-card reveal">
-          <span class="resource-type">Information Systems · Data</span>
-          <h3>SQL and Business Analytics Basics</h3>
-          <p>Practice SQL, dashboards, data analysis, and business problem-solving for tech-adjacent roles.</p>
-          <a href="#">Coming soon →</a>
-        </article>
-
-        <article class="resource-card reveal">
-          <span class="resource-type">All Majors · Resume</span>
-          <h3>Resume Review Checklist</h3>
-          <p>A practical checklist for making your resume cleaner, stronger, and more recruiter-friendly.</p>
-          <a href="#">Coming soon →</a>
-        </article>
+        <div class="event-list" id="eventList"></div>
       </div>
     </section>
 
     <!-- COMMUNITY -->
     <section class="section" id="community">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Beyond career</p>
-        <h2>More than networking.</h2>
-        <p>
-          We want this to feel like a real home base for Vietnamese students:
-          professional, social, cultural, and supportive.
-        </p>
-      </div>
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Beyond careers</p>
+          <h2>A community, not just a network.</h2>
+          <p>
+            The best advice often comes from people you actually know. We make time for
+            food, sports, and exploring the city together.
+          </p>
+        </div>
 
-      <div class="community-grid">
-        <article class="community-card reveal">
-          <div>⚽</div>
-          <h3>Soccer Sundays</h3>
-          <p>Casual weekend games to relax, meet people, and build friendships outside class.</p>
-        </article>
-
-        <article class="community-card reveal">
-          <div>🏀</div>
-          <h3>Basketball Runs</h3>
-          <p>Pickup games, NBA watch parties, and friendly competition after a busy school week.</p>
-        </article>
-
-        <article class="community-card reveal">
-          <div>🍜</div>
-          <h3>Vietnamese Food Meetups</h3>
-          <p>Phở nights, bánh mì runs, home-cooked meals, and cultural food events around NYC.</p>
-        </article>
-
-        <article class="community-card reveal">
-          <div>☕</div>
-          <h3>Coffee Chats</h3>
-          <p>Not every conversation needs to be formal. Meet upperclassmen and alumni casually.</p>
-        </article>
-
-        <article class="community-card reveal">
-          <div>📚</div>
-          <h3>Study Groups</h3>
-          <p>Finals prep, coding sessions, finance technical practice, and accountability groups.</p>
-        </article>
-
-        <article class="community-card reveal">
-          <div>🌃</div>
-          <h3>NYC Exploration</h3>
-          <p>Explore museums, company events, career fairs, neighborhoods, and photo spots together.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- EVENTS -->
-    <section class="section events-section" id="events">
-      <div class="section-heading reveal">
-        <p class="eyebrow">Upcoming events</p>
-        <h2>Career growth meets community life.</h2>
-        <p>
-          These are sample events for the front-end version. Later, you can connect this to a database.
-        </p>
-      </div>
-
-      <div class="event-list">
-        <article class="event-card reveal">
-          <div class="event-date">
-            <strong>12</strong>
-            <span>Sep</span>
-          </div>
-          <div>
-            <span class="event-category">Career</span>
-            <h3>Resume Review Night</h3>
-            <p>Bring your resume and get feedback from upperclassmen and alumni.</p>
-          </div>
-          <button class="event-btn">Register</button>
-        </article>
-
-        <article class="event-card reveal">
-          <div class="event-date">
-            <strong>21</strong>
-            <span>Sep</span>
-          </div>
-          <div>
-            <span class="event-category">Community</span>
-            <h3>Soccer Sunday</h3>
-            <p>Casual soccer game open to all Vietnamese students and friends.</p>
-          </div>
-          <button class="event-btn">Register</button>
-        </article>
-
-        <article class="event-card reveal">
-          <div class="event-date">
-            <strong>04</strong>
-            <span>Oct</span>
-          </div>
-          <div>
-            <span class="event-category">Alumni</span>
-            <h3>Vietnamese Alumni Career Panel</h3>
-            <p>Hear from alumni working in finance, technology, consulting, and accounting.</p>
-          </div>
-          <button class="event-btn">Register</button>
-        </article>
+        <div class="community-grid">
+          <article class="community-card reveal">
+            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg></span>
+            <h3>Soccer Sundays</h3>
+            <p>Casual weekend games to reset and meet people outside class.</p>
+          </article>
+          <article class="community-card reveal">
+            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-hoop"></use></svg></span>
+            <h3>Basketball runs</h3>
+            <p>Pickup games and NBA watch parties after a long week.</p>
+          </article>
+          <article class="community-card reveal">
+            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg></span>
+            <h3>Vietnamese food nights</h3>
+            <p>Phở, bánh mì runs, and home-cooked meals around NYC.</p>
+          </article>
+          <article class="community-card reveal">
+            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-coffee"></use></svg></span>
+            <h3>Casual coffee chats</h3>
+            <p>Not every conversation has to be formal. Just meet upperclassmen for coffee.</p>
+          </article>
+          <article class="community-card reveal">
+            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg></span>
+            <h3>Study groups</h3>
+            <p>Finals prep, coding sessions, and finance technicals practice.</p>
+          </article>
+          <article class="community-card reveal">
+            <span class="community-icon"><svg class="icon" aria-hidden="true"><use href="#i-city"></use></svg></span>
+            <h3>NYC exploration</h3>
+            <p>Museums, company visits, career fairs, and new neighborhoods together.</p>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- BOOKING -->
     <section class="section booking-section" id="booking">
-      <div class="booking-layout">
+      <div class="container booking-layout">
         <div class="booking-copy reveal">
-          <p class="eyebrow">Book time</p>
-          <h2>Request a coffee chat, resume review, or career advice session.</h2>
+          <p class="eyebrow eyebrow-light">Book a coffee chat</p>
+          <h2>Ask the questions you can't Google.</h2>
           <p>
-            For now, this is a front-end demo form. Later, you can connect it to Supabase,
-            Firebase, or another database and create an admin approval dashboard.
+            Tell us what you'd like help with and when you're free. Your mentor will confirm a time,
+            usually within a few days.
           </p>
 
-          <div class="booking-note">
-            <strong>Good meeting topics:</strong>
-            <span>Major advice</span>
-            <span>Resume review</span>
-            <span>Interview prep</span>
-            <span>Internship search</span>
-            <span>Coffee chat</span>
+          <ul class="booking-points">
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>Free for every Fordham student</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>20–30 minutes, virtual or in person</li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>No major picked yet? We'll match you with someone</li>
+          </ul>
+
+          <button type="button" class="playbook-link" data-open-guide="coffee-chat">
+            <svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg>
+            <span>
+              <strong>First coffee chat?</strong>
+              Read the 3-minute Coffee Chat Playbook
+            </span>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+          </button>
+
+          <div class="my-requests" id="myRequests" hidden>
+            <h3>Your requests</h3>
+            <ul id="myRequestsList"></ul>
           </div>
         </div>
 
-        <form class="booking-form reveal" id="bookingForm">
-          <div class="form-row">
-            <label>
-              Full name
-              <input type="text" name="name" placeholder="Your name" required />
-            </label>
+        <div class="booking-card reveal">
+          <form class="booking-form" id="bookingForm" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="f-name">Full name</label>
+                <input id="f-name" type="text" name="name" placeholder="Your name" autocomplete="name" required />
+                <p class="field-error" data-error-for="name"></p>
+              </div>
+              <div class="field">
+                <label for="f-email">Fordham email</label>
+                <input id="f-email" type="email" name="email" placeholder="you@fordham.edu" autocomplete="email" required />
+                <p class="field-error" data-error-for="email"></p>
+              </div>
+            </div>
 
-            <label>
-              Fordham email
-              <input type="email" name="email" placeholder="name@fordham.edu" required />
-            </label>
+            <div class="form-row">
+              <div class="field">
+                <label for="f-year">Class year</label>
+                <select id="f-year" name="year" required>
+                  <option value="">Select one</option>
+                  <option>Freshman</option>
+                  <option>Sophomore</option>
+                  <option>Junior</option>
+                  <option>Senior</option>
+                  <option>Graduate student</option>
+                </select>
+                <p class="field-error" data-error-for="year"></p>
+              </div>
+              <div class="field">
+                <label for="f-major">Major or interest</label>
+                <select id="f-major" name="majorId" required>
+                  <option value="">Select one</option>
+                </select>
+                <p class="field-error" data-error-for="majorId"></p>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="f-mentor">Mentor</label>
+                <select id="f-mentor" name="mentorId" required>
+                  <option value="any">No preference, match me</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-type">What do you need?</label>
+                <select id="f-type" name="meetingType" required>
+                  <option value="">Select one</option>
+                  <option>Coffee chat</option>
+                  <option>Major or career advice</option>
+                  <option>Resume review</option>
+                  <option>Interview prep</option>
+                  <option>Internship search</option>
+                </select>
+                <p class="field-error" data-error-for="meetingType"></p>
+              </div>
+            </div>
+
+            <fieldset class="field">
+              <legend>Format</legend>
+              <div class="segmented">
+                <label><input type="radio" name="format" value="Virtual" checked /><span>Virtual</span></label>
+                <label><input type="radio" name="format" value="In person" /><span>In person</span></label>
+                <label><input type="radio" name="format" value="Either" /><span>Either</span></label>
+              </div>
+            </fieldset>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="f-time1">Preferred time</label>
+                <input id="f-time1" type="datetime-local" name="time1" required />
+                <p class="field-error" data-error-for="time1"></p>
+              </div>
+              <div class="field">
+                <label for="f-time2">Backup time <span class="optional">optional</span></label>
+                <input id="f-time2" type="datetime-local" name="time2" />
+                <p class="field-error" data-error-for="time2"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-link">Resume or LinkedIn link <span class="optional">optional</span></label>
+              <input id="f-link" type="url" name="link" placeholder="https://linkedin.com/in/your-name" />
+              <p class="field-error" data-error-for="link"></p>
+            </div>
+
+            <div class="field">
+              <label for="f-message">What would you like to talk about?</label>
+              <textarea
+                id="f-message"
+                name="message"
+                rows="4"
+                maxlength="600"
+                placeholder="e.g. I'm a freshman deciding between Finance and Information Systems and want to know what recruiting looks like for each."
+                required
+              ></textarea>
+              <div class="field-meta">
+                <p class="field-error" data-error-for="message"></p>
+                <span class="char-count" id="charCount">0 / 600</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block" id="bookingSubmit">
+              <span class="btn-label">Send request</span>
+              <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
+            </button>
+            <p class="form-footnote">We only share your details with the mentor you're matched with.</p>
+          </form>
+
+          <div class="booking-success" id="bookingSuccess" hidden tabindex="-1">
+            <span class="success-icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span>
+            <h3>Request sent!</h3>
+            <p id="bookingSuccessText"></p>
+            <dl class="success-summary" id="bookingSummary"></dl>
+            <p class="demo-note" id="bookingDemoNote" hidden>
+              Preview version: your request is saved in this browser. Mentor email notifications are coming soon.
+            </p>
+            <div class="success-actions">
+              <button type="button" class="btn btn-secondary" data-open-guide="coffee-chat">Prepare with the playbook</button>
+              <button type="button" class="btn btn-ghost" id="bookAnother">Book another chat</button>
+            </div>
           </div>
-
-          <div class="form-row">
-            <label>
-              Major / interest
-              <select name="major" required>
-                <option value="">Select one</option>
-                <option>Finance</option>
-                <option>Marketing</option>
-                <option>Information Systems</option>
-                <option>Accounting Information Systems</option>
-                <option>Computer Science</option>
-                <option>Still exploring</option>
-              </select>
-            </label>
-
-            <label>
-              Meeting type
-              <select name="meetingType" required>
-                <option value="">Select one</option>
-                <option>Coffee chat</option>
-                <option>Resume review</option>
-                <option>Interview prep</option>
-                <option>Major advice</option>
-                <option>Internship search help</option>
-                <option>General career advice</option>
-              </select>
-            </label>
-          </div>
-
-          <label>
-            Choose mentor
-            <select name="mentor" required>
-              <option value="">Select one</option>
-              <option>Tam Nguyen · Finance</option>
-              <option>Duy Tran · Finance</option>
-              <option>Nick Trinh · Computer Science</option>
-              <option>Thao Nguyen · Marketing</option>
-              <option>Quan Bui · Information Systems</option>
-              <option>Thomas Vu Hong · Accounting Information Systems</option>
-              <option>Duc Nguyen · Finance</option>
-            </select>
-          </label>
-
-          <div class="form-row">
-            <label>
-              Preferred time 1
-              <input type="datetime-local" name="time1" required />
-            </label>
-
-            <label>
-              Preferred time 2
-              <input type="datetime-local" name="time2" />
-            </label>
-          </div>
-
-          <label>
-            Resume / LinkedIn link
-            <input type="url" name="link" placeholder="https://linkedin.com/in/..." />
-          </label>
-
-          <label>
-            Message
-            <textarea
-              name="message"
-              rows="5"
-              placeholder="Tell us what you want help with..."
-              required
-            ></textarea>
-          </label>
-
-          <button type="submit" class="btn btn-primary form-submit">Submit request</button>
-          <p class="form-success" id="formSuccess">
-            Thank you! Your booking request has been submitted. We will review it and get back to you soon.
-          </p>
-        </form>
+        </div>
       </div>
     </section>
 
-    <!-- JOIN -->
-    <section class="section join-section">
-      <div class="join-card reveal">
-        <p class="eyebrow">Join the network</p>
-        <h2>Help build the home base for Vietnamese students at Fordham.</h2>
-        <p>
-          Become a mentor, submit a resource, host an event, or help organize community activities.
-        </p>
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="container faq-layout">
+        <div class="section-head reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>Questions students ask us.</h2>
+          <p>Can't find your answer? Ask it in your coffee chat request and we'll get back to you.</p>
+        </div>
+        <div class="faq-list reveal" id="faqList"></div>
+      </div>
+    </section>
 
-        <div class="join-actions">
-          <a href="#booking" class="btn btn-primary">Become a Mentor</a>
-          <a href="#resources" class="btn btn-secondary">Submit a Resource</a>
-          <a href="#events" class="btn btn-ghost">Join Events</a>
+    <!-- GET INVOLVED -->
+    <section class="section involve-section">
+      <div class="container">
+        <div class="involve-card reveal">
+          <div class="involve-copy">
+            <p class="eyebrow">Get involved</p>
+            <h2>Someone helped you get here. Help the next student.</h2>
+            <p>FVCN runs on students and alumni giving a little time. Here's how you can help.</p>
+          </div>
+          <div class="involve-options">
+            <button type="button" class="involve-option" data-open-involve="Become a mentor">
+              <span class="involve-icon"><svg class="icon" aria-hidden="true"><use href="#i-cap"></use></svg></span>
+              <span><strong>Become a mentor</strong><small>Juniors, seniors, and alumni</small></span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </button>
+            <button type="button" class="involve-option" data-open-involve="Suggest a resource">
+              <span class="involve-icon"><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg></span>
+              <span><strong>Suggest a resource</strong><small>Share what helped you</small></span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </button>
+            <button type="button" class="involve-option" data-open-involve="Host an event">
+              <span class="involve-icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg></span>
+              <span><strong>Host an event</strong><small>Workshops, panels, or meetups</small></span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div>
-      <a href="#top" class="brand footer-brand">
-        <span class="brand-mark">FV</span>
-        <span>
-          <strong>FVCN</strong>
-          <small>Fordham Vietnamese Career Network</small>
-        </span>
-      </a>
-      <p>
-        Career growth, mentorship, and community for Vietnamese students at Fordham.
-      </p>
-    </div>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <span class="brand-mark" aria-hidden="true">FV</span>
+          <span class="brand-text">
+            <strong>FVCN</strong>
+            <small>Fordham Vietnamese Career Network</small>
+          </span>
+        </a>
+        <p>Career guidance, mentorship, and community for Vietnamese students at Fordham, and anyone who wants to learn with us.</p>
+      </div>
 
-    <div class="footer-links">
-      <a href="#about">About</a>
-      <a href="#majors">Majors</a>
-      <a href="#mentors">Mentors</a>
-      <a href="#booking">Book</a>
+      <nav class="footer-col" aria-label="Explore">
+        <h3>Explore</h3>
+        <a href="#paths">Career paths</a>
+        <a href="#roadmap">4-year roadmap</a>
+        <a href="#resources">Resources</a>
+        <a href="#events">Events</a>
+      </nav>
+
+      <nav class="footer-col" aria-label="Connect">
+        <h3>Connect</h3>
+        <a href="#mentors">Mentors</a>
+        <a href="#booking">Book a coffee chat</a>
+        <a href="#faq">FAQ</a>
+        <button type="button" data-open-involve="Become a mentor">Become a mentor</button>
+      </nav>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span id="year">2026</span> Fordham Vietnamese Career Network. A student-built community project.</p>
     </div>
   </footer>
 
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">
+    <svg class="icon" aria-hidden="true"><use href="#i-arrow-up"></use></svg>
+  </button>
 
+  <!-- Guide dialog -->
+  <dialog class="dialog" id="guideDialog" aria-labelledby="guideTitle">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow">FVCN guide</p>
+        <h2 id="guideTitle"></h2>
+      </div>
+      <button type="button" class="icon-btn" data-close-dialog aria-label="Close">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+      </button>
+    </div>
+    <div class="dialog-body" id="guideBody"></div>
+  </dialog>
+
+  <!-- Get involved dialog -->
+  <dialog class="dialog dialog-sm" id="involveDialog" aria-labelledby="involveTitle">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow">Get involved</p>
+        <h2 id="involveTitle">Tell us how you'd like to help</h2>
+      </div>
+      <button type="button" class="icon-btn" data-close-dialog aria-label="Close">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+      </button>
+    </div>
+    <form class="dialog-body involve-form" id="involveForm">
+      <div class="field">
+        <label for="i-type">I'd like to</label>
+        <select id="i-type" name="type" required>
+          <option>Become a mentor</option>
+          <option>Suggest a resource</option>
+          <option>Host an event</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="i-name">Full name</label>
+          <input id="i-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="i-email">Email</label>
+          <input id="i-email" name="email" type="email" autocomplete="email" required />
+        </div>
+      </div>
+      <div class="field">
+        <label for="i-details" id="i-details-label">Tell us a bit about yourself</label>
+        <textarea id="i-details" name="details" rows="4" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        <span class="btn-label">Submit</span>
+      </button>
+    </form>
+  </dialog>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+
+  <noscript>
+    <p class="noscript">Please enable JavaScript to browse mentors, resources, and events.</p>
+  </noscript>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
