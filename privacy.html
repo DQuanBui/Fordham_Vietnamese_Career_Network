@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy · FVCN</title>
+  <meta name="theme-color" content="#861f41" />
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="dash-body">
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6" /></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5z" /></symbol>
+  </svg>
+  <header class="dash-header">
+    <div class="container dash-header-inner">
+      <a href="index.html" class="brand" aria-label="FVCN home">
+        <span class="brand-mark" aria-hidden="true">FV</span>
+        <span class="brand-text"><strong>FVCN</strong><small>Fordham Vietnamese Career Network</small></span>
+      </a>
+      <a href="index.html" class="btn btn-secondary btn-sm"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"></use></svg>Back to FVCN</a>
+    </div>
+  </header>
+
+  <main class="container dash-main status-main" id="main">
+    <article class="dash-card status-card prose">
+      <p class="eyebrow">Privacy</p>
+      <h1>How FVCN handles your information</h1>
+      <p>FVCN is a student-run project. We collect only what we need to connect you with a mentor, and we never sell or share it for marketing.</p>
+
+      <h2>What we collect</h2>
+      <ul>
+        <li><strong>Coffee chat requests:</strong> your name, Fordham email, class year, major or interest, preferred times, message, and an optional resume or LinkedIn link.</li>
+        <li><strong>Event RSVPs:</strong> your name and email.</li>
+        <li><strong>"Get involved" forms:</strong> your name, email, and what you tell us.</li>
+        <li><strong>Feedback after a chat:</strong> your rating and comment. We only quote you on the site if you check the box allowing it, and only with your first name.</li>
+      </ul>
+
+      <h2>Who can see it</h2>
+      <ul>
+        <li>The mentor you request (or are matched with) sees your request so they can reply.</li>
+        <li>A small group of FVCN organizers can see all requests to match students and keep things running.</li>
+        <li>Nobody else. Access is enforced by the database itself, not just by the website.</li>
+      </ul>
+
+      <h2>Stored on your device</h2>
+      <p>Your browser remembers your name and email (to prefill forms), your roadmap checklist, and private links to your own requests and RSVPs. You can clear this any time by clearing this site's data in your browser.</p>
+
+      <h2>How long we keep it</h2>
+      <p>We keep requests for up to one academic year so mentors and organizers can follow up, then delete them.</p>
+
+      <h2>Your choices</h2>
+      <p>You can cancel a request from its private status link. To have your information deleted, ask any FVCN organizer, or send a note through the <a href="index.html#get-involved">"Get involved" form</a> on the home page.</p>
+
+      <p class="muted">Data is stored with Supabase (hosted PostgreSQL). Last updated September 2026.</p>
+    </article>
+  </main>
+</body>
+</html>

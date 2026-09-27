@@ -418,3 +418,272 @@
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   Request status page (request.html) and simple pages (privacy, 404)
+   ========================================================================== */
+.status-main {
+  max-width: 720px;
+}
+
+.status-card {
+  padding: clamp(24px, 5vw, 44px);
+}
+
+.status-loading {
+  padding: 40px 0;
+  text-align: center;
+}
+
+.status-head h1 {
+  margin: 14px 0 8px;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.status-head p {
+  font-size: 1.05rem;
+}
+
+.status-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 28px 0 8px;
+  counter-reset: step;
+}
+
+.status-steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 3px solid var(--line);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-steps li.is-done {
+  border-top-color: var(--success);
+  color: var(--ink);
+}
+
+.status-steps li.is-current {
+  border-top-color: var(--gold);
+  color: var(--ink);
+}
+
+.status-step-dot {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.is-done .status-step-dot {
+  background: var(--success);
+  color: white;
+}
+
+.is-done .status-step-dot .icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 3;
+}
+
+.is-current .status-step-dot {
+  background: var(--gold-50);
+  color: #7c5a2a;
+}
+
+.status-when {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  background: var(--success-50);
+  color: var(--success);
+}
+
+.status-when > .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.status-when strong {
+  display: block;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.status-when span {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.status-note {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.status-note p {
+  color: var(--ink-2);
+  white-space: pre-wrap;
+}
+
+.status-card .success-summary {
+  margin: 24px 0;
+}
+
+.status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.status-private {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 0.88rem;
+}
+
+.status-private > .icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--maroon);
+}
+
+.status-private p {
+  flex: 1;
+}
+
+.status-private strong {
+  color: var(--ink);
+}
+
+/* Post-chat feedback */
+.feedback-box {
+  margin-top: 28px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.feedback-box h2 {
+  margin-bottom: 6px;
+  font-size: 1.35rem;
+}
+
+.rating {
+  display: flex;
+  gap: 6px;
+  margin: 16px 0;
+  padding: 0;
+  border: 0;
+}
+
+.rating label {
+  cursor: pointer;
+}
+
+.rating input {
+  position: absolute;
+  opacity: 0;
+}
+
+.rating .icon {
+  width: 34px;
+  height: 34px;
+  color: var(--line-strong);
+  transition: color 0.15s, transform 0.15s;
+}
+
+.rating label:hover .icon,
+.rating label.is-on .icon {
+  color: var(--gold);
+  fill: var(--gold);
+}
+
+.rating input:focus-visible + .icon {
+  outline: 3px solid rgba(180, 136, 77, 0.7);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.feedback-box form {
+  display: grid;
+  gap: 14px;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+
+.checkbox-line input {
+  margin-top: 4px;
+  accent-color: var(--maroon);
+}
+
+/* Privacy / 404 */
+.prose h1 {
+  margin-bottom: 12px;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+}
+
+.prose h2 {
+  margin: 28px 0 8px;
+  font-size: 1.3rem;
+}
+
+.prose p,
+.prose li {
+  color: var(--ink-2);
+}
+
+.prose ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.prose a {
+  color: var(--maroon);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose .muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+  .status-steps li {
+    font-size: 0.75rem;
+  }
+
+  .status-private {
+    flex-wrap: wrap;
+  }
+}

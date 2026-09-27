@@ -16,6 +16,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 type Booking = {
   id: string;
   reference: string;
+  manage_token: string;
   student_name: string;
   student_email: string;
   class_year: string;
@@ -68,6 +69,8 @@ async function send(to: string | string[], subject: string, html: string) {
   if (!res.ok) console.error("Resend error", res.status, await res.text());
 }
 
+const statusLink = (b: Booking) => `${SITE_URL}/request.html#${b.manage_token}`;
+
 async function onNewRequest(b: Booking) {
   let staff: string[] = [];
   let mentorName = "a mentor";
@@ -96,7 +99,8 @@ async function onNewRequest(b: Booking) {
 
   await send(b.student_email, `We got your request (${b.reference})`,
     layout(`Thanks, ${b.student_name.split(" ")[0]}!`, `<p>Your request to talk with ${escapeHtml(b.mentor_id ? mentorName : "an FVCN mentor")} was received. You'll get another email once a time is confirmed.</p>${details}
-      <p style="color:#6b645e;font-size:13px">Reference: ${escapeHtml(b.reference)}. You can check or cancel it on <a href="${SITE_URL}/#booking">the FVCN site</a> from the same browser.</p>`));
+      <p><a href="${statusLink(b)}">Check status, add to calendar, or cancel</a> (your private link, so don't share it).</p>
+      <p style="color:#6b645e;font-size:13px">Reference: ${escapeHtml(b.reference)}</p>`));
 }
 
 async function onStatusChange(b: Booking) {
@@ -105,7 +109,7 @@ async function onStatusChange(b: Booking) {
     await send(b.student_email, `Confirmed: your ${b.meeting_type.toLowerCase()} on ${formatTime(b.confirmed_time)}`,
       layout(`You're confirmed, ${first}!`, `<p>Your ${escapeHtml(b.meeting_type.toLowerCase())} is set for <strong>${formatTime(b.confirmed_time)}</strong> (${escapeHtml(b.format)}).</p>
         ${b.staff_note ? `<p><strong>Note from your mentor:</strong><br>${escapeHtml(b.staff_note)}</p>` : ""}
-        <p>First coffee chat? Read the <a href="${SITE_URL}/#booking">Coffee Chat Playbook</a> before you go.</p>`));
+        <p><a href="${statusLink(b)}">Add it to your calendar</a> · First coffee chat? Read the <a href="${SITE_URL}/#booking">Coffee Chat Playbook</a>.</p>`));
   } else if (b.status === "declined") {
     await send(b.student_email, `Update on your FVCN request (${b.reference})`,
       layout(`Hi ${first},`, `<p>Your mentor can't take this request right now. Please <a href="${SITE_URL}/#mentors">pick another mentor</a> or choose "No preference" and we'll match you.</p>

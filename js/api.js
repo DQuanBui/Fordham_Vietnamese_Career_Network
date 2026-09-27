@@ -100,16 +100,26 @@ const api = (() => {
 
       async createBooking(input) {
         await wait(700);
-        const booking = { ...input, id: makeId("FV"), status: "pending", createdAt: new Date().toISOString() };
+        const id = makeId("FV");
+        const booking = { ...input, id, token: id, status: "pending", createdAt: new Date().toISOString() };
         write(KEYS.bookings, [booking, ...read(KEYS.bookings, [])]);
         return booking;
       },
       async listMyBookings() {
-        return read(KEYS.bookings, []);
+        return read(KEYS.bookings, []).map((b) => ({ ...b, token: b.token || b.id }));
+      },
+      async getBookingByToken(token) {
+        const booking = read(KEYS.bookings, []).find((b) => (b.token || b.id) === token);
+        if (!booking) return null;
+        const mentor = FVCN_DATA.mentors.find((m) => m.id === booking.mentorId);
+        return { ...booking, token, mentorName: booking.mentorName || mentor?.name || "a matched mentor" };
       },
       async cancelBooking(id) {
         await wait(200);
         write(KEYS.bookings, read(KEYS.bookings, []).map((b) => (b.id === id ? { ...b, status: "cancelled" } : b)));
+      },
+      async cancelBookingByToken(token) {
+        return this.cancelBooking(token);
       },
 
       async getMyRsvps() {
@@ -196,6 +206,22 @@ const api = (() => {
       };
     };
 
+    // Row from get_my_bookings → the shape the UI uses.
+    const toBooking = (row) => ({
+      id: row.reference,
+      token: row.manage_token,
+      status: row.status,
+      meetingType: row.meeting_type,
+      format: row.format,
+      time1: row.preferred_time_1,
+      time2: row.preferred_time_2,
+      confirmedTime: row.confirmed_time,
+      mentorName: row.mentor_name || "a matched mentor",
+      createdAt: row.created_at,
+      staffNote: row.staff_note || null,
+      feedbackRating: row.feedback_rating ?? null
+    });
+
     return {
       mode: "supabase",
       ...staticContent,
@@ -226,24 +252,24 @@ const api = (() => {
         }));
         const created = rows[0];
         write(TOKEN_KEYS.bookings, [{ id: created.reference, token: created.manage_token }, ...read(TOKEN_KEYS.bookings, [])]);
-        return { ...input, id: created.reference, status: created.status, createdAt: created.created_at };
+        return { ...input, id: created.reference, token: created.manage_token, status: created.status, createdAt: created.created_at };
       },
 
       async listMyBookings() {
         const saved = read(TOKEN_KEYS.bookings, []);
         if (!saved.length) return [];
         const rows = unwrap(await client.rpc("get_my_bookings", { p_tokens: saved.map((item) => item.token) }));
-        return rows.map((row) => ({
-          id: row.reference,
-          status: row.status,
-          meetingType: row.meeting_type,
-          format: row.format,
-          time1: row.preferred_time_1,
-          time2: row.preferred_time_2,
-          confirmedTime: row.confirmed_time,
-          mentorName: row.mentor_name || "a matched mentor",
-          createdAt: row.created_at
-        }));
+        return rows.map(toBooking);
+      },
+
+      // Used by the private status page (request.html#<token>), on any device.
+      async getBookingByToken(token) {
+        const rows = unwrap(await client.rpc("get_my_bookings", { p_tokens: [token] }));
+        return rows[0] ? toBooking(rows[0]) : null;
+      },
+
+      async cancelBookingByToken(token) {
+        unwrap(await client.rpc("cancel_booking", { p_token: token }));
       },
 
       async cancelBooking(id) {
@@ -301,5 +327,6 @@ const api = (() => {
   // While true, the UI tells users that requests are only saved in their browser.
   backend.DEMO_MODE = backend.mode === "demo";
   backend.ApiError = ApiError;
+  backend.statusUrl = (token) => new URL(`request.html#${token}`, window.location.href).href;
   return backend;
 })();

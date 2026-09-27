@@ -3469,3 +3469,59 @@ p {
     padding-right: 0;
   }
 }
+
+/* ==========================================================================
+   Booking success: private status link
+   ========================================================================== */
+.status-link-box {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+}
+
+.status-link-box p {
+  margin-bottom: 10px;
+  font-size: 0.88rem;
+}
+
+.status-link-box strong {
+  display: block;
+  color: var(--ink);
+}
+
+.status-link-row {
+  display: flex;
+  gap: 8px;
+}
+
+.status-link-row input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink-2);
+  font-size: 0.85rem;
+}
+
+.request-info a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-underline-offset: 3px;
+}
+
+.request-info a:hover {
+  text-decoration-color: white;
+}
+
+.form-footnote a {
+  color: var(--maroon);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

@@ -1,46 +1,10 @@
 /* ==========================================================================
-   Helpers
+   Helpers ($, icon, escapeHtml, formatDateTime, formatTime, toast... live in utils.js)
    ========================================================================== */
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-
-const icon = (name) => `<svg class="icon" aria-hidden="true"><use href="#i-${name}"></use></svg>`;
-
-function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
 const initials = (name) => {
   const parts = name.replace(/\(.*?\)/g, "").trim().split(/\s+/);
   return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
 };
-
-const formatDateTime = (value) =>
-  new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })
-    .format(new Date(value));
-
-const formatTime = (hhmm) => {
-  const [h, m] = hhmm.split(":").map(Number);
-  return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(new Date(2000, 0, 1, h, m));
-};
-
-function toast(message, type = "success") {
-  const region = $("#toastRegion");
-  const el = document.createElement("div");
-  el.className = `toast toast-${type}`;
-  el.innerHTML = `${icon(type === "error" ? "x" : "check")}<span>${escapeHtml(message)}</span>`;
-  region.appendChild(el);
-  setTimeout(() => {
-    el.classList.add("is-leaving");
-    setTimeout(() => el.remove(), 250);
-  }, 3200);
-}
 
 const PROFILE_KEY = "fvcn.profile";
 
@@ -872,7 +836,7 @@ async function renderMyBookings() {
       return `
         <li class="request-item">
           <div class="request-info">
-            <strong>${escapeHtml(booking.meetingType)} with ${escapeHtml(booking.mentorName)}</strong>
+            <strong><a href="${api.statusUrl(booking.token || booking.id)}">${escapeHtml(booking.meetingType)} with ${escapeHtml(booking.mentorName)}</a></strong>
             <span>${escapeHtml(when)}</span>
           </div>
           <span class="status status-${booking.status}">${escapeHtml(booking.status)}</span>
@@ -964,6 +928,12 @@ function setupBooking() {
     }
   });
 
+  $("#copyStatusLink").addEventListener("click", async () => {
+    const copied = await copyText($("#statusLink").value);
+    if (!copied) $("#statusLink").select();
+    toast(copied ? "Link copied. Save it somewhere safe." : "Press Ctrl+C to copy the selected link.");
+  });
+
   $("#bookAnother").addEventListener("click", () => {
     showBookingForm();
     $("#f-name").focus();
@@ -989,6 +959,9 @@ function showBookingSuccess(booking, mentor) {
     .map(([label, value]) => `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`)
     .join("");
   $("#bookingDemoNote").hidden = !api.DEMO_MODE;
+  const statusUrl = api.statusUrl(booking.token || booking.id);
+  $("#statusLink").value = statusUrl;
+  $("#openStatusLink").href = statusUrl;
 
   bookingForm.hidden = true;
   const success = $("#bookingSuccess");
