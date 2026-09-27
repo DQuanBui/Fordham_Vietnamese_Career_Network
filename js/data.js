@@ -315,14 +315,14 @@ const FVCN_DATA = {
     { id: "r-glassdoor", title: "Glassdoor interview questions", majorId: "general", type: "Job search", level: "Intermediate", source: "Glassdoor", url: "https://www.glassdoor.com",
       description: "Real interview questions and experiences shared by candidates, by company and role." },
 
-    { id: "r-finance-pack", title: "Finance Recruiting Starter Pack", majorId: "finance", type: "Guide", level: "Beginner", source: "FVCN",
+    { id: "r-finance-pack", title: "Finance Recruiting Starter Pack", majorId: "finance", type: "Guide", level: "Beginner", source: "FVCN", guideId: "finance-starter",
       description: "Networking, recruiting timelines, and the technical questions to learn first. Written by FVCN mentors." },
     { id: "r-investopedia", title: "Investopedia", majorId: "finance", type: "Reference", level: "Beginner", source: "Investopedia", url: "https://www.investopedia.com",
       description: "Plain-English definitions for finance terms you'll hear in class and interviews." },
     { id: "r-cfi", title: "Corporate Finance Institute", majorId: "finance", type: "Course", level: "Intermediate", source: "CFI", url: "https://corporatefinanceinstitute.com",
       description: "Courses and articles on Excel, accounting, and valuation fundamentals." },
 
-    { id: "r-marketing-portfolio", title: "Marketing Portfolio Guide", majorId: "marketing", type: "Guide", level: "Beginner", source: "FVCN",
+    { id: "r-marketing-portfolio", title: "Marketing Portfolio Guide", majorId: "marketing", type: "Guide", level: "Beginner", source: "FVCN", guideId: "marketing-portfolio",
       description: "How to present campaigns, social media work, and analytics projects so recruiters notice." },
     { id: "r-hubspot", title: "HubSpot Academy", majorId: "marketing", type: "Course", level: "Beginner", source: "HubSpot", url: "https://academy.hubspot.com",
       description: "Free certifications in content, social media, and inbound marketing." },
@@ -333,21 +333,21 @@ const FVCN_DATA = {
       description: "Short interactive SQL lessons you can finish in an afternoon." },
     { id: "r-mslearn", title: "Microsoft Learn", majorId: "info-systems", type: "Course", level: "Beginner", source: "Microsoft", url: "https://learn.microsoft.com/training/",
       description: "Free learning paths for Power BI, Excel, and cloud fundamentals." },
-    { id: "r-tech-consulting", title: "Tech Consulting Case Notes", majorId: "info-systems", type: "Guide", level: "Intermediate", source: "FVCN",
+    { id: "r-tech-consulting", title: "Tech Consulting Case Notes", majorId: "info-systems", type: "Guide", level: "Intermediate", source: "FVCN", guideId: "tech-consulting",
       description: "How technology consulting interviews work, with example cases and frameworks." },
 
     { id: "r-accounting-coach", title: "AccountingCoach", majorId: "ais", type: "Reference", level: "Beginner", source: "AccountingCoach", url: "https://www.accountingcoach.com",
       description: "Clear explanations of accounting fundamentals with practice quizzes." },
     { id: "r-aicpa", title: "AICPA & CIMA", majorId: "ais", type: "Reference", level: "Intermediate", source: "AICPA & CIMA", url: "https://www.aicpa-cima.com",
       description: "CPA exam information, career resources, and student membership." },
-    { id: "r-risk-notes", title: "Accounting & Risk Interview Notes", majorId: "ais", type: "Guide", level: "Intermediate", source: "FVCN",
+    { id: "r-risk-notes", title: "Accounting & Risk Interview Notes", majorId: "ais", type: "Guide", level: "Intermediate", source: "FVCN", guideId: "accounting-interviews",
       description: "Common interview questions for audit, risk advisory, and accounting roles." },
 
     { id: "r-neetcode", title: "NeetCode", majorId: "cs", type: "Practice", level: "Intermediate", source: "NeetCode", url: "https://neetcode.io",
       description: "A structured list of coding interview problems with video explanations." },
     { id: "r-roadmap-sh", title: "roadmap.sh", majorId: "cs", type: "Reference", level: "Beginner", source: "roadmap.sh", url: "https://roadmap.sh",
       description: "Step-by-step learning roadmaps for frontend, backend, data, and more." },
-    { id: "r-portfolio", title: "Build Your First Portfolio", majorId: "cs", type: "Guide", level: "Beginner", source: "FVCN",
+    { id: "r-portfolio", title: "Build Your First Portfolio", majorId: "cs", type: "Guide", level: "Beginner", source: "FVCN", guideId: "first-portfolio",
       description: "Pick, build, and present projects that make your resume stand out." }
   ],
 
@@ -531,6 +531,8 @@ const FVCN_DATA = {
           ]
         }
       ],
+      templateTitle: "Thank-you note template",
+      cta: { label: "Book a coffee chat", meetingType: "Coffee chat" },
       template:
         "Hi [Name],\n\nThank you for taking the time to chat with me today. I really appreciated your advice about [specific takeaway], and I'm going to [next step you'll take].\n\nI'll keep you posted on how it goes. Thanks again!\n\nBest,\n[Your name]"
     },
@@ -563,7 +565,248 @@ const FVCN_DATA = {
             "Ask a mentor for a resume review before big deadlines."
           ]
         }
-      ]
+      ],
+      cta: { label: "Book a resume review", meetingType: "Resume review" }
+    },
+    "finance-starter": {
+      title: "Finance Recruiting Starter Pack",
+      intro: "Finance recruiting starts earlier than most students expect. This is the short version of what our finance mentors wish they had known as freshmen.",
+      sections: [
+        {
+          heading: "Know the main paths",
+          items: [
+            "Investment banking: advise companies on mergers, acquisitions, and raising capital. Long hours, steep learning curve, strong exit options.",
+            "Sales & trading: work with markets and clients in real time. Fast-paced and quantitative, with a trading-floor culture.",
+            "Asset management: research and manage investments on behalf of clients like pension funds and individuals.",
+            "Corporate finance (FP&A): plan budgets and forecasts inside a company. Better hours, and a path toward CFO roles.",
+            "Equity research: analyze companies and publish buy, hold, or sell views on their stocks."
+          ]
+        },
+        {
+          heading: "The timeline",
+          items: [
+            "Freshman year: join a finance club, learn accounting basics, and get comfortable with Excel.",
+            "Sophomore year: apply to early-insight and diversity programs. Many banks recruit for junior-summer internships from sophomore spring onward.",
+            "Junior summer: the internship that most often turns into a full-time offer.",
+            "Keep a spreadsheet of deadlines. Applications often open and close months before the internship starts."
+          ]
+        },
+        {
+          heading: "Technical questions to learn first",
+          items: [
+            "Walk me through the three financial statements and how they connect.",
+            "How does a $10 increase in depreciation flow through the statements?",
+            "Walk me through a DCF (discounted cash flow) valuation.",
+            "What are the main valuation methods? (DCF, comparable companies, precedent transactions)",
+            "What's the difference between enterprise value and equity value?"
+          ]
+        },
+        {
+          heading: "Networking that works",
+          items: [
+            "Ask for 15 minutes to learn about someone's path, not for a job.",
+            "Start with Fordham alumni and FVCN mentors. A shared school opens doors.",
+            "Send a thank-you within 24 hours and follow up when you act on their advice.",
+            "Track every conversation (name, firm, date, notes) so follow-ups are easy."
+          ]
+        },
+        {
+          heading: "Behavioral questions to prepare",
+          items: [
+            "Tell me about yourself (a 60–90 second story that ends with why finance).",
+            "Why this firm, and why this group?",
+            "Tell me about a time you worked on a team under pressure.",
+            "What's a market trend or deal you've been following?"
+          ]
+        }
+      ],
+      templateTitle: "Networking email template",
+      template: "Subject: Fordham student interested in [group or firm]\n\nHi [Name],\n\nMy name is [Your name], a [year] at Fordham studying [major]. I came across your profile and was interested in your path into [group] at [firm].\n\nWould you have 15 minutes in the next couple of weeks for a quick call? I'd love to hear how you got started and what you wish you'd known as a student.\n\nThank you for your time,\n[Your name]\n[LinkedIn]",
+      cta: {
+        label: "Book a chat with a finance mentor",
+        meetingType: "Major or career advice",
+        majorId: "finance"
+      }
+    },
+    "marketing-portfolio": {
+      title: "Marketing Portfolio Guide",
+      intro: "In marketing, showing beats telling. A simple portfolio of three to five projects will set you apart from students who only have a resume.",
+      sections: [
+        {
+          heading: "Where projects come from",
+          items: [
+            "Running social media or events for a club, including FVCN.",
+            "Class projects and case competitions (keep the deck and the results).",
+            "Helping a small or family business with posts, a website, or a promotion.",
+            "Spec work: a campaign you design for a brand you love, clearly labeled as a concept."
+          ]
+        },
+        {
+          heading: "How to present each project",
+          items: [
+            "The goal: what problem or opportunity were you working on?",
+            "Your role: what you personally did, especially in group work.",
+            "The work: two or three strong visuals (posts, designs, deck slides).",
+            "The results: numbers wherever possible, like follower growth, engagement rate, sign-ups, or attendance."
+          ]
+        },
+        {
+          heading: "Format",
+          items: [
+            "A simple site (Canva, Notion, Wix, or Squarespace) or a clean PDF both work.",
+            "Make sure it looks good on a phone. Recruiters often check on mobile.",
+            "Put the link on your resume and in your LinkedIn Featured section."
+          ]
+        },
+        {
+          heading: "In the interview",
+          items: [
+            "Pick one project you can walk through in two minutes: goal, approach, result, and what you'd do differently.",
+            "Connect your work to the company's brand and audience.",
+            "Bring one idea for the company. Interviewers remember candidates who think like marketers."
+          ]
+        }
+      ],
+      cta: {
+        label: "Book a chat with a marketing mentor",
+        meetingType: "Major or career advice",
+        majorId: "marketing"
+      }
+    },
+    "tech-consulting": {
+      title: "Tech Consulting Case Notes",
+      intro: "Technology consultants help organizations choose, build, and roll out technology, and change how people work along the way. Here's how to prepare for the interviews.",
+      sections: [
+        {
+          heading: "What the job looks like",
+          items: [
+            "Projects like moving a company to the cloud, implementing an ERP system (SAP, Oracle, Workday), building dashboards, or strengthening cybersecurity.",
+            "You'll mix business and technical work: gathering requirements, mapping processes, testing, and training users.",
+            "Common employers: Deloitte, EY, KPMG, PwC, Accenture, IBM, and boutique firms, plus technology teams at banks."
+          ]
+        },
+        {
+          heading: "How to approach a case",
+          items: [
+            "Restate the goal and ask clarifying questions before you start.",
+            "Lay out a structure: current state, pain points, options, recommendation.",
+            "Think in people, process, and technology. Most problems involve all three.",
+            "Put rough numbers on costs and benefits when you can.",
+            "Finish with a clear recommendation, the main risks, and next steps."
+          ]
+        },
+        {
+          heading: "Practice prompt",
+          items: [
+            "\"A regional retailer's online orders are growing fast, but its inventory system can't keep up. Stores often sell items that are out of stock. What would you look at?\"",
+            "Strong answers ask how inventory data flows between stores, warehouse, and website; compare upgrading the current system with a new platform; and propose a phased rollout that starts with the highest-volume stores."
+          ]
+        },
+        {
+          heading: "Skills that stand out",
+          items: [
+            "SQL and Excel, and being able to explain a dataset simply.",
+            "A project where you gathered requirements or improved a process.",
+            "Clear communication: explain a technical idea to someone non-technical in one minute."
+          ]
+        }
+      ],
+      cta: {
+        label: "Book a chat with an IS mentor",
+        meetingType: "Interview prep",
+        majorId: "info-systems"
+      }
+    },
+    "accounting-interviews": {
+      title: "Accounting & Risk Interview Notes",
+      intro: "Accounting interviews are mostly about fit, reliability, and genuine interest, with a few technical basics. Use these notes to prepare for audit, tax, and advisory roles.",
+      sections: [
+        {
+          heading: "Audit, tax, or advisory?",
+          items: [
+            "Audit: test whether a company's financial statements are accurate. Structured training and a wide view of many businesses.",
+            "Tax: help companies and people plan for and comply with tax rules. Very technical and in steady demand.",
+            "Advisory and risk: help clients improve controls, processes, cybersecurity, or deals. Closer to consulting."
+          ]
+        },
+        {
+          heading: "Behavioral questions",
+          items: [
+            "Why accounting, and why this service line?",
+            "Why this firm? Mention people you met and something specific about its culture or clients.",
+            "Tell me about a time you managed several deadlines at once.",
+            "Tell me about a mistake you made and how you handled it."
+          ]
+        },
+        {
+          heading: "Technical basics to review",
+          items: [
+            "The three financial statements and what each one shows.",
+            "Debits and credits, and a simple journal entry (e.g. buying equipment with cash).",
+            "What an audit opinion is, and what materiality means.",
+            "Internal controls, and why the Sarbanes-Oxley Act (2002) made them central for public companies.",
+            "Revenue recognition: when a company can record a sale as revenue."
+          ]
+        },
+        {
+          heading: "Recruiting tips",
+          items: [
+            "Big 4 firms run leadership and discovery programs for sophomores. They're a common path to junior-year internships.",
+            "Go to firm events on campus and follow up with the people you meet.",
+            "Plan your CPA path early. Requirements vary by state, so check the rules for the state you want to work in and talk with your advisor."
+          ]
+        }
+      ],
+      cta: {
+        label: "Book a chat with an accounting mentor",
+        meetingType: "Interview prep",
+        majorId: "ais"
+      }
+    },
+    "first-portfolio": {
+      title: "Build Your First Portfolio",
+      intro: "For software internships, two or three real projects often matter as much as your GPA. Here's how to pick them, build them, and talk about them.",
+      sections: [
+        {
+          heading: "Pick projects that solve a real problem",
+          items: [
+            "Build something people actually use, like a tool for a club, a class, or your family.",
+            "Aim for variety: one full-stack web app, one data or algorithms project, and one you're personally excited about.",
+            "Ideas: an event sign-up app for a club, a course planner, a dashboard using a public API, a browser extension, or a Discord bot."
+          ]
+        },
+        {
+          heading: "Make it presentable",
+          items: [
+            "Deploy it with a live link (GitHub Pages, Vercel, or Render are free).",
+            "Write a README with what it does, why you built it, the tech stack, screenshots, and how to run it.",
+            "Use clear commit messages and add a few tests. Reviewers notice.",
+            "Pin your best repositories on your GitHub profile."
+          ]
+        },
+        {
+          heading: "Talk about it in interviews",
+          items: [
+            "The 60-second pitch: the problem, who uses it, and what you built.",
+            "The hardest bug you fixed and how you found it.",
+            "A trade-off you made and why (e.g. which database, or building vs. using a library).",
+            "What you'd improve next, which shows you think like an engineer."
+          ]
+        },
+        {
+          heading: "Common mistakes",
+          items: [
+            "Only tutorial clones. Change or extend them so the work is clearly yours.",
+            "No live demo, so reviewers can't try it.",
+            "In team projects, not being clear about which parts you built."
+          ]
+        }
+      ],
+      cta: {
+        label: "Book a chat with a CS mentor",
+        meetingType: "Major or career advice",
+        majorId: "cs"
+      }
     }
   },
 

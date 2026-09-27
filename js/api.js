@@ -208,7 +208,9 @@ const api = (() => {
     });
     const toResource = (row) => ({
       id: row.id, title: row.title, majorId: row.major_id || "general", type: row.type, level: row.level,
-      source: row.source, url: row.url || undefined, guideId: row.guide_id || undefined, description: row.description
+      source: row.source, url: row.url || undefined, description: row.description,
+      // Guides ship with the site, so link them even if the database row predates the guide.
+      guideId: row.guide_id || FVCN_DATA.resources.find((r) => r.id === row.id)?.guideId || undefined
     });
     const toEvent = (row) => {
       const start = newYorkParts(row.starts_at);

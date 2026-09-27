@@ -1023,14 +1023,15 @@ async function openGuide(id) {
     ${guide.template ? `
       <div class="guide-template">
         <div class="guide-template-head">
-          <h3>Thank-you note template</h3>
+          <h3>${escapeHtml(guide.templateTitle || "Template")}</h3>
           <button type="button" class="btn btn-secondary btn-sm" data-copy-template>${icon("copy")}Copy</button>
         </div>
         <pre id="guideTemplate">${escapeHtml(guide.template)}</pre>
       </div>` : ""}
     <div class="guide-cta">
-      <button type="button" class="btn btn-primary" data-book-from-guide="${id === "resume" ? "Resume review" : "Coffee chat"}">
-        ${id === "resume" ? "Book a resume review" : "Book a coffee chat"} ${icon("arrow-right")}
+      <button type="button" class="btn btn-primary" data-book-from-guide="${escapeHtml(guide.cta?.meetingType || "Coffee chat")}"
+        data-guide-major="${escapeHtml(guide.cta?.majorId || "")}">
+        ${escapeHtml(guide.cta?.label || "Book a coffee chat")} ${icon("arrow-right")}
       </button>
     </div>`;
 
@@ -1144,7 +1145,7 @@ function setupActions() {
       }
     } else if (data.bookFromGuide) {
       $("#guideDialog").close();
-      prefillBooking({ meetingType: data.bookFromGuide });
+      prefillBooking({ meetingType: data.bookFromGuide, majorId: data.guideMajor || undefined });
     } else if (data.rsvp) {
       handleRsvp(data.rsvp);
     } else if (data.ics) {
