@@ -2,7 +2,7 @@
 //
 // Triggered by a Database Webhook on public.bookings (INSERT and UPDATE):
 //   - new request        → email the mentor (or all admins for "match me"), plus a receipt to the student
-//   - confirmed/declined → email the student
+//   - confirmed / declined / completed → email the student (completed asks for feedback)
 //
 // Environment:
 //   RESEND_API_KEY   Resend API key (emails are skipped when unset)
@@ -110,6 +110,10 @@ async function onStatusChange(b: Booking) {
       layout(`You're confirmed, ${first}!`, `<p>Your ${escapeHtml(b.meeting_type.toLowerCase())} is set for <strong>${formatTime(b.confirmed_time)}</strong> (${escapeHtml(b.format)}).</p>
         ${b.staff_note ? `<p><strong>Note from your mentor:</strong><br>${escapeHtml(b.staff_note)}</p>` : ""}
         <p><a href="${statusLink(b)}">Add it to your calendar</a> · First coffee chat? Read the <a href="${SITE_URL}/#booking">Coffee Chat Playbook</a>.</p>`));
+  } else if (b.status === "completed") {
+    await send(b.student_email, "How was your coffee chat?",
+      layout(`Hi ${first}, how did it go?`, `<p>We hope your ${escapeHtml(b.meeting_type.toLowerCase())} was helpful. A 20-second rating helps us thank mentors and improve FVCN.</p>
+        <p style="margin-top:20px"><a href="${statusLink(b)}" style="background:#861f41;color:#fff;padding:10px 16px;border-radius:999px;text-decoration:none">Rate your chat</a></p>`));
   } else if (b.status === "declined") {
     await send(b.student_email, `Update on your FVCN request (${b.reference})`,
       layout(`Hi ${first},`, `<p>Your mentor can't take this request right now. Please <a href="${SITE_URL}/#mentors">pick another mentor</a> or choose "No preference" and we'll match you.</p>

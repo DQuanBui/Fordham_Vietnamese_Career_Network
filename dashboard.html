@@ -97,6 +97,7 @@
         <button type="button" class="year-tab" role="tab" data-tab="requests" aria-selected="true">Requests</button>
         <button type="button" class="year-tab" role="tab" data-tab="rsvps" aria-selected="false" data-admin-only>Event RSVPs</button>
         <button type="button" class="year-tab" role="tab" data-tab="submissions" aria-selected="false" data-admin-only>Get-involved forms</button>
+        <button type="button" class="year-tab" role="tab" data-tab="feedback" aria-selected="false" data-admin-only data-needs-feedback hidden>Feedback</button>
       </div>
 
       <section data-panel="requests" role="tabpanel">
@@ -126,6 +127,10 @@
 
       <section data-panel="submissions" role="tabpanel" hidden>
         <div class="request-list" id="submissionList"></div>
+      </section>
+
+      <section data-panel="feedback" role="tabpanel" hidden>
+        <div class="request-list" id="feedbackList"></div>
       </section>
     </section>
   </main>

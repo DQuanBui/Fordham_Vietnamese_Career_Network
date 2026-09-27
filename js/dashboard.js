@@ -146,12 +146,22 @@ async function route(session) {
    ========================================================================== */
 async function loadAll() {
   try {
+    const bookingsQuery = (extra) =>
+      call(client.from("bookings").select(`*, history:booking_status_history(*)${extra}`).order("created_at", { ascending: false }));
     const [bookings, mentors, majors] = await Promise.all([
-      call(client.from("bookings").select("*, history:booking_status_history(*)").order("created_at", { ascending: false })),
+      // Feedback is a newer table; fall back to the core query if the database doesn't have it yet.
+      bookingsQuery(", feedback:booking_feedback(*)").then((rows) => {
+        state.hasFeedback = true;
+        return rows;
+      }).catch(() => {
+        state.hasFeedback = false;
+        return bookingsQuery("");
+      }),
       call(client.from("mentors").select("id, name, major_id, is_active").order("sort_order")),
       call(client.from("majors").select("id, name, short_name"))
     ]);
-    state.bookings = bookings;
+    // PostgREST returns a one-to-one embed as an object (or an array on older versions).
+    state.bookings = bookings.map((b) => ({ ...b, feedback: Array.isArray(b.feedback) ? b.feedback[0] || null : b.feedback || null }));
     state.mentors = mentors;
     state.mentorById = Object.fromEntries(mentors.map((mentor) => [mentor.id, mentor]));
     state.majorById = Object.fromEntries(majors.map((major) => [major.id, major]));
@@ -177,7 +187,44 @@ function renderAll() {
   if (isAdmin()) {
     renderRsvps();
     renderSubmissions();
+    renderFeedback();
   }
+  $$("[data-needs-feedback]").forEach((el) => { el.hidden = !isAdmin() || !state.hasFeedback; });
+}
+
+const stars = (n) => `${"★".repeat(n)}${"☆".repeat(5 - n)}`;
+
+function renderFeedback() {
+  const rows = state.bookings
+    .filter((b) => b.feedback)
+    .sort((a, b) => new Date(b.feedback.created_at) - new Date(a.feedback.created_at));
+  const average = rows.length ? (rows.reduce((sum, b) => sum + b.feedback.rating, 0) / rows.length).toFixed(1) : null;
+
+  $("#feedbackList").innerHTML = rows.length
+    ? `<p class="result-count">${rows.length} response${rows.length === 1 ? "" : "s"} · average ${average} / 5.
+        Only comments where the student allowed quoting can be published on the home page.</p>` +
+      rows.map((b) => `
+        <article class="req-card ${b.feedback.is_published ? "status-confirmed" : ""}">
+          <header class="req-head">
+            <div>
+              <h3>${escapeHtml(b.student_name)} <span class="feedback-stars">${stars(b.feedback.rating)}</span></h3>
+              <p class="req-sub">Chat with ${escapeHtml(state.mentorById[b.mentor_id]?.name || "a mentor")} · ${escapeHtml(b.reference)} · ${timeAgo(b.feedback.created_at)}</p>
+            </div>
+            <div class="req-head-right">
+              ${b.feedback.is_published ? `<span class="pill pill-confirmed">On home page</span>` : ""}
+              ${b.feedback.allow_quote ? "" : `<span class="pill pill-cancelled">Private</span>`}
+            </div>
+          </header>
+          ${b.feedback.comment ? `<div class="req-message"><p>${escapeHtml(b.feedback.comment)}</p></div>` : `<p class="req-sub">No comment.</p>`}
+          ${b.feedback.allow_quote && b.feedback.comment ? `
+            <div class="req-actions">
+              <button type="button" class="btn ${b.feedback.is_published ? "btn-ghost" : "btn-primary"} btn-sm"
+                data-publish="${b.id}" data-published="${b.feedback.is_published}">
+                ${b.feedback.is_published ? "Remove from home page" : `${icon("check")}Publish on home page`}
+              </button>
+            </div>` : ""}
+        </article>`).join("")
+    : `<div class="empty-state"><h3>No feedback yet</h3><p>Students can rate a chat from their status link once it has happened.</p></div>`;
 }
 
 /* ==========================================================================
@@ -310,6 +357,13 @@ function requestCard(b) {
         </div>` : b.confirmed_time ? `<p class="req-confirmed">${icon("calendar")}Met ${formatDateTime(b.confirmed_time)}</p>` : ""}
 
       <div class="req-actions">${actions.join("")}</div>
+
+      ${b.feedback ? `
+        <div class="req-feedback">
+          <span class="req-label">Student feedback</span>
+          <span class="feedback-stars">${stars(b.feedback.rating)}</span>
+          ${b.feedback.comment ? `<p>${escapeHtml(b.feedback.comment)}</p>` : ""}
+        </div>` : ""}
 
       ${history.length ? `
         <details class="req-history">
@@ -450,7 +504,7 @@ function selectTab(tab) {
 
 function setupActions() {
   document.addEventListener("click", async (event) => {
-    const target = event.target.closest("[data-filter], [data-action], [data-tab], [data-copy-emails], [data-review]");
+    const target = event.target.closest("[data-filter], [data-action], [data-tab], [data-copy-emails], [data-review], [data-publish]");
     if (!target) return;
     const data = target.dataset;
 
@@ -471,6 +525,14 @@ function setupActions() {
         toast("Emails copied.");
       } catch {
         prompt("Copy these emails:", emails);
+      }
+    } else if (data.publish) {
+      try {
+        await call(client.from("booking_feedback").update({ is_published: data.published !== "true" }).eq("booking_id", data.publish));
+        toast(data.published === "true" ? "Removed from the home page." : "Published on the home page.");
+        await loadAll();
+      } catch (error) {
+        toast(error.message, "error");
       }
     } else if (data.review) {
       try {

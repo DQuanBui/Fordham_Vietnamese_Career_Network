@@ -3525,3 +3525,59 @@ p {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* ==========================================================================
+   Testimonials
+   ========================================================================== */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.testimonial-stars {
+  color: var(--gold);
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+}
+
+.testimonial blockquote {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+.testimonial blockquote::before {
+  content: "\201C";
+}
+
+.testimonial blockquote::after {
+  content: "\201D";
+}
+
+.testimonial figcaption {
+  margin-top: auto;
+  font-size: 0.88rem;
+}
+
+.testimonial figcaption strong {
+  display: block;
+  color: var(--ink);
+}
+
+.testimonial figcaption span {
+  color: var(--muted);
+}

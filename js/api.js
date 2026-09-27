@@ -121,6 +121,17 @@ const api = (() => {
       async cancelBookingByToken(token) {
         return this.cancelBooking(token);
       },
+      async submitFeedback(token, feedback) {
+        await wait(300);
+        write(KEYS.bookings, read(KEYS.bookings, []).map((b) =>
+          ((b.token || b.id) === token ? { ...b, feedbackRating: feedback.rating } : b)));
+      },
+      async getTestimonials() {
+        return [];
+      },
+      async getPublicStats() {
+        return null;
+      },
 
       async getMyRsvps() {
         return read(KEYS.rsvps, []);
@@ -270,6 +281,30 @@ const api = (() => {
 
       async cancelBookingByToken(token) {
         unwrap(await client.rpc("cancel_booking", { p_token: token }));
+      },
+
+      async submitFeedback(token, { rating, comment, allowQuote }) {
+        unwrap(await client.rpc("submit_feedback", {
+          p_token: token, p_rating: rating, p_comment: comment || null, p_allow_quote: Boolean(allowQuote)
+        }));
+      },
+
+      // Optional extras: return empty results if the database doesn't have them yet.
+      async getTestimonials() {
+        try {
+          return unwrap(await client.rpc("get_testimonials"));
+        } catch {
+          return [];
+        }
+      },
+
+      async getPublicStats() {
+        try {
+          const rows = unwrap(await client.rpc("get_public_stats"));
+          return rows[0] || null;
+        } catch {
+          return null;
+        }
       },
 
       async cancelBooking(id) {

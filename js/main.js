@@ -138,9 +138,12 @@ function renderHero() {
    Stats + logos
    ========================================================================== */
 function renderStats() {
+  const completed = state.publicStats?.chats_completed || 0;
   const stats = [
     { value: state.mentors.length, label: "Student and alumni mentors" },
-    { value: state.majors.length, label: "Career paths mapped" },
+    completed > 0
+      ? { value: completed, label: "Coffee chats completed" }
+      : { value: state.majors.length, label: "Career paths mapped" },
     { value: state.resources.length, label: "Curated resources" },
     { value: state.companies.length, label: "Companies where members work and intern" }
   ];
@@ -706,6 +709,29 @@ function renderCredits() {
 }
 
 /* ==========================================================================
+   Testimonials (published feedback from students)
+   ========================================================================== */
+function renderTestimonials(list) {
+  if (!list.length) return;
+  const stats = state.publicStats;
+  $("#impactLine").textContent = stats?.chats_completed
+    ? `${stats.chats_completed} coffee chats completed${stats.average_rating ? `, rated ${stats.average_rating} out of 5 on average` : ""}.`
+    : "Real feedback from students who booked through FVCN.";
+  $("#testimonialGrid").innerHTML = list
+    .map((t) => `
+      <figure class="testimonial">
+        <span class="testimonial-stars" aria-label="${t.rating} out of 5 stars">${"★".repeat(t.rating)}${"☆".repeat(5 - t.rating)}</span>
+        <blockquote>${escapeHtml(t.quote)}</blockquote>
+        <figcaption>
+          <strong>${escapeHtml(t.student)}</strong>
+          <span>${escapeHtml(t.detail)}${t.mentor ? ` · chatted with ${escapeHtml(t.mentor)}` : ""}</span>
+        </figcaption>
+      </figure>`)
+    .join("");
+  $("#testimonials").hidden = false;
+}
+
+/* ==========================================================================
    FAQ
    ========================================================================== */
 function renderFaqs(faqs) {
@@ -1228,7 +1254,7 @@ function setupReveal() {
    Init
    ========================================================================== */
 async function init() {
-  const [majors, mentors, resources, events, companies, roadmap, faqs, photos, roadmapProgress, rsvps, eventCounts] = await Promise.all([
+  const [majors, mentors, resources, events, companies, roadmap, faqs, photos, roadmapProgress, rsvps, eventCounts, testimonials, publicStats] = await Promise.all([
     api.getMajors(),
     api.getMentors(),
     api.getResources(),
@@ -1239,10 +1265,12 @@ async function init() {
     api.getPhotos(),
     api.getRoadmapProgress(),
     api.getMyRsvps(),
-    api.getEventCounts()
+    api.getEventCounts(),
+    api.getTestimonials(),
+    api.getPublicStats()
   ]);
 
-  Object.assign(state, { majors, mentors, resources, events, companies, roadmap, photos, roadmapProgress, rsvps, eventCounts });
+  Object.assign(state, { majors, mentors, resources, events, companies, roadmap, photos, roadmapProgress, rsvps, eventCounts, publicStats });
   state.companyById = Object.fromEntries(companies.map((company) => [company.id, company]));
   state.majorById = Object.fromEntries(majors.map((major) => [major.id, major]));
   state.mentorById = Object.fromEntries(mentors.map((mentor) => [mentor.id, mentor]));
@@ -1262,6 +1290,7 @@ async function init() {
   renderResources();
   renderEvents();
   renderFaqs(faqs);
+  renderTestimonials(testimonials);
   renderCredits();
   renderMyBookings();
 

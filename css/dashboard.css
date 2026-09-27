@@ -687,3 +687,33 @@
     flex-wrap: wrap;
   }
 }
+
+.feedback-stars {
+  color: var(--gold);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.req-feedback {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--gold-50);
+}
+
+.req-feedback p {
+  margin-top: 4px;
+  color: var(--ink-2);
+}
+
+.dash-tabs {
+  max-width: 100%;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+}
+
+.dash-tabs .year-tab {
+  flex: none;
+}

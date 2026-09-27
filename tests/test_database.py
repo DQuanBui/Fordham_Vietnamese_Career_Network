@@ -39,7 +39,8 @@ alter default privileges in schema public grant all on sequences to anon, authen
 alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
 """)
 
-db.execute(open(ROOT + "migrations/20260925000000_init.sql", encoding="utf-8").read())
+for migration in sorted(pathlib.Path(ROOT, "migrations").glob("*.sql")):
+    db.execute(migration.read_text(encoding="utf-8"))
 db.execute(open(ROOT + "seed.sql", encoding="utf-8").read())
 db.execute("insert into admins (email) values ('admin@fordham.edu')")
 db.execute("insert into mentor_private (mentor_id, email) values ('quan-bui', 'Quan.Mentor@fordham.edu')")
@@ -168,6 +169,36 @@ e = err("select set_booking_status(%s, 'declined')", [other])
 check("stranger cannot change status", e is not None and e.sqlstate == "42501")
 e = err("update mentors set name = 'Hacked' where id = 'quan-bui'")
 check("stranger cannot edit content", e is None and db.execute("select name from mentors where id='quan-bui'").fetchone()[0] == "Quan Bui")
+
+# --- Feedback, testimonials, public stats --------------------------------------------------
+as_user()
+e = err("select submit_feedback(%s, 5, 'Great chat', true)", [token])
+check("no feedback on a cancelled request", e is not None and e.diag.message_hint == "invalid_status")
+as_user("admin@fordham.edu")
+fb_row = db.execute("select id from bookings where mentor_id = 'nick-trinh'").fetchone()[0]
+db.execute("select set_booking_status(%s, 'confirmed', null, now() + interval '1 day')", [fb_row])
+db.execute("select set_booking_status(%s, 'completed')", [fb_row])
+fb_token = db.execute("select manage_token from bookings where id = %s", [fb_row]).fetchone()[0]
+as_user()
+e = err("select submit_feedback(%s, 7)", [fb_token])
+check("rating must be 1-5", e is not None and e.diag.message_hint == "rating")
+db.execute("select submit_feedback(%s, 5, 'Nick explained the recruiting timeline clearly.', true)", [fb_token])
+check("student sees own rating", db.execute("select feedback_rating from get_my_bookings(%s)", [[fb_token]]).fetchone()[0] == 5)
+check("testimonial hidden until published", db.execute("select count(*) from get_testimonials()").fetchone()[0] == 0)
+check("anon cannot read feedback table", db.execute("select count(*) from booking_feedback").fetchone()[0] == 0)
+stats = db.execute("select * from get_public_stats()").fetchone()
+check("public stats", stats[0] == 1 and float(stats[2]) == 5.0, stats)
+e = err("update booking_feedback set is_published = true")
+check("anon cannot publish", e is None and db.execute("select count(*) from get_testimonials()").fetchone()[0] == 0)
+as_user("quan.mentor@fordham.edu")
+check("mentor cannot see feedback for others' chats", db.execute("select count(*) from booking_feedback").fetchone()[0] == 0)
+as_user("admin@fordham.edu")
+db.execute("update booking_feedback set is_published = true where booking_id = %s", [fb_row])
+as_user()
+t = db.execute("select * from get_testimonials()").fetchall()
+check("published testimonial shows first name only", len(t) == 1 and t[0][2] == "Another" and "Nick Trinh" == t[0][4], t)
+db.execute("select submit_feedback(%s, 4, 'Edited comment', true)", [fb_token])
+check("editing feedback unpublishes it", db.execute("select count(*) from get_testimonials()").fetchone()[0] == 0)
 
 # Seed is re-runnable.
 db.execute("reset role")

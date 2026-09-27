@@ -140,6 +140,86 @@ function render() {
   if (typeof renderFeedback === "function") renderFeedback();
 }
 
+/* ---- Post-chat feedback ------------------------------------------------ */
+const chatHappened = () =>
+  booking.status === "completed" ||
+  (booking.status === "confirmed" && booking.confirmedTime && new Date(booking.confirmedTime) < new Date());
+
+function renderFeedback(editing = false) {
+  const slot = $("#feedbackSlot");
+  if (!slot || !chatHappened()) return;
+
+  if (booking.feedbackRating && !editing) {
+    slot.innerHTML = `
+      <div class="feedback-box">
+        <h2>Thanks for your feedback!</h2>
+        <p>You rated this chat ${"★".repeat(booking.feedbackRating)}${"☆".repeat(5 - booking.feedbackRating)}.
+          It helps us improve FVCN and thank our mentors.</p>
+        <button type="button" class="btn btn-ghost btn-sm" data-edit-feedback>Update feedback</button>
+      </div>`;
+    return;
+  }
+
+  slot.innerHTML = `
+    <div class="feedback-box">
+      <h2>How was your chat with ${escapeHtml(booking.mentorName.split(" ")[0])}?</h2>
+      <p>Takes 20 seconds. Your mentor never sees your rating directly.</p>
+      <form id="feedbackForm">
+        <fieldset class="rating">
+          <legend class="sr-only">Rating</legend>
+          ${[1, 2, 3, 4, 5].map((n) => `
+            <label title="${n} star${n > 1 ? "s" : ""}">
+              <input type="radio" name="rating" value="${n}" ${n === booking.feedbackRating ? "checked" : ""} required />
+              ${icon("star")}<span class="sr-only">${n} star${n > 1 ? "s" : ""}</span>
+            </label>`).join("")}
+        </fieldset>
+        <div class="field">
+          <label for="fb-comment">What was most helpful? <span class="optional">optional</span></label>
+          <textarea id="fb-comment" name="comment" rows="3" maxlength="1000"
+            placeholder="e.g. Tam walked me through the recruiting timeline and reviewed my resume line by line."></textarea>
+        </div>
+        <label class="checkbox-line">
+          <input type="checkbox" name="allowQuote" />
+          <span>FVCN may quote my comment on the website with my first name, class year, and major.</span>
+        </label>
+        <div><button type="submit" class="btn btn-primary">Send feedback</button></div>
+      </form>
+    </div>`;
+
+  const stars = $$(".rating label", slot);
+  const paint = (value) => stars.forEach((label, i) => label.classList.toggle("is-on", i < value));
+  paint(booking.feedbackRating || 0);
+  stars.forEach((label, i) => {
+    label.addEventListener("mouseenter", () => paint(i + 1));
+    label.querySelector("input").addEventListener("change", () => paint(i + 1));
+  });
+  $(".rating", slot).addEventListener("mouseleave", () =>
+    paint(Number($("input[name=rating]:checked", slot)?.value || 0)));
+
+  $("#feedbackForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    if (!form.reportValidity()) return;
+    const button = $('button[type="submit"]', form);
+    button.classList.add("is-loading");
+    try {
+      const rating = Number(form.elements.rating.value);
+      await api.submitFeedback(token, {
+        rating,
+        comment: form.elements.comment.value.trim(),
+        allowQuote: form.elements.allowQuote.checked
+      });
+      booking.feedbackRating = rating;
+      toast("Thank you! Your feedback was sent.");
+      renderFeedback();
+    } catch (error) {
+      toast(error.message, "error");
+    } finally {
+      button.classList.remove("is-loading");
+    }
+  });
+}
+
 function renderNotFound(message) {
   card.innerHTML = `
     <div class="status-head">
@@ -167,8 +247,13 @@ async function load() {
 }
 
 card.addEventListener("click", async (event) => {
-  const target = event.target.closest("[data-ics], [data-cancel], [data-copy-link]");
+  const target = event.target.closest("[data-ics], [data-cancel], [data-copy-link], [data-edit-feedback]");
   if (!target) return;
+
+  if ("editFeedback" in target.dataset) {
+    renderFeedback(true);
+    return;
+  }
 
   if ("ics" in target.dataset) {
     downloadCalendarFile();
