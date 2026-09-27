@@ -395,7 +395,7 @@ const FVCN_DATA = {
   // Campus and community photos (all from Wikimedia Commons; credits are shown in the footer).
   photos: {
     "keating-hall": {
-      src: "assets/photos/keating-hall.jpg",
+      src: "assets/photos/keating-hall.webp",
       caption: "Keating Hall and Edwards Parade, Rose Hill",
       author: "Raymond Bucko, SJ",
       license: "CC BY 2.0",
@@ -403,7 +403,7 @@ const FVCN_DATA = {
       source: "https://commons.wikimedia.org/wiki/File:Keating_Hall,_2014.png"
     },
     "queens-court": {
-      src: "assets/photos/queens-court.jpg",
+      src: "assets/photos/queens-court.webp",
       caption: "Queen's Court and the University Church, Rose Hill",
       author: "Indefatigable2",
       license: "CC BY-SA 4.0",
@@ -411,7 +411,7 @@ const FVCN_DATA = {
       source: "https://commons.wikimedia.org/wiki/File:Queen%27s_Court_and_University_Church_at_Fordham.jpg"
     },
     "lincoln-center": {
-      src: "assets/photos/lincoln-center.jpg",
+      src: "assets/photos/lincoln-center.webp",
       caption: "Lincoln Center campus, Manhattan",
       author: "Tdorante10",
       license: "CC BY-SA 4.0",
@@ -419,7 +419,7 @@ const FVCN_DATA = {
       source: "https://commons.wikimedia.org/wiki/File:Fordham_LC_01.jpg"
     },
     "rose-hill-autumn": {
-      src: "assets/photos/rose-hill-autumn.jpg",
+      src: "assets/photos/rose-hill-autumn.webp",
       caption: "Autumn at Rose Hill",
       author: "Kristine Paulus",
       license: "CC BY 2.0",
@@ -427,7 +427,7 @@ const FVCN_DATA = {
       source: "https://commons.wikimedia.org/wiki/File:Fordham_University_Campus_(5190445947).jpg"
     },
     "edwards-parade": {
-      src: "assets/photos/edwards-parade.jpg",
+      src: "assets/photos/edwards-parade.webp",
       caption: "Edwards Parade, Rose Hill",
       author: "Doug Olson",
       license: "CC BY-SA 3.0",
@@ -435,7 +435,7 @@ const FVCN_DATA = {
       source: "https://commons.wikimedia.org/wiki/File:Fordham_Manor,_Bronx,_NY,_USA_-_panoramio_(5).jpg"
     },
     pho: {
-      src: "assets/photos/pho.jpg",
+      src: "assets/photos/pho.webp",
       caption: "Phở bò",
       author: "Codename5281",
       license: "CC BY-SA 3.0",

@@ -24,6 +24,17 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://dquanbui.github.io/Fordham_Vietnamese_Career_Network/assets/og-image.jpg" />
   <link rel="canonical" href="https://dquanbui.github.io/Fordham_Vietnamese_Career_Network/" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fordham Vietnamese Career Network",
+      "alternateName": "FVCN",
+      "url": "https://dquanbui.github.io/Fordham_Vietnamese_Career_Network/",
+      "logo": "https://dquanbui.github.io/Fordham_Vietnamese_Career_Network/assets/icons/icon-512.png",
+      "description": "Student-run mentorship network connecting Vietnamese students at Fordham University with upperclassmen and alumni for coffee chats, career-path guidance, and resources."
+    }
+  </script>
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png" />
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
@@ -35,6 +46,8 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
     rel="stylesheet"
   />
+  <link rel="preload" as="image" href="assets/photos/keating-hall.webp" fetchpriority="high"
+    imagesrcset="assets/photos/keating-hall-960.webp 960w, assets/photos/keating-hall.webp 1920w" imagesizes="100vw" />
   <link rel="stylesheet" href="css/style.css" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
@@ -113,7 +126,8 @@
     <!-- HERO -->
     <section class="hero" id="top">
       <div class="hero-media" aria-hidden="true">
-        <img src="assets/photos/keating-hall.jpg" alt="" fetchpriority="high" decoding="async" />
+        <img src="assets/photos/keating-hall.webp" srcset="assets/photos/keating-hall-960.webp 960w, assets/photos/keating-hall.webp 1920w"
+          sizes="100vw" alt="" fetchpriority="high" decoding="async" />
       </div>
       <div class="container hero-grid">
         <div class="hero-copy reveal">
@@ -342,7 +356,7 @@
 
         <div class="bento">
           <article class="bento-card bento-photo bento-soccer reveal">
-            <img src="assets/photos/edwards-parade.jpg" alt="The Edwards Parade lawn at Fordham's Rose Hill campus" loading="lazy" decoding="async" />
+            <img src="assets/photos/edwards-parade.webp" alt="The Edwards Parade lawn at Fordham's Rose Hill campus" loading="lazy" decoding="async" />
             <div class="bento-overlay">
               <span class="tag tag-glass"><svg class="icon" aria-hidden="true"><use href="#i-ball"></use></svg>Sports</span>
               <h3>Soccer Fridays</h3>
@@ -350,7 +364,7 @@
             </div>
           </article>
           <article class="bento-card bento-photo bento-food reveal">
-            <img src="assets/photos/pho.jpg" alt="A bowl of phở bò with lime and chili on the side" loading="lazy" decoding="async" />
+            <img src="assets/photos/pho.webp" alt="A bowl of phở bò with lime and chili on the side" loading="lazy" decoding="async" />
             <div class="bento-overlay">
               <span class="tag tag-glass"><svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>Food &amp; culture</span>
               <h3>Vietnamese food nights</h3>
@@ -383,7 +397,7 @@
           <h3 class="campuses-title reveal">Two campuses, one network</h3>
           <div class="campus-grid">
             <article class="campus-card reveal">
-              <img src="assets/photos/queens-court.jpg" alt="Queen's Court and the University Church at Rose Hill" loading="lazy" decoding="async" />
+              <img src="assets/photos/queens-court.webp" alt="Queen's Court and the University Church at Rose Hill" loading="lazy" decoding="async" />
               <div class="campus-body">
                 <span class="campus-kicker"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>The Bronx</span>
                 <h4>Rose Hill</h4>
@@ -391,7 +405,7 @@
               </div>
             </article>
             <article class="campus-card reveal">
-              <img src="assets/photos/lincoln-center.jpg" alt="Fordham's Lincoln Center campus on a Manhattan street" loading="lazy" decoding="async" />
+              <img src="assets/photos/lincoln-center.webp" alt="Fordham's Lincoln Center campus on a Manhattan street" loading="lazy" decoding="async" />
               <div class="campus-body">
                 <span class="campus-kicker"><svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>Manhattan</span>
                 <h4>Lincoln Center</h4>
@@ -406,7 +420,7 @@
     <!-- BOOKING -->
     <section class="section booking-section" id="booking">
       <div class="section-bg" aria-hidden="true">
-        <img src="assets/photos/rose-hill-autumn.jpg" alt="" loading="lazy" decoding="async" />
+        <img src="assets/photos/rose-hill-autumn.webp" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="container booking-layout">
         <div class="booking-copy reveal">
