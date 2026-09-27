@@ -36,6 +36,9 @@ const state = {
   bookings: [],
   mentors: [],
   mentorById: {},
+  companies: [],
+  companyById: {},
+  mentorContacts: [],
   majorById: {},
   events: [],
   rsvps: [],
@@ -130,6 +133,7 @@ async function route(session) {
   }
 
   $$("[data-admin-only]").forEach((el) => { el.hidden = !isAdmin(); });
+  $$("[data-mentor-only]").forEach((el) => { el.hidden = !state.me.mentor_id; });
   $("#dashEyebrow").textContent = isAdmin() ? "Admin dashboard" : "Mentor dashboard";
   $("#dashGreeting").textContent = isAdmin()
     ? "Coffee chat requests"
@@ -157,7 +161,7 @@ async function loadAll() {
         state.hasFeedback = false;
         return bookingsQuery("");
       }),
-      call(client.from("mentors").select("id, name, major_id, is_active").order("sort_order")),
+      call(client.from("mentors").select("*, mentor_companies(company_id, sort_order)").order("sort_order")),
       call(client.from("majors").select("id, name, short_name"))
     ]);
     // PostgREST returns a one-to-one embed as an object (or an array on older versions).
@@ -167,12 +171,15 @@ async function loadAll() {
     state.majorById = Object.fromEntries(majors.map((major) => [major.id, major]));
 
     if (isAdmin()) {
-      const [events, rsvps, submissions] = await Promise.all([
-        call(client.from("events").select("id, title, starts_at, location").order("starts_at")),
+      const [events, rsvps, submissions, companies, mentorContacts] = await Promise.all([
+        call(client.from("events").select("*").order("starts_at")),
         call(client.from("event_rsvps").select("*").order("created_at")),
-        call(client.from("interest_submissions").select("*").order("created_at", { ascending: false }))
+        call(client.from("interest_submissions").select("*").order("created_at", { ascending: false })),
+        call(client.from("companies").select("id, name").order("sort_order")),
+        call(client.from("mentor_private").select("*"))
       ]);
-      Object.assign(state, { events, rsvps, submissions });
+      Object.assign(state, { events, rsvps, submissions, companies, mentorContacts });
+      state.companyById = Object.fromEntries(companies.map((company) => [company.id, company]));
     }
   } catch (error) {
     toast(error.message || "Couldn't load the dashboard.", "error");
@@ -190,6 +197,7 @@ function renderAll() {
     renderFeedback();
   }
   $$("[data-needs-feedback]").forEach((el) => { el.hidden = !isAdmin() || !state.hasFeedback; });
+  renderManage();
 }
 
 const stars = (n) => `${"★".repeat(n)}${"☆".repeat(5 - n)}`;
@@ -484,6 +492,7 @@ function renderSubmissions() {
           </header>
           <div class="req-message"><p>${escapeHtml(s.details)}</p></div>
           <div class="req-actions">
+            ${s.type === "Become a mentor" ? `<button type="button" class="btn btn-primary btn-sm" data-add-mentor-from="${s.id}">+ Add as mentor</button>` : ""}
             <button type="button" class="btn ${s.is_reviewed ? "btn-ghost" : "btn-secondary"} btn-sm" data-review="${s.id}" data-reviewed="${s.is_reviewed}">
               ${s.is_reviewed ? "Mark as new" : `${icon("check")}Mark as reviewed`}
             </button>

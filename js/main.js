@@ -92,6 +92,15 @@ function companyHtml(mentor) {
   return `<span class="company"><span class="company-marks">${marks}</span><span>${escapeHtml(companyNames(mentor))}</span></span>`;
 }
 
+// Mentors can pause new requests (e.g. during finals) from their dashboard.
+const isAccepting = (mentor) => mentor.acceptingRequests !== false;
+
+function requestButton(mentor, classes, label) {
+  return isAccepting(mentor)
+    ? `<button type="button" class="${classes}" data-book-mentor="${mentor.id}">${label}</button>`
+    : `<button type="button" class="${classes}" disabled title="${escapeHtml(mentor.name.split(" ")[0])} isn't taking new requests right now">Not taking requests</button>`;
+}
+
 function statusBadge(mentor) {
   const label = STATUS_LABELS[mentor.status];
   return label ? `<span class="status-badge status-${mentor.status}">${label}</span>` : "";
@@ -118,8 +127,8 @@ function renderHero() {
       .join("") +
     `<a href="#paths" class="chip">${icon("compass")}I'm not sure yet</a>`;
 
-  const flagged = state.mentors.filter((mentor) => mentor.featured);
-  const featured = (flagged.length ? flagged : state.mentors).slice(0, 3);
+  const flagged = state.mentors.filter((mentor) => mentor.featured && isAccepting(mentor));
+  const featured = (flagged.length ? flagged : state.mentors.filter(isAccepting)).slice(0, 3);
 
   $("#heroMentors").innerHTML = featured
     .map((mentor) => `
@@ -293,7 +302,7 @@ function renderPathPanel() {
                   <strong>${escapeHtml(mentor.name)}</strong>
                   <span>${escapeHtml(roleText(mentor))} · ${escapeHtml(companyNames(mentor))}</span>
                 </button>
-                <button type="button" class="btn btn-secondary btn-sm" data-book-mentor="${mentor.id}">Request</button>
+                ${requestButton(mentor, "btn btn-secondary btn-sm", "Request")}
               </div>`).join("")}</div>`
           : `<p class="empty-inline">No mentors in this path yet. <a class="text-link" href="#booking" data-book-major="${major.id}">Request a match</a> and we'll find someone.</p>`}
       </div>
@@ -468,7 +477,7 @@ function renderMentors() {
         </div>
         <div class="mentor-foot">
           <button type="button" class="btn btn-ghost btn-sm" data-open-mentor="${mentor.id}">View profile</button>
-          <button type="button" class="btn btn-primary btn-sm" data-book-mentor="${mentor.id}">Request a chat</button>
+          ${requestButton(mentor, "btn btn-primary btn-sm", "Request a chat")}
         </div>
       </article>`)
     .join("");
@@ -493,7 +502,7 @@ function openMentor(id) {
       <ul class="profile-tags">${mentor.helpsWith.map((item) => `<li class="tag tag-maroon">${escapeHtml(item)}</li>`).join("")}</ul>
       ${mentor.interests?.length ? `<h4>Outside of work</h4><p class="profile-interests">${escapeHtml(mentor.interests.join(", "))}</p>` : ""}
       <div class="profile-actions">
-        <button type="button" class="btn btn-primary" data-book-mentor="${mentor.id}">Request a chat ${icon("arrow-right")}</button>
+        ${requestButton(mentor, "btn btn-primary", `Request a chat ${icon("arrow-right")}`)}
         ${linkedinLink(mentor, true)}
       </div>
     </div>`;
@@ -759,7 +768,7 @@ function populateBookingForm() {
       const mentors = state.mentors.filter((mentor) => mentor.majorId === major.id);
       if (!mentors.length) return "";
       return `<optgroup label="${escapeHtml(major.name)}">${mentors
-        .map((mentor) => `<option value="${mentor.id}">${escapeHtml(mentor.name)} · ${escapeHtml(companyNames(mentor))}</option>`)
+        .map((mentor) => `<option value="${mentor.id}" ${isAccepting(mentor) ? "" : "disabled"}>${escapeHtml(mentor.name)} · ${escapeHtml(companyNames(mentor))}${isAccepting(mentor) ? "" : " (not taking requests)"}</option>`)
         .join("")}</optgroup>`;
     })
     .join("");

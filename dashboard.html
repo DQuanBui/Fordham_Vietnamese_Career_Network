@@ -95,6 +95,9 @@
 
       <div class="year-tabs dash-tabs" id="dashTabs" role="tablist" aria-label="Dashboard sections">
         <button type="button" class="year-tab" role="tab" data-tab="requests" aria-selected="true">Requests</button>
+        <button type="button" class="year-tab" role="tab" data-tab="profile" aria-selected="false" data-mentor-only hidden>My profile</button>
+        <button type="button" class="year-tab" role="tab" data-tab="mentors" aria-selected="false" data-admin-only>Mentors</button>
+        <button type="button" class="year-tab" role="tab" data-tab="events" aria-selected="false" data-admin-only>Events</button>
         <button type="button" class="year-tab" role="tab" data-tab="rsvps" aria-selected="false" data-admin-only>Event RSVPs</button>
         <button type="button" class="year-tab" role="tab" data-tab="submissions" aria-selected="false" data-admin-only>Get-involved forms</button>
         <button type="button" class="year-tab" role="tab" data-tab="feedback" aria-selected="false" data-admin-only data-needs-feedback hidden>Feedback</button>
@@ -121,6 +124,18 @@
         <div class="request-list" id="requestList"></div>
       </section>
 
+      <section data-panel="profile" role="tabpanel" hidden>
+        <div id="profilePanel"></div>
+      </section>
+
+      <section data-panel="mentors" role="tabpanel" hidden>
+        <div id="mentorAdminList"></div>
+      </section>
+
+      <section data-panel="events" role="tabpanel" hidden>
+        <div id="eventAdminList"></div>
+      </section>
+
       <section data-panel="rsvps" role="tabpanel" hidden>
         <div class="request-list" id="rsvpList"></div>
       </section>
@@ -141,5 +156,6 @@
   <script src="js/config.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/dashboard-manage.js"></script>
 </body>
 </html>

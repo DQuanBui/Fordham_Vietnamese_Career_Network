@@ -76,6 +76,11 @@ svg {
   max-width: 100%;
 }
 
+/* Components set their own display; make sure the hidden attribute always wins. */
+[hidden] {
+  display: none !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;

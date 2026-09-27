@@ -203,7 +203,8 @@ const api = (() => {
       companyIds: (row.mentor_companies || []).sort((a, b) => a.sort_order - b.sort_order).map((link) => link.company_id),
       companyLabel: row.company_label || undefined, linkedin: row.linkedin_url || undefined,
       bio: row.bio, helpsWith: row.helps_with, interests: row.interests, photo: row.photo_url || undefined,
-      featured: row.featured
+      featured: row.featured,
+      acceptingRequests: row.accepting_requests !== false
     });
     const toResource = (row) => ({
       id: row.id, title: row.title, majorId: row.major_id || "general", type: row.type, level: row.level,
