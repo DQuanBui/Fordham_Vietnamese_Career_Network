@@ -229,16 +229,6 @@ docs/screenshots/       README images
 assets/                 Logos, company icons, app icons, campus photos
 ```
 
-## Running locally
-
-```bash
-python -m http.server 5500    # then open http://localhost:5500
-```
-
-With `js/config.js` left empty, the site runs in demo mode using built-in content.
-
----
-
 ## Roadmap
 
 - Mentor availability slots, so students pick from open times
@@ -247,13 +237,7 @@ With `js/config.js` left empty, the site runs in demo mode using built-in conten
 - Vietnamese-language option for key pages
 - Privacy-friendly analytics for visit-to-booking conversion
 
-## Credits
-
-- Campus and food photography from Wikimedia Commons under Creative Commons licenses; full credits
-  are in the site footer.
-- Company names and logos belong to their respective owners and indicate where members have worked.
-- FVCN is a student-built community project and is not an official Fordham University website.
-
 ## Author
 
-**Quan Bui**, Fordham University · [LinkedIn](https://www.linkedin.com/in/dangquanbui/)
+For any inquiries or questions regarding the project, please contact me at: dbui10@fordham.edu
+ · [LinkedIn](https://www.linkedin.com/in/dangquanbui/)
