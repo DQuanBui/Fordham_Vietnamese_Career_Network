@@ -122,6 +122,8 @@
           <a href="#questions"><svg class="icon" aria-hidden="true"><use href="#i-message"></use></svg>Interview questions</a>
           <a href="#calendar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg>Recruiting calendar</a>
           <a href="#templates"><svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>Message templates</a>
+          <a href="#international"><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg>International students</a>
+          <a href="#glossary"><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Glossary</a>
         </nav>
       </div>
     </section>
@@ -239,6 +241,53 @@
               <ul class="check-list" id="tplTips"></ul>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERNATIONAL STUDENTS -->
+    <section class="section section-tinted" id="international">
+      <div class="container intl-layout">
+        <div class="section-head">
+          <p class="eyebrow">For international students</p>
+          <h2>Recruiting on a student visa.</h2>
+          <p>
+            If you're on an F-1 visa, work authorization adds a few steps to recruiting.
+            Here are the basics to understand before you apply.
+          </p>
+          <p class="intl-disclaimer">
+            <svg class="icon" aria-hidden="true"><use href="#i-flag"></use></svg>
+            <span>General information, not legal advice. Rules change, so always confirm with Fordham's
+              international student office before you accept an offer or start working.</span>
+          </p>
+          <a class="btn btn-primary" href="index.html?topic=Internship+search#booking">Talk to a mentor who's been through it
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg></a>
+        </div>
+        <div class="intl-grid" id="intlGrid"></div>
+      </div>
+    </section>
+
+    <!-- GLOSSARY -->
+    <section class="section" id="glossary">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Glossary</p>
+          <h2>Recruiting, decoded.</h2>
+          <p>The acronyms and jargon you'll hear in coffee chats and info sessions, in plain English.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="chips" id="glossaryFilters" role="group" aria-label="Filter terms by category"></div>
+          <label class="search">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+            <span class="sr-only">Search terms</span>
+            <input type="search" id="glossarySearch" placeholder="Search terms, like OPT or superday" autocomplete="off" />
+          </label>
+        </div>
+        <p class="result-count" id="glossaryCount" aria-live="polite"></p>
+        <dl class="glossary-grid" id="glossaryGrid"></dl>
+        <div class="show-more" id="glossaryMore" hidden>
+          <button type="button" class="btn btn-secondary" id="glossaryMoreBtn">Show all terms</button>
         </div>
       </div>
     </section>

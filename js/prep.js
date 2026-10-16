@@ -440,6 +440,86 @@ function setupTemplates() {
 }
 
 /* ==========================================================================
+   International students + glossary
+   ========================================================================== */
+function renderInternational() {
+  $("#intlGrid").innerHTML = FVCN_PREP.international
+    .map((item, index) => `
+      <article class="intl-card">
+        <span class="intl-num">${String(index + 1).padStart(2, "0")}</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.body)}</p>
+      </article>`)
+    .join("");
+}
+
+const glossary = { category: "all", query: "", expanded: false };
+const GLOSSARY_PREVIEW = 12;
+
+function renderGlossaryFilters() {
+  const categories = [...new Set(FVCN_PREP.glossary.map((item) => item.category))];
+  $("#glossaryFilters").innerHTML = ["all", ...categories]
+    .map((category) => `
+      <button type="button" class="chip" data-glossary="${escapeHtml(category)}" aria-pressed="${category === glossary.category}">
+        ${category === "all" ? "All" : escapeHtml(category)}
+      </button>`)
+    .join("");
+}
+
+function renderGlossary() {
+  const query = glossary.query.trim().toLowerCase();
+  const list = FVCN_PREP.glossary
+    .filter((item) => glossary.category === "all" || item.category === glossary.category)
+    .filter((item) => !query || `${item.term} ${item.def}`.toLowerCase().includes(query))
+    .sort((a, b) => a.term.localeCompare(b.term));
+
+  // Show a short list until the student filters, searches, or asks for everything.
+  const collapsed = !glossary.expanded && glossary.category === "all" && !query && list.length > GLOSSARY_PREVIEW;
+  const shown = collapsed ? list.slice(0, GLOSSARY_PREVIEW) : list;
+  $("#glossaryMore").hidden = !collapsed;
+  $("#glossaryMoreBtn").textContent = `Show all ${list.length} terms`;
+
+  $("#glossaryCount").textContent = `${list.length} term${list.length === 1 ? "" : "s"}`;
+  $("#glossaryGrid").innerHTML = list.length
+    ? shown
+      .map((item) => `
+        <div class="glossary-item" id="term-${item.term.toLowerCase().replace(/[^a-z0-9]+/g, "-")}">
+          <dt>${escapeHtml(item.term)} <span class="tag">${escapeHtml(item.category)}</span></dt>
+          <dd>${escapeHtml(item.def)}</dd>
+        </div>`)
+      .join("")
+    : `<div class="empty-state"><h3>No terms match</h3><p>Know a term we should add? Suggest it through the Get involved form on the home page.</p></div>`;
+}
+
+function setupGlossary() {
+  renderInternational();
+  renderGlossaryFilters();
+  renderGlossary();
+
+  $("#glossaryFilters").addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-glossary]");
+    if (!chip) return;
+    glossary.category = chip.dataset.glossary;
+    renderGlossaryFilters();
+    renderGlossary();
+  });
+
+  $("#glossaryMoreBtn").addEventListener("click", () => {
+    glossary.expanded = true;
+    renderGlossary();
+  });
+
+  let timer;
+  $("#glossarySearch").addEventListener("input", (event) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      glossary.query = event.target.value;
+      renderGlossary();
+    }, 120);
+  });
+}
+
+/* ==========================================================================
    Init
    ========================================================================== */
 function setupQuestionBank() {
@@ -495,3 +575,4 @@ function setupQuestionBank() {
 setupQuestionBank();
 setupCalendar();
 setupTemplates();
+setupGlossary();

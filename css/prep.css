@@ -634,6 +634,123 @@
   }
 }
 
+/* International students -------------------------------------------------- */
+.intl-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+}
+
+.intl-layout .section-head {
+  margin-bottom: 0;
+}
+
+.intl-disclaimer {
+  display: flex;
+  gap: 10px;
+  margin: 18px 0 24px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 0.9rem !important;
+}
+
+.intl-disclaimer .icon {
+  margin-top: 3px;
+  color: var(--gold);
+}
+
+.intl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.intl-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.intl-num {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.intl-card h3 {
+  margin-bottom: 8px;
+  font-size: 1.02rem;
+}
+
+.intl-card p {
+  font-size: 0.93rem;
+}
+
+/* Glossary ----------------------------------------------------------------- */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.glossary-item {
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.glossary-item dt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 10px;
+  margin-bottom: 6px;
+  color: var(--maroon-900);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.glossary-item dt .tag {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+}
+
+.glossary-item dd {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1080px) {
+  .glossary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .intl-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .glossary-grid,
+  .intl-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Closing call to action --------------------------------------------------- */
 .prep-cta-section {
   padding-top: 0;

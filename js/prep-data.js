@@ -220,6 +220,86 @@ const FVCN_PREP = {
     }
   ],
 
+  /* ------------------------------------------------------------------------
+     Glossary
+     ------------------------------------------------------------------------ */
+  glossary: [
+    // Recruiting
+    { term: "Coffee chat", category: "Recruiting", def: "An informal 15–30 minute conversation to learn about someone's job and path. Not an interview, but it still leaves an impression." },
+    { term: "Informational interview", category: "Recruiting", def: "A slightly more formal name for a coffee chat: you ask the questions, and the goal is learning, not a job offer." },
+    { term: "Superday", category: "Recruiting", def: "The final round in banking and some other firms: several back-to-back interviews in one day, often with offers soon after." },
+    { term: "HireVue", category: "Recruiting", def: "A platform for recorded video interviews. You see a question, get a short time to think, then record your answer." },
+    { term: "Online assessment (OA)", category: "Recruiting", def: "A timed test early in the process: coding problems in tech, and numerical, logic, or game-based tests at some other firms." },
+    { term: "Return offer", category: "Recruiting", def: "A full-time job offer given to an intern at the end of the internship. The main way many firms hire full-time." },
+    { term: "Exploding offer", category: "Recruiting", def: "An offer with a short deadline to accept. It's fine to politely ask for more time." },
+    { term: "Diversity program", category: "Recruiting", def: "An early program for students from underrepresented backgrounds, often with workshops and a faster path to an internship interview." },
+    { term: "Early insight program", category: "Recruiting", def: "A short program (a day to a few weeks) that introduces first- and second-year students to a firm. Also called a sophomore or discovery program." },
+    { term: "Off-cycle internship", category: "Recruiting", def: "An internship outside the summer: fall, winter, or spring." },
+    { term: "Rolling basis", category: "Recruiting", def: "Applications are reviewed as they arrive, and spots can fill before the deadline. Apply early." },
+    { term: "Referral", category: "Recruiting", def: "An employee formally recommending you to their recruiting team. Usually comes after you've built a relationship." },
+    { term: "ATS", category: "Recruiting", def: "Applicant tracking system: the software firms use to collect and screen applications. Simple, clean resume formatting reads best." },
+    { term: "STAR method", category: "Recruiting", def: "A structure for behavioral answers: Situation, Task, Action, Result. Spend most of the time on your Action." },
+
+    // Finance
+    { term: "Bulge bracket", category: "Finance", def: "The largest global investment banks, such as Goldman Sachs, JPMorgan, Morgan Stanley, Bank of America, and Citi." },
+    { term: "Elite boutique", category: "Finance", def: "Smaller banks focused on advisory work like M&A, known for high-profile deals. Examples include Evercore, Lazard, and Centerview." },
+    { term: "Middle market", category: "Finance", def: "Banks that advise smaller companies and deals, often with a smaller analyst class and broader responsibilities." },
+    { term: "Sell side / buy side", category: "Finance", def: "Sell side firms (banks) advise on and sell securities. Buy side firms (asset managers, hedge funds, private equity) invest money." },
+    { term: "IBD", category: "Finance", def: "Investment Banking Division: the team that advises companies on M&A and raising capital." },
+    { term: "S&T", category: "Finance", def: "Sales & Trading: the team that buys and sells securities for clients and helps them manage risk." },
+    { term: "M&A", category: "Finance", def: "Mergers and acquisitions: one company buying or combining with another." },
+    { term: "EBITDA", category: "Finance", def: "Earnings before interest, taxes, depreciation, and amortization. A rough measure of operating cash profit used in valuation multiples." },
+    { term: "DCF", category: "Finance", def: "Discounted cash flow: valuing a company by projecting its future cash flows and discounting them to today." },
+
+    // Accounting
+    { term: "Big 4", category: "Accounting", def: "The four largest accounting firms: Deloitte, PwC, EY, and KPMG." },
+    { term: "Audit (assurance)", category: "Accounting", def: "Checking that a company's financial statements are fairly presented. The largest service line at most accounting firms." },
+    { term: "Advisory", category: "Accounting", def: "Consulting work at accounting firms: risk, technology, deals, and operations." },
+    { term: "Busy season", category: "Accounting", def: "Roughly January to April, when most audits and tax returns are due and hours are longest." },
+    { term: "CPA", category: "Accounting", def: "Certified Public Accountant: the professional license for accountants. It requires passing the CPA exam and meeting education and experience rules." },
+    { term: "150-hour rule", category: "Accounting", def: "Most states require 150 college credit hours for a CPA license, about 30 more than a typical bachelor's degree." },
+    { term: "GAAP", category: "Accounting", def: "Generally Accepted Accounting Principles: the U.S. rules for financial reporting." },
+
+    // Consulting
+    { term: "MBB", category: "Consulting", def: "McKinsey, BCG, and Bain: the three largest strategy consulting firms." },
+    { term: "Case interview", category: "Consulting", def: "An interview where you work through a business problem out loud. Interviewers grade your structure and reasoning." },
+    { term: "Market sizing", category: "Consulting", def: "Estimating a number (like a market's size) from reasonable assumptions. Common in case interviews." },
+    { term: "Risk advisory", category: "Consulting", def: "Helping companies manage risks like cybersecurity, regulation, and internal controls. A strong path for AIS and IS majors." },
+
+    // Tech
+    { term: "LeetCode", category: "Tech", def: "A practice site for coding interview problems. A few problems a week adds up." },
+    { term: "System design", category: "Tech", def: "Interviews about designing large systems (like a URL shortener). More common for experienced hires than interns." },
+    { term: "New grad", category: "Tech", def: "Full-time roles for students graduating that year, usually recruited in the fall of senior year." },
+    { term: "PM", category: "Tech", def: "Product manager: decides what a product should do and why, working between engineering, design, and the business." },
+
+    // Work authorization (general information only)
+    { term: "F-1 status", category: "Work authorization", def: "The student visa status for full-time academic study in the U.S. Work is limited, so check before taking any job." },
+    { term: "CPT", category: "Work authorization", def: "Curricular Practical Training: work authorization for F-1 students for internships that are part of the curriculum, approved by the school before you start." },
+    { term: "OPT", category: "Work authorization", def: "Optional Practical Training: up to 12 months of work authorization in your field per degree level, approved by USCIS, used during or after your studies." },
+    { term: "STEM OPT", category: "Work authorization", def: "A 24-month extension of OPT for graduates with eligible STEM degrees working for employers enrolled in E-Verify." },
+    { term: "H-1B", category: "Work authorization", def: "An employer-sponsored visa for specialty jobs. There is an annual cap, so most new applicants go through a lottery." },
+    { term: "Sponsorship", category: "Work authorization", def: "When an employer files paperwork, such as an H-1B petition, so you can work for them long term. Policies differ by firm." }
+  ],
+
+  international: [
+    {
+      title: "Know your options before you apply",
+      body: "CPT covers internships during your studies; OPT can be used during or after them. Learn which one fits each internship early, because approval takes time."
+    },
+    {
+      title: "Answer the sponsorship question honestly",
+      body: "Applications often ask whether you will need sponsorship now or in the future. Answer truthfully. It is far better than a surprise after an offer."
+    },
+    {
+      title: "Find firms that sponsor",
+      body: "Policies differ by firm and even by team. Check careers pages, and ask FVCN mentors who were international students which firms sponsored them."
+    },
+    {
+      title: "Check whether your major is STEM-designated",
+      body: "STEM-designated degrees can qualify for the 24-month STEM OPT extension, which gives you more time in the H-1B lottery."
+    }
+  ],
+
   calendarKinds: {
     explore: "Explore",
     prep: "Prepare",
