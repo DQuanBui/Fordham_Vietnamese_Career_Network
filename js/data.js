@@ -835,5 +835,59 @@ const FVCN_DATA = {
       q: "Can I become a mentor?",
       a: "If you're a junior, senior, or alum with internship or work experience, we'd love your help. Use \"Become a mentor\" at the bottom of the page."
     }
+  ],
+
+  // "Find your path" quiz: each answer adds points to one or more majors.
+  quiz: [
+    {
+      q: "Which class project sounds most fun?",
+      options: [
+        { label: "Building a model to decide if a company is worth buying", scores: { finance: 3 } },
+        { label: "Designing a campaign to launch a new product", scores: { marketing: 3 } },
+        { label: "Redesigning how a business uses its data and apps", scores: { "info-systems": 3 } },
+        { label: "Figuring out whether a company's numbers add up", scores: { ais: 3 } },
+        { label: "Writing a program that solves a tricky puzzle", scores: { cs: 3 } }
+      ]
+    },
+    {
+      q: "On a group project, you're usually the one who…",
+      options: [
+        { label: "Runs the numbers and builds the spreadsheet", scores: { finance: 2, ais: 1 } },
+        { label: "Makes the slides look great and presents", scores: { marketing: 2, "info-systems": 1 } },
+        { label: "Organizes the plan and keeps everyone on track", scores: { "info-systems": 2, marketing: 1 } },
+        { label: "Double-checks every detail before it's submitted", scores: { ais: 2, finance: 1 } },
+        { label: "Builds the actual thing while others write about it", scores: { cs: 3 } }
+      ]
+    },
+    {
+      q: "Pick a way to spend a free afternoon.",
+      options: [
+        { label: "Reading about markets, deals, or a company's latest earnings", scores: { finance: 3 } },
+        { label: "Making content or noticing which ads actually work", scores: { marketing: 3 } },
+        { label: "Trying a new app and thinking about how it could be better", scores: { "info-systems": 2, cs: 1 } },
+        { label: "Sudoku, logic puzzles, or organizing something messy", scores: { ais: 2, cs: 1 } },
+        { label: "A side project or a hackathon", scores: { cs: 3 } }
+      ]
+    },
+    {
+      q: "Which work day sounds best?",
+      options: [
+        { label: "Fast-paced and high-stakes, with deadlines and big clients", scores: { finance: 2, "info-systems": 1 } },
+        { label: "Brainstorming with a creative team, then testing ideas", scores: { marketing: 3 } },
+        { label: "Meeting clients and helping them fix how they work", scores: { "info-systems": 3 } },
+        { label: "Structured work with clear answers and a steady routine", scores: { ais: 3 } },
+        { label: "Long stretches of focus, building and debugging", scores: { cs: 3 } }
+      ]
+    },
+    {
+      q: "What matters most in your first job?",
+      options: [
+        { label: "Pay, prestige, and learning fast", scores: { finance: 3 } },
+        { label: "Creativity and working on brands I care about", scores: { marketing: 3 } },
+        { label: "A mix of business and technology", scores: { "info-systems": 3 } },
+        { label: "Stability and a clear path to a license like the CPA", scores: { ais: 3 } },
+        { label: "Building products that lots of people use", scores: { cs: 3 } }
+      ]
+    }
   ]
 };

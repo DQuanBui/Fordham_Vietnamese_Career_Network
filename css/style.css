@@ -3758,3 +3758,173 @@ p {
 .campus-link:hover .icon {
   transform: translateX(3px);
 }
+
+/* ==========================================================================
+   Find your path quiz
+   ========================================================================== */
+.quiz-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 12px 18px;
+  border: 1px solid var(--maroon-100);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 0.95rem;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.quiz-launch:hover {
+  border-color: var(--maroon);
+  box-shadow: var(--shadow);
+}
+
+.quiz-launch strong {
+  color: var(--maroon-900);
+}
+
+.quiz-launch .icon {
+  color: var(--maroon);
+}
+
+.quiz-dialog .dialog-head h2 {
+  font-size: clamp(1.35rem, 2.6vw, 1.6rem);
+}
+
+.quiz-progress {
+  height: 6px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+
+.quiz-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--maroon), var(--gold));
+  transition: width 0.35s var(--ease);
+}
+
+.quiz-options {
+  display: grid;
+  gap: 10px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.97rem;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.quiz-option:hover,
+.quiz-option:focus-visible {
+  border-color: var(--maroon);
+  background: var(--maroon-50);
+}
+
+.quiz-option:active {
+  transform: scale(0.99);
+}
+
+.quiz-option.is-picked {
+  border-color: var(--maroon);
+  background: var(--maroon-50);
+}
+
+.quiz-letter {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--surface-2);
+  color: var(--maroon);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.quiz-back {
+  margin-top: 14px;
+}
+
+.quiz-result {
+  display: grid;
+  gap: 14px;
+}
+
+.quiz-result-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--maroon);
+  color: white;
+}
+
+.quiz-result-icon .icon {
+  width: 26px;
+  height: 26px;
+}
+
+.quiz-second {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--gold-50);
+  color: #5f4520;
+  font-size: 0.92rem;
+}
+
+.quiz-mentors h3 {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.quiz-mentors ul {
+  display: grid;
+  gap: 8px;
+}
+
+.quiz-mentors li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.quiz-mentors .avatar {
+  width: 38px;
+  height: 38px;
+  font-size: 0.8rem;
+}
+
+.quiz-mentors li strong {
+  display: block;
+  color: var(--ink);
+}
+
+.quiz-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}

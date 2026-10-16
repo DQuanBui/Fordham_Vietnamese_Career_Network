@@ -125,7 +125,7 @@ function renderHero() {
           ${icon(major.icon)}${escapeHtml(major.shortName || major.name)}
         </button>`)
       .join("") +
-    `<a href="#paths" class="chip">${icon("compass")}I'm not sure yet</a>`;
+    `<button type="button" class="chip" data-open-quiz>${icon("compass")}I'm not sure yet</button>`;
 
   const flagged = state.mentors.filter((mentor) => mentor.featured && isAccepting(mentor));
   const featured = (flagged.length ? flagged : state.mentors.filter(isAccepting)).slice(0, 3);
@@ -1159,6 +1159,102 @@ function setupDialogs() {
 }
 
 /* ==========================================================================
+   Find your path quiz
+   ========================================================================== */
+const quiz = { step: 0, answers: [] };
+
+function openQuiz() {
+  quiz.step = 0;
+  quiz.answers = [];
+  renderQuiz();
+  $("#quizDialog").showModal();
+}
+
+function quizResults() {
+  const totals = Object.fromEntries(state.majors.map((major) => [major.id, 0]));
+  quiz.answers.forEach((answer, index) => {
+    Object.entries(FVCN_DATA.quiz[index].options[answer].scores).forEach(([id, points]) => {
+      if (id in totals) totals[id] += points;
+    });
+  });
+  return Object.entries(totals)
+    .map(([id, score]) => ({ major: state.majorById[id], score }))
+    .sort((a, b) => b.score - a.score);
+}
+
+function renderQuiz() {
+  const questions = FVCN_DATA.quiz;
+  const body = $("#quizBody");
+
+  if (quiz.step < questions.length) {
+    const question = questions[quiz.step];
+    $("#quizStep").textContent = `Question ${quiz.step + 1} of ${questions.length}`;
+    $("#quizTitle").textContent = question.q;
+    body.innerHTML = `
+      <div class="quiz-progress" aria-hidden="true"><span style="width: ${(quiz.step / questions.length) * 100}%"></span></div>
+      <div class="quiz-options" role="group" aria-label="Answers">
+        ${question.options.map((option, index) => `
+          <button type="button" class="quiz-option ${quiz.answers[quiz.step] === index ? "is-picked" : ""}" data-quiz-answer="${index}">
+            <span class="quiz-letter" aria-hidden="true">${"ABCDE"[index]}</span>${escapeHtml(option.label)}
+          </button>`).join("")}
+      </div>
+      ${quiz.step > 0 ? `<button type="button" class="btn btn-ghost btn-sm quiz-back" data-quiz-back>Back</button>` : ""}`;
+    $(".quiz-option", body)?.focus();
+    return;
+  }
+
+  const [top, second] = quizResults();
+  const major = top.major;
+  const mentors = state.mentors.filter((mentor) => mentor.majorId === major.id && isAccepting(mentor)).slice(0, 3);
+  $("#quizStep").textContent = "Your best match";
+  $("#quizTitle").textContent = major.name;
+  body.innerHTML = `
+    <div class="quiz-result">
+      <span class="quiz-result-icon">${icon(major.icon)}</span>
+      <p>${escapeHtml(major.summary)}</p>
+      ${second && second.score > 0 ? `<p class="quiz-second">Also worth exploring: <strong>${escapeHtml(second.major.name)}</strong></p>` : ""}
+      ${mentors.length ? `
+        <div class="quiz-mentors">
+          <h3>Talk to someone on this path</h3>
+          <ul>${mentors.map((mentor) => `
+            <li>${avatarHtml(mentor)}<span><strong>${escapeHtml(mentor.name)}</strong>${escapeHtml(companyNames(mentor))}</span></li>`).join("")}
+          </ul>
+        </div>` : ""}
+      <p class="quiz-note">This quiz is a starting point, not a verdict. Plenty of people switch paths, and our mentors can tell you how.</p>
+      <div class="quiz-actions">
+        <button type="button" class="btn btn-primary" data-quiz-book="${major.id}">Book a chat about ${escapeHtml(major.shortName || major.name)}</button>
+        <button type="button" class="btn btn-secondary" data-quiz-explore="${major.id}">Explore the path</button>
+        <button type="button" class="btn btn-ghost" data-quiz-restart>Retake</button>
+      </div>
+    </div>`;
+}
+
+function setupQuiz() {
+  $("#quizBody").addEventListener("click", (event) => {
+    const target = event.target.closest("[data-quiz-answer], [data-quiz-back], [data-quiz-book], [data-quiz-explore], [data-quiz-restart]");
+    if (!target) return;
+    const data = target.dataset;
+    if (data.quizAnswer !== undefined) {
+      quiz.answers[quiz.step] = Number(data.quizAnswer);
+      quiz.step += 1;
+      renderQuiz();
+    } else if ("quizBack" in data) {
+      quiz.step -= 1;
+      renderQuiz();
+    } else if ("quizRestart" in data) {
+      openQuiz();
+    } else if (data.quizBook) {
+      $("#quizDialog").close();
+      prefillBooking({ majorId: data.quizBook, meetingType: "Major or career advice" });
+    } else if (data.quizExplore) {
+      $("#quizDialog").close();
+      selectPath(data.quizExplore);
+      scrollToSection("paths");
+    }
+  });
+}
+
+/* ==========================================================================
    Click handling (one delegated listener for all rendered content)
    ========================================================================== */
 function setupActions() {
@@ -1166,7 +1262,7 @@ function setupActions() {
     const target = event.target.closest(
       "[data-book-mentor], [data-open-mentor], [data-book-major], [data-filter-mentors], [data-mentor-filter], [data-reset-mentors], " +
       "[data-resource-filter], [data-show-resources], [data-open-guide], [data-open-involve], [data-close-dialog], " +
-      "[data-copy-template], [data-book-from-guide], [data-rsvp], [data-ics], [data-cancel-booking], .path-tab, .year-tab"
+      "[data-copy-template], [data-book-from-guide], [data-rsvp], [data-ics], [data-cancel-booking], [data-open-quiz], .path-tab, .year-tab"
     );
     if (!target) return;
     const data = target.dataset;
@@ -1220,6 +1316,8 @@ function setupActions() {
     } else if (data.bookFromGuide) {
       $("#guideDialog").close();
       prefillBooking({ meetingType: data.bookFromGuide, majorId: data.guideMajor || undefined });
+    } else if ("openQuiz" in data) {
+      openQuiz();
     } else if (data.rsvp) {
       handleRsvp(data.rsvp);
     } else if (data.ics) {
@@ -1393,6 +1491,7 @@ async function init() {
   setupBooking();
   setupDialogs();
   setupRsvpDialog();
+  setupQuiz();
   setupReveal();
   setupCounters();
   $("#year").textContent = new Date().getFullYear();
