@@ -7,7 +7,7 @@ const campus = {
   saved: new Set(localStore.get("fvcn.savedPlaces", []))
 };
 
-const placeId = (place) => place.name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-");
+const placeId = (place) => place.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-");
 const mapsUrl = (place) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place.name}, ${place.address}`)}`;
 

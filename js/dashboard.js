@@ -198,6 +198,7 @@ function renderAll() {
     renderRsvps();
     renderSubmissions();
     renderFeedback();
+    renderInsights();
   }
   $$("[data-needs-feedback]").forEach((el) => { el.hidden = !isAdmin() || !state.hasFeedback; });
   renderManage();

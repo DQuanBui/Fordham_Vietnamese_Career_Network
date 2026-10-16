@@ -95,6 +95,7 @@
 
       <div class="year-tabs dash-tabs" id="dashTabs" role="tablist" aria-label="Dashboard sections">
         <button type="button" class="year-tab" role="tab" data-tab="requests" aria-selected="true">Requests</button>
+        <button type="button" class="year-tab" role="tab" data-tab="insights" aria-selected="false" data-admin-only>Insights</button>
         <button type="button" class="year-tab" role="tab" data-tab="profile" aria-selected="false" data-mentor-only hidden>My profile</button>
         <button type="button" class="year-tab" role="tab" data-tab="mentors" aria-selected="false" data-admin-only>Mentors</button>
         <button type="button" class="year-tab" role="tab" data-tab="events" aria-selected="false" data-admin-only>Events</button>
@@ -122,6 +123,10 @@
         </div>
         <p class="result-count" id="requestCount" aria-live="polite"></p>
         <div class="request-list" id="requestList"></div>
+      </section>
+
+      <section data-panel="insights" role="tabpanel" hidden>
+        <div id="insightsPanel"></div>
       </section>
 
       <section data-panel="profile" role="tabpanel" hidden>
@@ -157,5 +162,6 @@
   <script src="js/utils.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/dashboard-manage.js"></script>
+  <script src="js/dashboard-insights.js"></script>
 </body>
 </html>

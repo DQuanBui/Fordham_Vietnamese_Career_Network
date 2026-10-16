@@ -90,7 +90,7 @@ const siteSearch = (() => {
   // Lowercase, strip Vietnamese diacritics ("phở" → "pho"), and pad words with spaces
   // so a query only matches the start of a word ("pho" finds phở, not sophomore).
   function normalize(text) {
-    return ` ${text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/[^a-z0-9]+/g, " ")} `;
+    return ` ${text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/[^a-z0-9]+/g, " ")} `;
   }
 
   // Every word must start a word somewhere; title matches rank first.
