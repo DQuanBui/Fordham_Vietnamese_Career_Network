@@ -120,6 +120,7 @@
         </p>
         <nav class="page-hero-links" aria-label="On this page">
           <a href="#questions"><svg class="icon" aria-hidden="true"><use href="#i-message"></use></svg>Interview questions</a>
+          <a href="#calendar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg>Recruiting calendar</a>
         </nav>
       </div>
     </section>
@@ -160,6 +161,37 @@
 
         <p class="result-count" id="questionCount" aria-live="polite"></p>
         <div class="question-list" id="questionList"></div>
+      </div>
+    </section>
+
+    <!-- RECRUITING CALENDAR -->
+    <section class="section section-tinted" id="calendar">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Recruiting calendar</p>
+          <h2>Know what's open before it's too late.</h2>
+          <p>
+            Recruiting for many internships starts a year or more ahead. Pick your path and class
+            year to see what usually happens each month, and what to focus on right now.
+          </p>
+        </div>
+
+        <div class="cal-controls">
+          <div class="chips" id="calTracks" role="group" aria-label="Career path"></div>
+          <div class="segmented cal-years" id="calYears" role="group" aria-label="Class year"></div>
+        </div>
+
+        <div class="cal-layout">
+          <div class="cal-card">
+            <div class="cal-grid" id="calGrid"></div>
+            <ul class="cal-legend" id="calLegend"></ul>
+          </div>
+          <aside class="cal-now" id="calNow" aria-live="polite"></aside>
+        </div>
+        <p class="cal-note">
+          Typical timing from recent recruiting cycles. Dates change every year (usually getting earlier),
+          so confirm on each firm's careers page and with Fordham's career center.
+        </p>
       </div>
     </section>
 

@@ -13,6 +13,124 @@ const FVCN_PREP = {
   ],
 
   /* ------------------------------------------------------------------------
+     Recruiting calendar
+     Months are calendar months (1 = January). Each phase sits inside one academic
+     year, which runs August to July, so a phase never wraps past July.
+     kind: explore | prep | apply | interview | intern
+     ------------------------------------------------------------------------ */
+  calendar: [
+    {
+      id: "banking", label: "Investment banking & markets", majorId: "finance",
+      phases: [
+        { year: "freshman", from: 9, to: 11, kind: "explore", title: "Join finance clubs", detail: "Get into a student investment or finance club and learn the basics of accounting and markets." },
+        { year: "freshman", from: 10, to: 2, kind: "apply", title: "First-year and diversity programs", detail: "Many banks run early-insight and diversity programs for first-years. They are small, but a strong head start." },
+        { year: "freshman", from: 3, to: 5, kind: "prep", title: "Start networking", detail: "Two or three coffee chats a month with upperclassmen and alumni. Keep a simple tracker." },
+        { year: "freshman", from: 6, to: 7, kind: "intern", title: "Summer experience", detail: "Any job, research, or internship works. Learn Excel and the three financial statements on the side." },
+
+        { year: "sophomore", from: 8, to: 11, kind: "apply", title: "Sophomore insight programs", detail: "Apply to sophomore and diversity programs, and polish your resume with a mentor." },
+        { year: "sophomore", from: 9, to: 12, kind: "prep", title: "Learn the technicals", detail: "The three statements, valuation methods, and a DCF. Use the Finance questions in the bank above." },
+        { year: "sophomore", from: 1, to: 4, kind: "apply", title: "Junior-summer applications open", detail: "Many banks now recruit for the summer after junior year more than a year ahead. Have your story and resume ready by January." },
+        { year: "sophomore", from: 2, to: 6, kind: "interview", title: "HireVues and superdays", detail: "Recorded first-round interviews, then a final round of back-to-back interviews." },
+        { year: "sophomore", from: 6, to: 7, kind: "intern", title: "Sophomore summer internship", detail: "Boutique banks, private equity or venture capital, corporate finance, or wealth management." },
+
+        { year: "junior", from: 8, to: 10, kind: "apply", title: "Remaining summer analyst roles", detail: "Middle-market banks, boutiques, and later-cycle programs. Don't stop if you don't have an offer yet." },
+        { year: "junior", from: 9, to: 11, kind: "interview", title: "Later-cycle interviews", detail: "Interviews for the programs above." },
+        { year: "junior", from: 6, to: 7, kind: "intern", title: "Summer analyst internship", detail: "The internship that most often leads to a full-time offer." },
+
+        { year: "senior", from: 8, to: 9, kind: "apply", title: "Return offers and full-time recruiting", detail: "Accept a return offer, or recruit for full-time roles if you're looking for a different firm." },
+        { year: "senior", from: 9, to: 12, kind: "interview", title: "Full-time interviews", detail: "For students still recruiting." },
+        { year: "senior", from: 1, to: 5, kind: "explore", title: "Pay it forward", detail: "Help the next class: become an FVCN mentor." }
+      ]
+    },
+    {
+      id: "accounting", label: "Big 4 accounting & audit", majorId: "ais",
+      phases: [
+        { year: "freshman", from: 9, to: 12, kind: "explore", title: "Meet the firms", detail: "Go to accounting society events and firm information sessions. Recruiters remember faces." },
+        { year: "freshman", from: 1, to: 4, kind: "apply", title: "First-year exploration programs", detail: "Some firms run short programs for first-years. Ask upperclassmen which ones they did." },
+        { year: "freshman", from: 3, to: 5, kind: "prep", title: "Plan for 150 credits", detail: "Most states require 150 credit hours for a CPA license. Map out how you'll get there (often a master's)." },
+
+        { year: "sophomore", from: 8, to: 11, kind: "apply", title: "Sophomore leadership programs", detail: "Each Big 4 firm, and many mid-size firms, runs a program for sophomores. Applications usually open in late summer and fall." },
+        { year: "sophomore", from: 10, to: 1, kind: "interview", title: "Leadership program interviews", detail: "Mostly behavioral. These programs often lead to junior internship offers." },
+        { year: "sophomore", from: 2, to: 5, kind: "prep", title: "Choose a service line", detail: "Audit, tax, or advisory. Coffee chats with people in each are the best way to decide." },
+
+        { year: "junior", from: 8, to: 10, kind: "apply", title: "Internship applications", detail: "Audit, tax, and advisory internships for the following year. Leadership program alumni may be fast-tracked." },
+        { year: "junior", from: 9, to: 11, kind: "interview", title: "Office visits and interviews", detail: "Offers often arrive by late fall." },
+        { year: "junior", from: 1, to: 3, kind: "intern", title: "Winter (busy season) internships", detail: "Some firms offer audit internships during busy season instead of the summer." },
+        { year: "junior", from: 6, to: 7, kind: "intern", title: "Summer internship", detail: "Strong performance usually leads to a full-time offer." },
+
+        { year: "senior", from: 8, to: 9, kind: "apply", title: "Accept a full-time offer", detail: "Start dates are often a year or more away, especially if you're doing a master's first." },
+        { year: "senior", from: 10, to: 5, kind: "prep", title: "Plan the CPA exam", detail: "Decide which sections to take first and finish your 150 credits." }
+      ]
+    },
+    {
+      id: "consulting", label: "Consulting & tech consulting", majorId: "info-systems",
+      phases: [
+        { year: "freshman", from: 9, to: 12, kind: "explore", title: "Join a consulting club", detail: "Try a case competition. It's the fastest way to find out if you enjoy this kind of problem solving." },
+        { year: "freshman", from: 1, to: 5, kind: "prep", title: "Build your leadership story", detail: "Firms look for leadership and impact. Take on a real role in one or two organizations." },
+
+        { year: "sophomore", from: 8, to: 12, kind: "apply", title: "Sophomore and diversity programs", detail: "Many consulting firms run early programs for sophomores, often with an interview for a junior internship." },
+        { year: "sophomore", from: 1, to: 5, kind: "prep", title: "Start case practice", detail: "Two or three cases a week with a partner. Use the Consulting questions above to warm up." },
+        { year: "sophomore", from: 6, to: 7, kind: "intern", title: "Summer internship", detail: "Any role with analytical work and measurable results." },
+
+        { year: "junior", from: 8, to: 9, kind: "apply", title: "Internship applications", detail: "Strategy firms and Big 4 consulting and advisory practices. Networking and referrals matter a lot." },
+        { year: "junior", from: 9, to: 11, kind: "interview", title: "Case interviews and final rounds", detail: "Usually two rounds, each with a case and behavioral questions." },
+        { year: "junior", from: 6, to: 7, kind: "intern", title: "Summer consulting internship", detail: "Most full-time consulting hires come from the summer intern class." },
+
+        { year: "senior", from: 8, to: 9, kind: "apply", title: "Full-time applications", detail: "For students without a return offer, or switching firms." },
+        { year: "senior", from: 9, to: 11, kind: "interview", title: "Full-time interviews", detail: "Same format as the internship process." }
+      ]
+    },
+    {
+      id: "software", label: "Software engineering", majorId: "cs",
+      phases: [
+        { year: "freshman", from: 9, to: 12, kind: "explore", title: "Build your first project", detail: "Something small that you finish. Join a coding club or a hackathon." },
+        { year: "freshman", from: 9, to: 11, kind: "apply", title: "First- and second-year programs", detail: "Large tech companies run programs for first- and second-year students. Applications open early in the fall." },
+        { year: "freshman", from: 1, to: 4, kind: "apply", title: "Startups and research", detail: "Smaller companies and professors' research labs hire closer to the summer." },
+        { year: "freshman", from: 6, to: 7, kind: "intern", title: "Summer project or internship", detail: "Shipping something real beats a long list of tutorials." },
+
+        { year: "sophomore", from: 8, to: 10, kind: "apply", title: "Internship applications open", detail: "Large tech and finance-tech companies open applications in late summer. Apply early, because many review on a rolling basis." },
+        { year: "sophomore", from: 9, to: 12, kind: "interview", title: "Online assessments and interviews", detail: "Timed coding tests, then technical interviews." },
+        { year: "sophomore", from: 1, to: 4, kind: "apply", title: "Rolling applications", detail: "Mid-size companies and startups keep hiring through the spring." },
+        { year: "sophomore", from: 6, to: 7, kind: "intern", title: "Summer internship", detail: "" },
+
+        { year: "junior", from: 8, to: 10, kind: "apply", title: "Main internship season", detail: "Big tech and quantitative trading firms. Use referrals from past internships and FVCN mentors." },
+        { year: "junior", from: 9, to: 12, kind: "interview", title: "Technical interviews", detail: "Data structures, algorithms, and a little system design." },
+        { year: "junior", from: 6, to: 7, kind: "intern", title: "Summer internship", detail: "Return offers usually come at the end of the summer." },
+
+        { year: "senior", from: 8, to: 11, kind: "apply", title: "New-grad applications", detail: "Return offers, or apply to new-grad roles early in the fall." },
+        { year: "senior", from: 9, to: 12, kind: "interview", title: "New-grad interviews", detail: "" }
+      ]
+    },
+    {
+      id: "marketing", label: "Marketing & brand", majorId: "marketing",
+      phases: [
+        { year: "freshman", from: 9, to: 12, kind: "explore", title: "Start a portfolio", detail: "Social posts, designs, writing, or campaign ideas. Join a marketing club." },
+        { year: "freshman", from: 1, to: 5, kind: "prep", title: "Run something real", detail: "Manage social media for a club or a local business, and track the numbers." },
+
+        { year: "sophomore", from: 9, to: 11, kind: "apply", title: "Early programs at consumer brands", detail: "Some large consumer-goods companies run programs for sophomores in the fall." },
+        { year: "sophomore", from: 2, to: 5, kind: "apply", title: "Agency, media, and startup internships", detail: "These usually hire a few months before the summer." },
+        { year: "sophomore", from: 6, to: 7, kind: "intern", title: "Summer internship", detail: "" },
+
+        { year: "junior", from: 8, to: 11, kind: "apply", title: "Brand management internships", detail: "Large consumer companies recruit for junior-summer brand roles in the fall." },
+        { year: "junior", from: 9, to: 12, kind: "interview", title: "Interviews and case questions", detail: "Expect \"How would you grow this brand?\" questions. Practice with the Marketing set above." },
+        { year: "junior", from: 2, to: 5, kind: "apply", title: "Agencies, media, and startups", detail: "Rolling hiring continues in the spring." },
+        { year: "junior", from: 6, to: 7, kind: "intern", title: "Summer internship", detail: "" },
+
+        { year: "senior", from: 8, to: 11, kind: "apply", title: "Full-time brand programs", detail: "Rotational and associate brand manager programs recruit in the fall." },
+        { year: "senior", from: 2, to: 5, kind: "apply", title: "Agencies and startups", detail: "Full-time hiring here happens closer to graduation." }
+      ]
+    }
+  ],
+
+  calendarKinds: {
+    explore: "Explore",
+    prep: "Prepare",
+    apply: "Applications",
+    interview: "Interviews",
+    intern: "Internship"
+  },
+
+  /* ------------------------------------------------------------------------
      Interview question bank
      `tip` is how to approach the question; `points` are what a strong answer covers.
      ------------------------------------------------------------------------ */

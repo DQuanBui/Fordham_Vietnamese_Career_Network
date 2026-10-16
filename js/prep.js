@@ -195,6 +195,134 @@ function setupPractice() {
 }
 
 /* ==========================================================================
+   Recruiting calendar
+   ========================================================================== */
+const ACADEMIC_MONTHS = [8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7]; // August to July
+const CLASS_YEARS = [
+  { id: "freshman", label: "Freshman" },
+  { id: "sophomore", label: "Sophomore" },
+  { id: "junior", label: "Junior" },
+  { id: "senior", label: "Senior" }
+];
+const monthIndex = (month) => (month - 8 + 12) % 12;
+const monthName = (month, style = "short") => new Date(2000, month - 1, 1).toLocaleString("en-US", { month: style });
+
+const calendar = {
+  track: FVCN_PREP.calendar[0].id,
+  year: localStore.get("fvcn.classYear", "freshman"),
+  now: new Date().getMonth() + 1
+};
+
+function monthRange(phase) {
+  return phase.from === phase.to ? monthName(phase.from) : `${monthName(phase.from)}–${monthName(phase.to)}`;
+}
+
+function renderCalendarControls() {
+  $("#calTracks").innerHTML = FVCN_PREP.calendar
+    .map((track) => `
+      <button type="button" class="chip" data-cal-track="${track.id}" aria-pressed="${track.id === calendar.track}">
+        ${escapeHtml(track.label)}
+      </button>`)
+    .join("");
+  $("#calYears").innerHTML = CLASS_YEARS
+    .map((year) => `
+      <label><input type="radio" name="calYear" value="${year.id}" ${year.id === calendar.year ? "checked" : ""} /><span>${year.label}</span></label>`)
+    .join("");
+  $("#calLegend").innerHTML = Object.entries(FVCN_PREP.calendarKinds)
+    .map(([kind, label]) => `<li><span class="cal-swatch cal-${kind}"></span>${escapeHtml(label)}</li>`)
+    .join("");
+}
+
+function renderCalendar() {
+  const track = FVCN_PREP.calendar.find((item) => item.id === calendar.track);
+  const phases = track.phases
+    .filter((phase) => phase.year === calendar.year)
+    .sort((a, b) => monthIndex(a.from) - monthIndex(b.from));
+  const nowCol = monthIndex(calendar.now) + 2; // column 1 holds the phase titles
+
+  const header = `
+    <div class="cal-row cal-head" aria-hidden="true">
+      <span class="cal-label"></span>
+      ${ACADEMIC_MONTHS.map((month, i) => `
+        <span class="cal-month ${i + 2 === nowCol ? "is-now" : ""}" style="grid-column: ${i + 2}">
+          <span class="cal-month-full">${monthName(month)}</span><span class="cal-month-initial">${monthName(month, "narrow")}</span>
+        </span>`).join("")}
+    </div>`;
+
+  const rows = phases
+    .map((phase) => {
+      const start = monthIndex(phase.from) + 2;
+      const end = monthIndex(phase.to) + 3;
+      const active = nowCol >= start && nowCol < end;
+      return `
+        <div class="cal-row">
+          <span class="cal-label">
+            <strong>${escapeHtml(phase.title)}</strong>
+            <small>${monthRange(phase)} · ${escapeHtml(FVCN_PREP.calendarKinds[phase.kind])}</small>
+          </span>
+          <span class="cal-now-line" style="grid-column: ${nowCol}" aria-hidden="true"></span>
+          <span class="cal-bar cal-${phase.kind} ${active ? "is-active" : ""}" style="grid-column: ${start} / ${end}"
+            title="${escapeHtml(phase.detail || phase.title)}"></span>
+        </div>`;
+    })
+    .join("");
+
+  $("#calGrid").innerHTML = header + rows;
+  renderCalendarNow(track, phases);
+}
+
+// "Right now" panel: what's happening this month for the chosen path and year, and what comes next.
+function renderCalendarNow(track, phases) {
+  const now = monthIndex(calendar.now);
+  const active = phases.filter((phase) => monthIndex(phase.from) <= now && now <= monthIndex(phase.to));
+  const upcoming = phases.filter((phase) => monthIndex(phase.from) > now).slice(0, 2);
+  const yearLabel = CLASS_YEARS.find((year) => year.id === calendar.year).label;
+
+  const item = (phase) => `
+    <li class="cal-now-item">
+      <span class="cal-swatch cal-${phase.kind}"></span>
+      <div>
+        <strong>${escapeHtml(phase.title)}</strong>
+        <small>${monthRange(phase)}</small>
+        ${phase.detail ? `<p>${escapeHtml(phase.detail)}</p>` : ""}
+      </div>
+    </li>`;
+
+  $("#calNow").innerHTML = `
+    <p class="eyebrow">Right now · ${monthName(calendar.now, "long")}</p>
+    <h3>${yearLabel} year · ${escapeHtml(track.label)}</h3>
+    ${active.length
+      ? `<ul class="cal-now-list">${active.map(item).join("")}</ul>`
+      : `<p class="cal-quiet">A quieter month for this path. A good time for coffee chats and building skills.</p>`}
+    ${upcoming.length ? `<h4>Coming up</h4><ul class="cal-now-list is-upcoming">${upcoming.map(item).join("")}</ul>` : ""}
+    <a class="btn btn-primary btn-block" href="index.html?topic=Internship+search&major=${track.majorId}#booking">
+      Ask a mentor about timing ${icon("arrow-right")}
+    </a>`;
+}
+
+function setupCalendar() {
+  if (!CLASS_YEARS.some((year) => year.id === calendar.year)) calendar.year = "freshman";
+  // prep.html?track=finance opens the matching path.
+  const linked = FVCN_PREP.calendar.find((item) => item.majorId === new URLSearchParams(window.location.search).get("track"));
+  if (linked) calendar.track = linked.id;
+  renderCalendarControls();
+  renderCalendar();
+
+  $("#calTracks").addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-cal-track]");
+    if (!chip) return;
+    calendar.track = chip.dataset.calTrack;
+    $$("[data-cal-track]").forEach((el) => el.setAttribute("aria-pressed", el === chip));
+    renderCalendar();
+  });
+  $("#calYears").addEventListener("change", (event) => {
+    calendar.year = event.target.value;
+    localStore.set("fvcn.classYear", calendar.year);
+    renderCalendar();
+  });
+}
+
+/* ==========================================================================
    Init
    ========================================================================== */
 function setupQuestionBank() {
@@ -248,3 +376,4 @@ function setupQuestionBank() {
 }
 
 setupQuestionBank();
+setupCalendar();
