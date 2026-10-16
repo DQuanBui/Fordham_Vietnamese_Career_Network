@@ -26,6 +26,13 @@
   display: block;
 }
 
+/* The full name doesn't fit next to the header button on small phones. */
+@media (max-width: 480px) {
+  .dash-body .brand-text small {
+    display: none;
+  }
+}
+
 .dash-user {
   display: flex;
   align-items: center;
