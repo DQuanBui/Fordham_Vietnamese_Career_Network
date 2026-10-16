@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Prep kit page
+   ========================================================================== */
+
+/* Question bank ------------------------------------------------------------ */
+.qb-progress {
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.qb-hide-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.qb-hide-done input,
+.qb-done input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--maroon);
+}
+
+.question-list {
+  display: grid;
+  gap: 10px;
+}
+
+.qb-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.qb-item:hover {
+  border-color: var(--line-strong);
+}
+
+.qb-item[open] {
+  border-color: var(--maroon-100);
+  box-shadow: var(--shadow);
+}
+
+.qb-item summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.qb-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.qb-item summary > .icon {
+  margin-top: 10px;
+  margin-left: auto;
+  color: var(--muted);
+  transition: transform 0.25s var(--ease);
+}
+
+.qb-item[open] summary > .icon {
+  transform: rotate(180deg);
+}
+
+.qb-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--maroon-50);
+  color: var(--maroon);
+}
+
+.qb-item.is-done .qb-icon {
+  background: var(--success-50);
+  color: var(--success);
+}
+
+.qb-q {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.qb-q strong {
+  color: var(--maroon-900);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+
+.qb-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.qb-tags .tag .icon {
+  width: 12px;
+  height: 12px;
+}
+
+.qb-answer {
+  padding: 0 20px 20px 74px;
+}
+
+.qb-answer h4,
+.practice-answer h4 {
+  margin: 16px 0 10px;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.qb-tip {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--gold-50);
+  color: #5f4520;
+  font-size: 0.93rem;
+}
+
+.qb-tip .icon {
+  margin-top: 3px;
+  color: var(--gold);
+}
+
+.qb-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.qb-done:has(input:checked) {
+  border-color: var(--success);
+  background: var(--success-50);
+  color: var(--success);
+}
+
+/* Practice mode ------------------------------------------------------------ */
+.practice-question {
+  margin-bottom: 18px;
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
+  line-height: 1.25;
+}
+
+.practice-timer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.practice-clock {
+  min-width: 84px;
+  color: var(--maroon-900);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.practice-clock.is-low {
+  color: var(--danger);
+}
+
+.practice-hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.practice-answer {
+  margin-top: 18px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+}
+
+.practice-answer .qb-tip {
+  margin-top: 16px;
+}
+
+.practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.practice-actions .btn-primary {
+  margin-left: auto;
+}
+
+/* Closing call to action --------------------------------------------------- */
+.prep-cta-section {
+  padding-top: 0;
+}
+
+.prep-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  padding: clamp(28px, 4vw, 44px);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--maroon-900), var(--maroon));
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.prep-cta h2 {
+  margin-bottom: 6px;
+  color: white;
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+}
+
+@media (max-width: 680px) {
+  .qb-item summary {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .qb-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .qb-answer {
+    padding: 0 16px 18px;
+  }
+
+  .practice-actions .btn {
+    flex: 1 1 auto;
+  }
+
+  .practice-actions .btn-primary {
+    margin-left: 0;
+  }
+}

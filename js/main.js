@@ -327,6 +327,7 @@ function renderPathPanel() {
 
     <div class="path-footer">
       <button type="button" class="btn btn-primary" data-book-major="${major.id}">Book a chat about ${escapeHtml(major.shortName || major.name)}</button>
+      <a class="btn btn-ghost" href="prep.html?track=${major.id}#questions">Practice interview questions ${icon("arrow-right")}</a>
       <button type="button" class="btn btn-ghost" data-show-resources="${major.id}">All ${escapeHtml(major.shortName || major.name)} resources ${icon("arrow-right")}</button>
     </div>`;
 
@@ -1395,6 +1396,17 @@ async function init() {
   setupReveal();
   setupCounters();
   $("#year").textContent = new Date().getFullYear();
+
+  // Links from other pages can prefill the form, e.g. index.html?topic=Interview+prep&major=finance#booking
+  const params = new URLSearchParams(window.location.search);
+  if (["topic", "major", "mentor"].some((key) => params.has(key))) {
+    const mentorId = params.get("mentor");
+    prefillBooking({
+      meetingType: params.get("topic") || undefined,
+      majorId: state.majorById[params.get("major")] ? params.get("major") : undefined,
+      mentorId: state.mentorById[mentorId] && isAccepting(state.mentorById[mentorId]) ? mentorId : undefined
+    });
+  }
 
   // 2. Swap in live content and the student's own data once the database answers.
   const [majors, mentors, resources, events, companies, rsvps, eventCounts, testimonials, publicStats] = await Promise.all([
