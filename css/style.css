@@ -3713,3 +3713,48 @@ p {
 .section-head-row .section-head {
   margin-bottom: 0;
 }
+
+/* Closing call to action on content pages ---------------------------------- */
+.prep-cta-section {
+  padding-top: 0;
+}
+
+.prep-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  padding: clamp(28px, 4vw, 44px);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, var(--maroon-900), var(--maroon));
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.prep-cta h2 {
+  margin-bottom: 6px;
+  color: white;
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+}
+
+.campus-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: var(--gold-100);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.campus-link:hover {
+  color: white;
+}
+
+.campus-link .icon {
+  transition: transform 0.2s var(--ease);
+}
+
+.campus-link:hover .icon {
+  transform: translateX(3px);
+}

@@ -751,29 +751,6 @@
   }
 }
 
-/* Closing call to action --------------------------------------------------- */
-.prep-cta-section {
-  padding-top: 0;
-}
-
-.prep-cta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px 32px;
-  padding: clamp(28px, 4vw, 44px);
-  border-radius: var(--radius-lg);
-  background: linear-gradient(120deg, var(--maroon-900), var(--maroon));
-  color: rgba(255, 255, 255, 0.86);
-}
-
-.prep-cta h2 {
-  margin-bottom: 6px;
-  color: white;
-  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
-}
-
 @media (max-width: 680px) {
   .qb-item summary {
     padding: 16px;
