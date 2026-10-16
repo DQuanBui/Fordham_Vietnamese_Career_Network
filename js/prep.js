@@ -323,6 +323,123 @@ function setupCalendar() {
 }
 
 /* ==========================================================================
+   Message templates
+   ========================================================================== */
+const templates = {
+  current: FVCN_PREP.templates[0].id,
+  values: localStore.get("fvcn.templateFields", {})
+};
+
+// Start with the name and email saved by the booking form, if any.
+(() => {
+  const profile = localStore.get("fvcn.profile", null);
+  if (profile?.name && !templates.values.name) templates.values.name = profile.name;
+})();
+
+const templateIcon = (name) => name === "linkedin"
+  ? `<svg class="icon icon-fill" aria-hidden="true"><use href="#i-linkedin"></use></svg>`
+  : icon(name);
+
+// Fills {placeholders}. Missing values stay visible as highlighted labels in the preview.
+function fillTemplate(text, { html = false } = {}) {
+  return text.replace(/\{(\w+)\}/g, (_, key) => {
+    const value = (templates.values[key] || "").trim();
+    if (!html) return value || `[${FVCN_PREP.templateFields[key].label}]`;
+    return value
+      ? escapeHtml(value)
+      : `<mark class="tpl-missing">${escapeHtml(FVCN_PREP.templateFields[key].label)}</mark>`;
+  });
+}
+
+function renderTemplateTabs() {
+  $("#tplTabs").innerHTML = FVCN_PREP.templates
+    .map((tpl) => `
+      <button type="button" class="chip" data-template="${tpl.id}" aria-pressed="${tpl.id === templates.current}">${templateIcon(tpl.icon)}${escapeHtml(tpl.label)}</button>`)
+    .join("");
+}
+
+function renderTemplateFields() {
+  const tpl = FVCN_PREP.templates.find((item) => item.id === templates.current);
+  $("#tplFields").innerHTML = tpl.fields
+    .map((key) => {
+      const field = FVCN_PREP.templateFields[key];
+      return `
+        <div class="field">
+          <label for="tpl-${key}">${escapeHtml(field.label)}</label>
+          <input id="tpl-${key}" name="${key}" type="text" placeholder="${escapeHtml(field.placeholder)}"
+            value="${escapeHtml(templates.values[key] || "")}" />
+        </div>`;
+    })
+    .join("");
+  $("#tplTips").innerHTML = tpl.tips.map((tip) => `<li>${icon("check")}<span>${escapeHtml(tip)}</span></li>`).join("");
+}
+
+function renderTemplatePreview() {
+  const tpl = FVCN_PREP.templates.find((item) => item.id === templates.current);
+  $("#tplKind").textContent = tpl.subject ? "Email" : "LinkedIn note";
+  $("#tplSubject").hidden = !tpl.subject;
+  if (tpl.subject) $("#tplSubject").innerHTML = `<span>Subject</span> ${fillTemplate(tpl.subject, { html: true })}`;
+  $("#tplBody").innerHTML = fillTemplate(tpl.body, { html: true })
+    .split("\n\n")
+    .map((paragraph) => `<p>${paragraph.replace(/\n/g, "<br />")}</p>`)
+    .join("");
+
+  const text = fillTemplate(tpl.body);
+  const count = $("#tplCount");
+  if (tpl.limit) {
+    count.textContent = `${text.length} / ${tpl.limit}`;
+    count.classList.toggle("is-over", text.length > tpl.limit);
+  } else {
+    count.textContent = "";
+  }
+
+  const mail = $("#tplMail");
+  mail.hidden = !tpl.subject;
+  if (tpl.subject) {
+    mail.href = `mailto:?subject=${encodeURIComponent(fillTemplate(tpl.subject))}&body=${encodeURIComponent(text)}`;
+  }
+}
+
+function setupTemplates() {
+  renderTemplateTabs();
+  renderTemplateFields();
+  renderTemplatePreview();
+
+  $("#tplTabs").addEventListener("click", (event) => {
+    const tab = event.target.closest("[data-template]");
+    if (!tab) return;
+    templates.current = tab.dataset.template;
+    renderTemplateTabs();
+    renderTemplateFields();
+    renderTemplatePreview();
+  });
+
+  $("#tplForm").addEventListener("input", (event) => {
+    templates.values[event.target.name] = event.target.value;
+    localStore.set("fvcn.templateFields", templates.values);
+    renderTemplatePreview();
+  });
+  $("#tplForm").addEventListener("submit", (event) => event.preventDefault());
+
+  $("#tplClear").addEventListener("click", () => {
+    templates.values = {};
+    localStore.set("fvcn.templateFields", {});
+    renderTemplateFields();
+    renderTemplatePreview();
+  });
+
+  $("#tplCopy").addEventListener("click", async () => {
+    const tpl = FVCN_PREP.templates.find((item) => item.id === templates.current);
+    const missing = [...`${tpl.subject || ""} ${tpl.body}`.matchAll(/\{(\w+)\}/g)]
+      .some(([, key]) => !(templates.values[key] || "").trim());
+    const text = tpl.subject ? `Subject: ${fillTemplate(tpl.subject)}\n\n${fillTemplate(tpl.body)}` : fillTemplate(tpl.body);
+    const copied = await copyText(text);
+    if (!copied) toast("Couldn't copy. Select the text and copy it manually.", "error");
+    else toast(missing ? "Copied. Fill in the highlighted blanks before sending." : "Copied. Add a personal touch before sending.");
+  });
+}
+
+/* ==========================================================================
    Init
    ========================================================================== */
 function setupQuestionBank() {
@@ -377,3 +494,4 @@ function setupQuestionBank() {
 
 setupQuestionBank();
 setupCalendar();
+setupTemplates();

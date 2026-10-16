@@ -121,6 +121,7 @@
         <nav class="page-hero-links" aria-label="On this page">
           <a href="#questions"><svg class="icon" aria-hidden="true"><use href="#i-message"></use></svg>Interview questions</a>
           <a href="#calendar"><svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg>Recruiting calendar</a>
+          <a href="#templates"><svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>Message templates</a>
         </nav>
       </div>
     </section>
@@ -192,6 +193,53 @@
           Typical timing from recent recruiting cycles. Dates change every year (usually getting earlier),
           so confirm on each firm's careers page and with Fordham's career center.
         </p>
+      </div>
+    </section>
+
+    <!-- MESSAGE TEMPLATES -->
+    <section class="section" id="templates">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Message templates</p>
+          <h2>Write the message that gets a reply.</h2>
+          <p>
+            Fill in a few details and get a message that sounds like you. Always edit the result:
+            one personal sentence makes the difference.
+          </p>
+        </div>
+
+        <div class="chips tpl-tabs" id="tplTabs" role="group" aria-label="Message templates"></div>
+
+        <div class="tpl-layout">
+          <form class="tpl-form" id="tplForm" autocomplete="on">
+            <div class="tpl-fields" id="tplFields"></div>
+            <button type="button" class="btn btn-ghost btn-sm" id="tplClear">Clear my details</button>
+          </form>
+
+          <div class="tpl-preview-col">
+            <article class="tpl-preview" aria-label="Message preview">
+              <div class="tpl-preview-head">
+                <span class="tpl-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span id="tplKind">Message</span>
+                <span class="tpl-count" id="tplCount"></span>
+              </div>
+              <p class="tpl-subject" id="tplSubject"></p>
+              <div class="tpl-body" id="tplBody"></div>
+              <div class="tpl-actions">
+                <button type="button" class="btn btn-primary btn-sm" id="tplCopy">
+                  <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>Copy message
+                </button>
+                <a class="btn btn-secondary btn-sm" id="tplMail" href="#">
+                  <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>Open in email
+                </a>
+              </div>
+            </article>
+            <div class="tpl-tips">
+              <h3>Tips</h3>
+              <ul class="check-list" id="tplTips"></ul>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

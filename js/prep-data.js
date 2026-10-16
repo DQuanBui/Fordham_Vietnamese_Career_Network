@@ -122,6 +122,104 @@ const FVCN_PREP = {
     }
   ],
 
+  /* ------------------------------------------------------------------------
+     Message templates. {field} placeholders are filled from the form.
+     ------------------------------------------------------------------------ */
+  templateFields: {
+    name: { label: "Your name", placeholder: "Linh Nguyen" },
+    year: { label: "Your class year", placeholder: "sophomore" },
+    major: { label: "Your major", placeholder: "Finance" },
+    theirName: { label: "Their first name", placeholder: "Tam" },
+    company: { label: "Their company", placeholder: "JPMorgan" },
+    focus: { label: "Industry or team", placeholder: "asset management" },
+    how: { label: "How you found them", placeholder: "through the Fordham alumni network on LinkedIn" },
+    detail: { label: "Something specific about them", placeholder: "your move from audit into risk advisory" },
+    takeaway: { label: "Something you talked about", placeholder: "how to prepare for superdays" },
+    nextStep: { label: "What you'll do next", placeholder: "start practicing technical questions every week" },
+    jobTitle: { label: "Role", placeholder: "Summer Analyst" }
+  },
+
+  templates: [
+    {
+      id: "linkedin",
+      label: "LinkedIn connection note",
+      icon: "linkedin",
+      limit: 200,
+      fields: ["theirName", "year", "major", "focus", "company"],
+      body: "Hi {theirName}, I'm a {year} at Fordham studying {major}. I'd love to hear how you got into {focus} at {company}. Would you be open to a quick 15-minute chat? Thank you!",
+      tips: [
+        "Free LinkedIn accounts limit connection notes to about 200 characters, so keep it short.",
+        "Don't attach a resume or ask for a job in the first message.",
+        "Fordham alumni are the most likely to say yes. Mention Fordham early."
+      ]
+    },
+    {
+      id: "coffee-email",
+      label: "Coffee chat request email",
+      icon: "coffee",
+      fields: ["name", "year", "major", "theirName", "company", "focus", "how", "detail"],
+      subject: "Fordham {year} interested in {focus}",
+      body: "Hi {theirName},\n\nMy name is {name}, and I'm a {year} at Fordham studying {major}. I found you {how} and was especially interested in {detail}.\n\nI'm exploring {focus} and would really appreciate 15–20 minutes to hear about your experience at {company}. I'm happy to work around your schedule, by phone or video.\n\nThank you for considering it.\n\nBest,\n{name}",
+      tips: [
+        "Send it Tuesday to Thursday morning, when people catch up on email.",
+        "One specific detail about them shows you did your homework.",
+        "Offer a short call. 15–20 minutes is an easy yes."
+      ]
+    },
+    {
+      id: "thank-you",
+      label: "Thank-you after a chat",
+      icon: "heart",
+      fields: ["name", "theirName", "takeaway", "nextStep"],
+      subject: "Thank you, {theirName}",
+      body: "Hi {theirName},\n\nThank you for taking the time to talk with me today. I especially appreciated your advice about {takeaway}, and I'm going to {nextStep}.\n\nI'll keep you posted on how it goes. Thanks again for your help.\n\nBest,\n{name}",
+      tips: [
+        "Send it within 24 hours.",
+        "Mention one specific piece of advice, so it doesn't read like a template.",
+        "Follow up again in a month or two with an update. That's how a contact becomes a mentor."
+      ]
+    },
+    {
+      id: "follow-up",
+      label: "Follow-up when there's no reply",
+      icon: "clock",
+      fields: ["name", "theirName", "focus", "company"],
+      subject: "Following up: Fordham student interested in {focus}",
+      body: "Hi {theirName},\n\nI wanted to follow up on my note from last week. I know things get busy, so no worries if now isn't a good time.\n\nIf you have 15 minutes in the coming weeks, I'd love to hear about your experience in {focus} at {company}.\n\nBest,\n{name}",
+      tips: [
+        "Wait about a week before following up.",
+        "Reply in the same thread, so they can see your first message.",
+        "Follow up once. If there's still no reply, move on. It's rarely personal."
+      ]
+    },
+    {
+      id: "referral",
+      label: "Asking for a referral",
+      icon: "users",
+      fields: ["name", "theirName", "takeaway", "jobTitle", "company"],
+      subject: "{jobTitle} application at {company}",
+      body: "Hi {theirName},\n\nI hope you're doing well. Thank you again for our conversation about {takeaway}. It helped me decide to apply for the {jobTitle} role at {company}.\n\nIf you feel comfortable, would you be willing to refer me or pass my resume along to the team? I've attached my resume, and I'm happy to send anything else that would help.\n\nEither way, I really appreciate your help.\n\nBest,\n{name}",
+      tips: [
+        "Only ask someone you've already talked with.",
+        "Make it easy: attach your resume and include the job link or ID.",
+        "Give them an easy way to say no."
+      ]
+    },
+    {
+      id: "interview-thanks",
+      label: "Thank-you after an interview",
+      icon: "briefcase",
+      fields: ["name", "theirName", "jobTitle", "takeaway", "company"],
+      subject: "Thank you for the {jobTitle} interview",
+      body: "Hi {theirName},\n\nThank you for speaking with me today about the {jobTitle} role. I enjoyed learning about {takeaway}, and our conversation made me even more excited about the opportunity to join {company}.\n\nPlease let me know if there's anything else I can provide. I look forward to hearing from you.\n\nBest,\n{name}",
+      tips: [
+        "Send a separate note to each interviewer, the same day.",
+        "Reference something specific from that conversation.",
+        "Keep it to four or five sentences."
+      ]
+    }
+  ],
+
   calendarKinds: {
     explore: "Explore",
     prep: "Prepare",

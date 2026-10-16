@@ -494,6 +494,146 @@
   }
 }
 
+/* Message templates -------------------------------------------------------- */
+.tpl-tabs {
+  margin-bottom: 24px;
+}
+
+.tpl-tabs .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.tpl-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(20px, 3vw, 36px);
+  align-items: start;
+}
+
+.tpl-form {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.tpl-fields {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.tpl-preview-col {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+}
+
+.tpl-preview {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.tpl-preview-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.tpl-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.tpl-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.tpl-count {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.tpl-count.is-over {
+  color: var(--danger);
+}
+
+.tpl-subject {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.tpl-subject span {
+  margin-right: 8px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.tpl-body {
+  display: grid;
+  gap: 14px;
+  padding: 20px 22px;
+  color: var(--ink);
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
+
+.tpl-missing {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--gold-50);
+  color: #7c5a2a;
+  font-size: 0.9em;
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--gold-100);
+}
+
+.tpl-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 22px 20px;
+}
+
+.tpl-tips {
+  margin-top: 20px;
+  padding: 0 4px;
+}
+
+.tpl-tips h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.tpl-tips .check-list li {
+  font-size: 0.93rem;
+}
+
+@media (max-width: 900px) {
+  .tpl-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tpl-preview-col {
+    position: static;
+  }
+}
+
 /* Closing call to action --------------------------------------------------- */
 .prep-cta-section {
   padding-top: 0;
