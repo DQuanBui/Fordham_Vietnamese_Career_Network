@@ -81,9 +81,12 @@ function setupAuth() {
       $("#signInStatus").className = "dash-status is-success";
     } catch (error) {
       const rateLimited = error.status === 429 || /rate limit/i.test(error.message || "");
+      const unreachable = /failed to fetch|networkerror|load failed/i.test(error.message || "");
       $("#signInStatus").textContent = rateLimited
         ? "Too many sign-in emails were sent recently. Use the latest link already in your inbox, or try again in a few minutes."
-        : error.message || "Couldn't send the link. Please try again.";
+        : unreachable
+          ? "We can't reach the FVCN server right now. Please try again in a few minutes."
+          : error.message || "Couldn't send the link. Please try again.";
       $("#signInStatus").className = "dash-status is-error";
     } finally {
       button.classList.remove("is-loading");

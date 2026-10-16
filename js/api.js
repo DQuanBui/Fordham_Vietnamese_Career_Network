@@ -43,6 +43,22 @@ const api = (() => {
     }
   }
 
+  const OFFLINE_MESSAGE = "We can't reach the FVCN server right now. Please try again in a few minutes.";
+  const REQUEST_TIMEOUT_MS = 10000;
+
+  // supabase-js reports a failed fetch as an error whose message comes from the browser.
+  const isNetworkError = (error) =>
+    /failed to fetch|networkerror|network request failed|load failed|timed? ?out|aborted/i.test(error?.message || "");
+
+  // Give up on a request that hangs, so the page falls back instead of spinning forever.
+  function fetchWithTimeout(resource, options = {}) {
+    const timeout = AbortSignal.timeout ? AbortSignal.timeout(REQUEST_TIMEOUT_MS) : null;
+    const signal = timeout && options.signal && AbortSignal.any
+      ? AbortSignal.any([options.signal, timeout])
+      : options.signal || timeout || undefined;
+    return fetch(resource, { ...options, signal });
+  }
+
   // Content that rarely changes stays in code for both backends.
   const staticContent = {
     async getPhotos() {
@@ -163,7 +179,12 @@ const api = (() => {
     // Tokens returned by create_booking / rsvp_event. They are the student's proof of ownership.
     const TOKEN_KEYS = { bookings: "fvcn.bookingTokens", rsvps: "fvcn.rsvpTokens" };
 
+    // null until the first request finishes, then true / false.
+    let reachable = null;
+
     function unwrap({ data, error }) {
+      reachable = !(error && isNetworkError(error));
+      if (!reachable) throw new ApiError(OFFLINE_MESSAGE);
       if (error) throw new ApiError(error.message || "Something went wrong. Please try again.", error.hint || null);
       return data;
     }
@@ -239,6 +260,9 @@ const api = (() => {
     return {
       mode: "supabase",
       ...staticContent,
+
+      // False once a request has failed to reach the server (DNS, timeout, offline device).
+      isReachable: () => reachable,
 
       getMajors: () => readContent(client.from("majors").select("*").order("sort_order"), toMajor, FVCN_DATA.majors),
       getCompanies: () => readContent(client.from("companies").select("*").order("sort_order"), toCompany, FVCN_DATA.companies),
@@ -358,12 +382,16 @@ const api = (() => {
   }
 
   const client = configured && window.supabase
-    ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, { auth: { persistSession: false } })
+    ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey, {
+      auth: { persistSession: false },
+      global: { fetch: fetchWithTimeout }
+    })
     : null;
   const backend = client ? createSupabaseBackend(client) : createDemoBackend();
 
   // While true, the UI tells users that requests are only saved in their browser.
   backend.DEMO_MODE = backend.mode === "demo";
+  backend.isReachable ||= () => true;
   backend.ApiError = ApiError;
   backend.statusUrl = (token) => new URL(`request.html#${token}`, window.location.href).href;
   return backend;

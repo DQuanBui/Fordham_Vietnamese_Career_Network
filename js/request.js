@@ -220,6 +220,19 @@ function renderFeedback(editing = false) {
   });
 }
 
+function renderUnreachable() {
+  card.innerHTML = `
+    <div class="status-head">
+      <span class="dash-icon">${icon("lock")}</span>
+      <h1>We can't load your request right now</h1>
+      <p>The FVCN server isn't responding. Your request is safe; this link will work again once we're back.</p>
+    </div>
+    <div class="status-actions">
+      <button type="button" class="btn btn-primary" onclick="window.location.reload()">Try again</button>
+      <a class="btn btn-secondary" href="index.html">Back to FVCN</a>
+    </div>`;
+}
+
 function renderNotFound(message) {
   card.innerHTML = `
     <div class="status-head">
@@ -242,7 +255,8 @@ async function load() {
     if (booking) render();
     else renderNotFound();
   } catch (error) {
-    renderNotFound(error.message);
+    if (api.isReachable() === false) renderUnreachable();
+    else renderNotFound(error.message);
   }
 }
 

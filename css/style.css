@@ -2462,6 +2462,38 @@ p {
   text-align: right;
 }
 
+.service-notice {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 14px 16px;
+  border: 1px solid var(--gold-100);
+  border-radius: 12px;
+  background: var(--gold-50);
+  color: #6a4b20;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.service-notice .icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  color: var(--gold);
+}
+
+.service-notice strong {
+  display: block;
+  color: #4f3714;
+}
+
+.service-notice a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .demo-note {
   margin-bottom: 20px;
   padding: 10px 14px;

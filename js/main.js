@@ -161,7 +161,7 @@ function renderStats() {
     .map((stat) => `
       <div class="stat">
         <dt>${stat.label}</dt>
-        <dd data-count="${stat.value}">${stat.value}</dd>
+        <dd data-count="${stat.value}">${state.countersPending ? 0 : stat.value}</dd>
       </div>`)
     .join("");
 }
@@ -199,9 +199,12 @@ function setupCounters() {
   };
 
   counters.forEach((el) => (el.textContent = "0"));
+  state.countersPending = true;
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((entry) => entry.isIntersecting)) {
-      counters.forEach(animate);
+      // Query again: the stats may have been re-rendered with live numbers since setup.
+      state.countersPending = false;
+      $$("#stats [data-count]").forEach(animate);
       observer.disconnect();
     }
   }, { threshold: 0.5 });
@@ -758,12 +761,15 @@ function renderFaqs(faqs) {
    ========================================================================== */
 const bookingForm = $("#bookingForm");
 
+// Safe to call again when live content replaces the built-in copy: keeps what the student picked.
 function populateBookingForm() {
-  $("#f-major").innerHTML += state.majors
+  const picked = { major: $("#f-major").value, mentor: $("#f-mentor").value };
+
+  $("#f-major").innerHTML = `<option value="">Select one</option>` + state.majors
     .map((major) => `<option value="${major.id}">${escapeHtml(major.name)}</option>`)
     .join("") + `<option value="exploring">Still exploring</option>`;
 
-  $("#f-mentor").innerHTML += state.majors
+  $("#f-mentor").innerHTML = `<option value="any">No preference, match me</option>` + state.majors
     .map((major) => {
       const mentors = state.mentors.filter((mentor) => mentor.majorId === major.id);
       if (!mentors.length) return "";
@@ -772,6 +778,10 @@ function populateBookingForm() {
         .join("")}</optgroup>`;
     })
     .join("");
+
+  if (state.majorById[picked.major] || picked.major === "exploring") $("#f-major").value = picked.major;
+  const mentor = state.mentorById[picked.mentor];
+  if (mentor && isAccepting(mentor)) $("#f-mentor").value = picked.mentor;
 
   // Don't allow picking a time in the past.
   const now = new Date();
@@ -899,9 +909,66 @@ function prefillIdentity() {
   if (!$("#f-email").value && /@fordham\.edu$/i.test(profile.email || "")) $("#f-email").value = profile.email;
 }
 
+/* An unsent request is kept in this browser, so a closed tab or a server outage doesn't lose it. */
+const DRAFT_KEY = "fvcn.bookingDraft";
+const DRAFT_FIELDS = ["year", "majorId", "mentorId", "meetingType", "format", "time1", "time2", "link", "message"];
+
+function saveDraft() {
+  const data = Object.fromEntries(new FormData(bookingForm).entries());
+  const draft = Object.fromEntries(DRAFT_FIELDS.filter((name) => data[name]).map((name) => [name, data[name]]));
+  try {
+    if (draft.message || draft.time1) localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  } catch {
+    // Storage blocked: the form still works, the draft just isn't kept.
+  }
+}
+
+function clearDraft() {
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch {
+    // Nothing to clear.
+  }
+}
+
+function restoreDraft() {
+  let draft;
+  try {
+    draft = JSON.parse(localStorage.getItem(DRAFT_KEY));
+  } catch {
+    return;
+  }
+  if (!draft) return;
+  DRAFT_FIELDS.forEach((name) => {
+    const field = bookingForm.elements[name];
+    const value = draft[name];
+    if (!field || !value) return;
+    // Skip options that no longer exist (e.g. a mentor who stopped taking requests) and past times.
+    if (field instanceof HTMLSelectElement && !$$("option", field).some((opt) => opt.value === value && !opt.disabled)) return;
+    if ((name === "time1" || name === "time2") && new Date(value) < new Date()) return;
+    field.value = value;
+  });
+  $("#charCount").textContent = `${bookingForm.elements.message.value.length} / 600`;
+}
+
+// Shown when the database can't be reached: content still loads from the built-in copy, but requests can't be sent.
+function renderServiceNotice() {
+  const offline = api.isReachable() === false;
+  $("#serviceNotice").hidden = !offline;
+  document.body.classList.toggle("is-offline", offline);
+}
+
 function setupBooking() {
-  populateBookingForm();
   prefillIdentity();
+  restoreDraft();
+
+  let draftTimer;
+  const queueDraft = () => {
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(saveDraft, 400);
+  };
+  bookingForm.addEventListener("input", queueDraft);
+  bookingForm.addEventListener("change", queueDraft);
 
   // Validate a field when the user leaves it, then live once it has shown an error.
   bookingForm.addEventListener("focusout", (event) => {
@@ -949,14 +1016,20 @@ function setupBooking() {
       });
       saveProfile({ name: booking.name, email: booking.email });
       showBookingSuccess(booking, mentor);
+      clearTimeout(draftTimer);
+      clearDraft();
       bookingForm.reset();
       prefillIdentity();
       $("#charCount").textContent = "0 / 600";
       renderMyBookings();
     } catch (error) {
-      if (!(error.field && showFieldError(error.field, error.message))) {
+      saveDraft();
+      if (api.isReachable() === false) {
+        toast("We can't reach the server right now. Your request is saved as a draft on this device.", "error");
+      } else if (!(error.field && showFieldError(error.field, error.message))) {
         toast(error.message || "Something went wrong. Please try again.", "error");
       }
+      renderServiceNotice();
     } finally {
       submit.classList.remove("is-loading");
       $(".btn-label", submit).textContent = "Send request";
@@ -1263,61 +1336,95 @@ function setupReveal() {
 /* ==========================================================================
    Init
    ========================================================================== */
-async function init() {
-  const [majors, mentors, resources, events, companies, roadmap, faqs, photos, roadmapProgress, rsvps, eventCounts, testimonials, publicStats] = await Promise.all([
-    api.getMajors(),
-    api.getMentors(),
-    api.getResources(),
-    api.getEvents(),
-    api.getCompanies(),
-    api.getRoadmap(),
-    api.getFaqs(),
-    api.getPhotos(),
-    api.getRoadmapProgress(),
-    api.getMyRsvps(),
-    api.getEventCounts(),
-    api.getTestimonials(),
-    api.getPublicStats()
-  ]);
+// The copy of the public content that ships with the site.
+const builtInContent = () => ({
+  majors: FVCN_DATA.majors,
+  mentors: FVCN_DATA.mentors,
+  resources: FVCN_DATA.resources,
+  events: FVCN_DATA.events,
+  companies: FVCN_DATA.companies
+});
 
-  Object.assign(state, { majors, mentors, resources, events, companies, roadmap, photos, roadmapProgress, rsvps, eventCounts, publicStats });
-  state.companyById = Object.fromEntries(companies.map((company) => [company.id, company]));
-  state.majorById = Object.fromEntries(majors.map((major) => [major.id, major]));
-  state.mentorById = Object.fromEntries(mentors.map((mentor) => [mentor.id, mentor]));
-  state.activePath = majors[0]?.id;
+function applyContent(content) {
+  Object.assign(state, content);
+  state.companyById = Object.fromEntries(state.companies.map((company) => [company.id, company]));
+  state.majorById = Object.fromEntries(state.majors.map((major) => [major.id, major]));
+  state.mentorById = Object.fromEntries(state.mentors.map((mentor) => [mentor.id, mentor]));
+  if (!state.majorById[state.activePath]) state.activePath = state.majors[0]?.id;
+  if (state.mentorMajor !== "all" && !state.majorById[state.mentorMajor]) state.mentorMajor = "all";
+}
 
+// Everything that depends on majors, mentors, resources, events, or companies.
+function renderContent() {
   renderHero();
   renderStats();
   renderLogos();
   renderPathTabs();
   renderPathPanel();
-  renderYearTabs();
-  renderRoadmapPanel({ animate: false });
   renderMentorFilters();
   renderMentors();
   renderResourceFilters();
-  setupResourceTypeSelect();
   renderResources();
   renderEvents();
+  populateBookingForm();
+}
+
+async function init() {
+  // 1. Render right away from the built-in content, so the page never waits on the network.
+  const [roadmap, faqs, photos, roadmapProgress] = await Promise.all([
+    api.getRoadmap(),
+    api.getFaqs(),
+    api.getPhotos(),
+    api.getRoadmapProgress()
+  ]);
+  Object.assign(state, { roadmap, photos, roadmapProgress });
+  applyContent(builtInContent());
+
+  renderContent();
+  renderYearTabs();
+  renderRoadmapPanel({ animate: false });
+  setupResourceTypeSelect();
   renderFaqs(faqs);
-  renderTestimonials(testimonials);
   renderCredits();
-  renderMyBookings();
 
   setupNav();
   setupActions();
   setupBooking();
   setupDialogs();
   setupRsvpDialog();
+  setupReveal();
+  setupCounters();
+  $("#year").textContent = new Date().getFullYear();
+
+  // 2. Swap in live content and the student's own data once the database answers.
+  const [majors, mentors, resources, events, companies, rsvps, eventCounts, testimonials, publicStats] = await Promise.all([
+    api.getMajors(),
+    api.getMentors(),
+    api.getResources(),
+    api.getEvents(),
+    api.getCompanies(),
+    api.getMyRsvps(),
+    api.getEventCounts(),
+    api.getTestimonials(),
+    api.getPublicStats()
+  ]);
+  Object.assign(state, { rsvps, eventCounts, publicStats });
+  const live = { majors, mentors, resources, events, companies };
+  if (JSON.stringify(live) !== JSON.stringify(builtInContent())) {
+    applyContent(live);
+    renderContent();
+  } else {
+    renderStats();
+    renderEvents();
+  }
+  renderTestimonials(testimonials);
+  renderMyBookings();
+  renderServiceNotice();
 
   // Pick up status changes (e.g. a mentor confirmed) when the student comes back to the tab.
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") renderMyBookings();
   });
-  setupReveal();
-  setupCounters();
-
-  $("#year").textContent = new Date().getFullYear();
 }
 
 init();
