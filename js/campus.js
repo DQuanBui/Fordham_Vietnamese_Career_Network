@@ -193,3 +193,9 @@ function setupCampus() {
 }
 
 setupCampus();
+
+// Links from site search: ?area=<area id>
+window.addEventListener("fvcn:route", () => {
+  const area = new URLSearchParams(window.location.search).get("area");
+  if (FVCN_CAMPUS.areas.some((item) => item.id === area)) selectArea(area);
+});

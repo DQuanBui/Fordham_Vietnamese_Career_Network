@@ -774,3 +774,8 @@
     margin-left: 0;
   }
 }
+
+.qb-item.is-highlighted {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-50), var(--shadow);
+}

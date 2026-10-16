@@ -576,3 +576,31 @@ setupQuestionBank();
 setupCalendar();
 setupTemplates();
 setupGlossary();
+
+// Links from site search: ?q=<question id> opens a question, ?glossary=<term> searches the glossary.
+function handleRoute() {
+  const params = new URLSearchParams(window.location.search);
+  const question = FVCN_PREP.questions.find((item) => item.id === params.get("q"));
+  if (question) {
+    prep.track = "all";
+    prep.query = "";
+    prep.hidePracticed = false;
+    $("#questionSearch").value = "";
+    $("#hidePracticed").checked = false;
+    renderTrackFilters();
+    renderQuestions();
+    const item = $(`[data-question="${question.id}"]`);
+    item.open = true;
+    item.classList.add("is-highlighted");
+    setTimeout(() => item.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
+  }
+  if (params.has("glossary")) {
+    glossary.category = "all";
+    glossary.query = params.get("glossary");
+    $("#glossarySearch").value = glossary.query;
+    renderGlossaryFilters();
+    renderGlossary();
+  }
+}
+handleRoute();
+window.addEventListener("fvcn:route", handleRoute);

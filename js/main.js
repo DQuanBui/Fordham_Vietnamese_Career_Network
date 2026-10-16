@@ -1433,6 +1433,30 @@ function setupReveal() {
 }
 
 /* ==========================================================================
+   Links into the page (from other pages and site search)
+     ?topic=&major=&mentor=   prefill the booking form
+     ?profile=<mentor id>     open a mentor's profile
+     ?path=<major id>         open a career path
+     ?guide=<guide id>        open a guide
+     ?quiz=1                  start the quiz
+   ========================================================================== */
+function handleRoute() {
+  const params = new URLSearchParams(window.location.search);
+  if (["topic", "major", "mentor"].some((key) => params.has(key))) {
+    const mentorId = params.get("mentor");
+    prefillBooking({
+      meetingType: params.get("topic") || undefined,
+      majorId: state.majorById[params.get("major")] ? params.get("major") : undefined,
+      mentorId: state.mentorById[mentorId] && isAccepting(state.mentorById[mentorId]) ? mentorId : undefined
+    });
+  }
+  if (state.mentorById[params.get("profile")]) openMentor(params.get("profile"));
+  if (state.majorById[params.get("path")]) selectPath(params.get("path"));
+  if (params.has("guide")) openGuide(params.get("guide"));
+  if (params.has("quiz")) openQuiz();
+}
+
+/* ==========================================================================
    Init
    ========================================================================== */
 // The copy of the public content that ships with the site.
@@ -1496,16 +1520,8 @@ async function init() {
   setupCounters();
   $("#year").textContent = new Date().getFullYear();
 
-  // Links from other pages can prefill the form, e.g. index.html?topic=Interview+prep&major=finance#booking
-  const params = new URLSearchParams(window.location.search);
-  if (["topic", "major", "mentor"].some((key) => params.has(key))) {
-    const mentorId = params.get("mentor");
-    prefillBooking({
-      meetingType: params.get("topic") || undefined,
-      majorId: state.majorById[params.get("major")] ? params.get("major") : undefined,
-      mentorId: state.mentorById[mentorId] && isAccepting(state.mentorById[mentorId]) ? mentorId : undefined
-    });
-  }
+  handleRoute();
+  window.addEventListener("fvcn:route", handleRoute);
 
   // 2. Swap in live content and the student's own data once the database answers.
   const [majors, mentors, resources, events, companies, rsvps, eventCounts, testimonials, publicStats] = await Promise.all([
